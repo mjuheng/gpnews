@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dao" />
+        <module name="data-admin" />
+        <module name="data-portal" />
+        <module name="data-publish" />
+        <module name="pojo" />
+        <module name="util" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dao" target="1.8" />
+      <module name="data-admin" target="1.8" />
+      <module name="data-dao" target="1.8" />
+      <module name="data-pojo" target="1.8" />
+      <module name="data-portal" target="1.8" />
+      <module name="data-publish" target="1.8" />
+      <module name="data-service" target="1.8" />
+      <module name="data-util" target="1.8" />
+      <module name="pojo" target="1.8" />
+      <module name="util" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="dao" options="-parameters" />
+      <module name="data-admin" options="-parameters" />
+      <module name="data-dao" options="-parameters" />
+      <module name="data-portal" options="-parameters" />
+      <module name="data-publish" options="-parameters" />
+      <module name="data-service" options="-parameters" />
+      <module name="data-util" options="-parameters" />
+      <module name="util" options="-parameters" />
+    </option>
+  </component>
+</project>
