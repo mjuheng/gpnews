@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.news.dao.UserMapper">
+
+    <resultMap id="allResultMap" type="com.news.pojo.Role">
+    </resultMap>
+
+    <select id="queryByUserId" resultMap="com.news.pojo.Role">
+        select role.* from u_role role
+          left join u_user_role uur on u_role.id = uur.role_id
+        where uur.id = #{id}
+    </select>
+</mapper>

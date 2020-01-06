@@ -1,0 +1,22 @@
+server:
+  port: 9003
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/gpnews
+    #    ?useSSL=false&amp;characterEncoding=utf-8&amp;useUnicode=true
+    username: sa
+    password: 123456
+  redis:
+    host: 127.0.0.1
+    password:
+    database: 1
+    jedis:
+      pool:
+        max-active: -1
+        max-wait: -1
+        max-idle: 8
+    timeout: 3000
+    port: 6379
+
