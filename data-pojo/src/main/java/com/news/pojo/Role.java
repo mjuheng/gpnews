@@ -13,7 +13,6 @@ import java.util.Date;
 @Data
 @Table(name = "u_role")
 public class Role extends BaseEntity{
-    private String id;
     private String name;
     private String parentId;
     private String description;

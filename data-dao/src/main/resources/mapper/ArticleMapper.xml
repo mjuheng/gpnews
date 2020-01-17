@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.news.dao.ArticleMapper">
+    <select id="pageExclContent" resultType="com.news.pojo.Article">
+      select id, title, head_image, user_id, category_id, status
+      from a_article
+      where 1 = 1
+      <if test="article != null">
+          <if test="article.name != null">
+            and title like concat('%', article.name, '%')
+          </if>
+          <if test="article.status != null">
+            and status = #{article.status}
+          </if>
+      </if>
+      <if test="start != null">
+        limit #{start},#{rows}
+      </if>
+    </select>
+
+</mapper>

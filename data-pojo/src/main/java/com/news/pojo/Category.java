@@ -7,14 +7,12 @@ import java.util.Date;
 
 /**
  * @author HuangChongHeng
- * @date 2019/12/19
+ * @date 2020/1/17
  */
-@Table(name = "u_permission")
 @Data
-public class Permission extends BaseEntity{
+@Table(name = "a_category")
+public class Category extends BaseEntity {
     private String name;
-    private String parentId;
-    private String description;
     private Date createdTime;
     private Date modifiedTime;
 }
