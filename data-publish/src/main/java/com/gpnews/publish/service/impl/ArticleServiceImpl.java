@@ -26,9 +26,9 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     }
 
     @Override
-    public List<Article> pageExclContent(Article article, Integer currPage, Integer rows) {
+    public List<Article> pageExclContent(Article article, String beginPubTime, String endPubTime, Integer currPage, Integer rows) {
         Integer start = PageUtil.getStart(currPage, rows);
-        articleMapper.pageExclContent(article, currPage, rows);
+        articleMapper.pageExclContent(article,beginPubTime, endPubTime, currPage, rows);
         return null;
     }
 }

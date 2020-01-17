@@ -14,6 +14,12 @@
           <if test="article.status != null">
             and status = #{article.status}
           </if>
+          <if test="beginPubTime !=null and beginPubTime!=''">
+              and publish_time >= #{startDate}
+          </if>
+          <if test="endPubTime !=null and endPubTime!=''">
+              and publish_time &lt;= #{endPubTime}
+          </if>
       </if>
       <if test="start != null">
         limit #{start},#{rows}

@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface ArticleMapper extends Mapper<Article> {
     List<Article> pageExclContent(@Param("article") Article article,
-                       @Param("currPage") Integer currPage,
-                       @Param("rows") Integer rows);
+                                  @Param("beginPubTime") String beginPubTime,
+                                  @Param("endPubTime") String endPubTime,
+                                  @Param("currPage") Integer currPage,
+                                  @Param("rows") Integer rows);
 }

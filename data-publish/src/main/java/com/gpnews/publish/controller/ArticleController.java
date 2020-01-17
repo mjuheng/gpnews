@@ -15,14 +15,15 @@ import java.util.List;
  * @date 2020/1/17
  */
 @RestController
+@RequestMapping("/article")
 public class ArticleController {
 
     @Autowired
     private ArticleService service;
 
     @RequestMapping("")
-    public CommonResult page(Article article, Integer currPage, Integer rows){
-        List<Article> articles = service.pageExclContent(article, currPage, rows);
+    public CommonResult page(Article article, String beginPubTime, String endPubTime, Integer currPage, Integer rows){
+        List<Article> articles = service.pageExclContent(article, beginPubTime, endPubTime, currPage, rows);
         return ResultUtil.successListResult(articles, currPage, rows, 11);
     }
 }

@@ -2,7 +2,6 @@ package com.gpnews.publish.shiro.controller;
 
 import com.gpnews.publish.shiro.realm.UserLoginToken;
 import com.news.pojo.User;
-import com.news.utils.result.CommonResult;
 import com.news.utils.result.ResultUtil;
 import com.news.utils.result.SingleResult;
 import org.apache.shiro.SecurityUtils;

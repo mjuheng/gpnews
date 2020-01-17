@@ -19,3 +19,6 @@ spring:
     timeout: 3000
     port: 6379
 
+mybatis:
+  type-aliases-package: com.gpnews.pojo
+  mapper-locations: classpath:com/wastesorting/dao/mapper/*.xml
