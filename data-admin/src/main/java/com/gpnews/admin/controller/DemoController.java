@@ -1,11 +1,10 @@
 package com.gpnews.admin.controller;
 
-import com.news.pojo.User;
+import com.gpnews.pojo.User;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;

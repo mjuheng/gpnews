@@ -2,9 +2,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.news.dao.UserMapper">
+<mapper namespace="com.gpnews.dao.UserMapper">
 
-    <select id="queryByRoleId" resultType="com.news.pojo.Permission">
+    <select id="queryByRoleId" resultType="com.gpnews.pojo.Permission">
         select * from u_permission
           LEFT join u_role_permission urp on urp.permission_id = u_permission.id
         where urp.role_id = #{id}

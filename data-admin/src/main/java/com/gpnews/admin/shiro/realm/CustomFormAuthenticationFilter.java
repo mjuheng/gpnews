@@ -1,6 +1,6 @@
 package com.gpnews.admin.shiro.realm;
 
-import com.news.utils.result.ResultUtil;
+import com.gpnews.utils.result.ResultUtil;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
 import javax.servlet.ServletRequest;

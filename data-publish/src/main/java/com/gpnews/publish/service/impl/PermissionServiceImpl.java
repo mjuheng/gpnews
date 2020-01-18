@@ -1,9 +1,8 @@
 package com.gpnews.publish.service.impl;
 
 import com.gpnews.publish.service.PermissionService;
-import com.news.dao.PermissionMapper;
-import com.news.pojo.Permission;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gpnews.dao.PermissionMapper;
+import com.gpnews.pojo.Permission;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 

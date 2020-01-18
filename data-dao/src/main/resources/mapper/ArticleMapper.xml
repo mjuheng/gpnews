@@ -2,28 +2,53 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.news.dao.ArticleMapper">
-    <select id="pageExclContent" resultType="com.news.pojo.Article">
-      select id, title, head_image, user_id, category_id, status
+<mapper namespace="com.gpnews.dao.ArticleMapper">
+    <select id="pageExclContent" resultType="com.gpnews.pojo.Article">
+      select id, title, head_image, user_id, category_id, status, publish_time
       from a_article
       where 1 = 1
       <if test="article != null">
-          <if test="article.name != null">
-            and title like concat('%', article.name, '%')
+          <if test="article.title != null">
+            and title like concat('%', article.title, '%')
+          </if>
+          <if test="article.categoryId != null">
+              and category_id = #{article.categoryId}
           </if>
           <if test="article.status != null">
             and status = #{article.status}
           </if>
           <if test="beginPubTime !=null and beginPubTime!=''">
-              and publish_time >= #{startDate}
+              and publish_time >= #{beginPubTime}
           </if>
           <if test="endPubTime !=null and endPubTime!=''">
               and publish_time &lt;= #{endPubTime}
           </if>
       </if>
-      <if test="start != null">
+      <if test="start != null and rows != null">
         limit #{start},#{rows}
       </if>
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from a_article
+        where 1 = 1
+        <if test="article != null">
+            <if test="article.title != null">
+                and title like concat('%', article.title, '%')
+            </if>
+            <if test="article.categoryId != null">
+                and category_id = #{article.categoryId}
+            </if>
+            <if test="article.status != null">
+                and status = #{article.status}
+            </if>
+            <if test="beginPubTime !=null and beginPubTime!=''">
+                and publish_time >= #{beginPubTime}
+            </if>
+            <if test="endPubTime !=null and endPubTime!=''">
+                and publish_time &lt;= #{endPubTime}
+            </if>
+        </if>
     </select>
 
 </mapper>

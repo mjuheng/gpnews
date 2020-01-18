@@ -1,6 +1,6 @@
 package com.gpnews.admin.service;
 
-import com.news.pojo.Role;
+import com.gpnews.pojo.Role;
 
 import java.util.Set;
 

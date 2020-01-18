@@ -1,6 +1,6 @@
 package com.gpnews.publish.shiro.realm;
 
-import com.news.pojo.User;
+import com.gpnews.pojo.User;
 import org.apache.shiro.authc.UsernamePasswordToken;
 
 /**

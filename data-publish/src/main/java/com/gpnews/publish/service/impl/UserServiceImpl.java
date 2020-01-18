@@ -1,8 +1,8 @@
 package com.gpnews.publish.service.impl;
 
 import com.gpnews.publish.service.UserService;
-import com.news.dao.UserMapper;
-import com.news.pojo.User;
+import com.gpnews.dao.UserMapper;
+import com.gpnews.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;

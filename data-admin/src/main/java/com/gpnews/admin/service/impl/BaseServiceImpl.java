@@ -1,8 +1,8 @@
 package com.gpnews.admin.service.impl;
 
 import com.gpnews.admin.service.BaseService;
-import com.news.pojo.BaseEntity;
-import com.news.utils.UUIDUtil;
+import com.gpnews.pojo.BaseEntity;
+import com.gpnews.utils.UUIDUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

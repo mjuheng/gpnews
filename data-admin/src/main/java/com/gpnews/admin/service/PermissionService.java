@@ -1,6 +1,6 @@
 package com.gpnews.admin.service;
 
-import com.news.pojo.Permission;
+import com.gpnews.pojo.Permission;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Set;

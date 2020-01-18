@@ -1,9 +1,8 @@
 package com.gpnews.publish.service.impl;
 
 import com.gpnews.publish.service.CategoryService;
-import com.news.dao.CategoryMapper;
-import com.news.pojo.Category;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gpnews.dao.CategoryMapper;
+import com.gpnews.pojo.Category;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 

@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"com.news.dao"})
+@MapperScan(basePackages = {"com.gpnews.dao"})
 @EnableTransactionManagement
 @ServletComponentScan
 public class AdminApplication {

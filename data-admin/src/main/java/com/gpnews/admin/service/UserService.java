@@ -1,6 +1,6 @@
 package com.gpnews.admin.service;
 
-import com.news.pojo.User;
+import com.gpnews.pojo.User;
 
 
 /**

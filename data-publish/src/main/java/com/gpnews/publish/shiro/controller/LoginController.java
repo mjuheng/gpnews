@@ -1,9 +1,9 @@
 package com.gpnews.publish.shiro.controller;
 
 import com.gpnews.publish.shiro.realm.UserLoginToken;
-import com.news.pojo.User;
-import com.news.utils.result.ResultUtil;
-import com.news.utils.result.SingleResult;
+import com.gpnews.pojo.User;
+import com.gpnews.utils.result.ResultUtil;
+import com.gpnews.utils.result.SingleResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.RequestBody;

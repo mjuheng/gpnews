@@ -1,9 +1,9 @@
 package com.gpnews.publish.service.impl;
 
 import com.gpnews.publish.service.ArticleService;
-import com.news.dao.ArticleMapper;
-import com.news.pojo.Article;
-import com.news.utils.PageUtil;
+import com.gpnews.dao.ArticleMapper;
+import com.gpnews.pojo.Article;
+import com.gpnews.utils.PageUtil;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -28,7 +28,11 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     @Override
     public List<Article> pageExclContent(Article article, String beginPubTime, String endPubTime, Integer currPage, Integer rows) {
         Integer start = PageUtil.getStart(currPage, rows);
-        articleMapper.pageExclContent(article,beginPubTime, endPubTime, currPage, rows);
-        return null;
+        return articleMapper.pageExclContent(article,beginPubTime, endPubTime, start, rows);
+    }
+
+    @Override
+    public Integer count(Article article, String beginPubTime, String endPubTime) {
+        return articleMapper.count(article, beginPubTime, endPubTime);
     }
 }

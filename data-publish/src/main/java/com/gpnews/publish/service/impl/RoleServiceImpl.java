@@ -1,8 +1,8 @@
 package com.gpnews.publish.service.impl;
 
 import com.gpnews.publish.service.RoleService;
-import com.news.dao.RoleMapper;
-import com.news.pojo.Role;
+import com.gpnews.dao.RoleMapper;
+import com.gpnews.pojo.Role;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 

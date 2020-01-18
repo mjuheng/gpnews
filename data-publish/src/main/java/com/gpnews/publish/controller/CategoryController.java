@@ -1,9 +1,9 @@
 package com.gpnews.publish.controller;
 
 import com.gpnews.publish.service.CategoryService;
-import com.news.pojo.Category;
-import com.news.utils.result.CommonResult;
-import com.news.utils.result.ResultUtil;
+import com.gpnews.pojo.Category;
+import com.gpnews.utils.result.CommonResult;
+import com.gpnews.utils.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
