@@ -3,6 +3,7 @@ package com.gpnews.publish.service.impl;
 import com.gpnews.publish.service.PermissionService;
 import com.gpnews.dao.PermissionMapper;
 import com.gpnews.pojo.Permission;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -36,7 +37,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
             }
             permissions.add(permission);
             // 添加父权限
-            while (permission.getParentId() != null){
+            while (permission != null && !StringUtils.isBlank(permission.getParentId())){
                 permission = load(permission.getParentId());
                 if (permissions.contains(permission)){
                     break;

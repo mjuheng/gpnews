@@ -9,13 +9,16 @@
       where 1 = 1
       <if test="article != null">
           <if test="article.title != null">
-            and title like concat('%', article.title, '%')
+              and title like concat('%', article.title, '%')
           </if>
           <if test="article.categoryId != null">
               and category_id = #{article.categoryId}
           </if>
           <if test="article.status != null">
-            and status = #{article.status}
+              and status = #{article.status}
+          </if>
+          <if test="article.userId != null">
+              and user_id = #{article.userId}
           </if>
           <if test="beginPubTime !=null and beginPubTime!=''">
               and publish_time >= #{beginPubTime}
@@ -41,6 +44,9 @@
             </if>
             <if test="article.status != null">
                 and status = #{article.status}
+            </if>
+            <if test="article.userId != null">
+                and user_id = #{article.userId}
             </if>
             <if test="beginPubTime !=null and beginPubTime!=''">
                 and publish_time >= #{beginPubTime}

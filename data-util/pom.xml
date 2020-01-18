@@ -21,7 +21,7 @@
         <jackson-annotations.version>2.6.5</jackson-annotations.version>
         <jackson-databind.version>2.7.4</jackson-databind.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-
+        <apache-commons.version>3.3.1</apache-commons.version>
     </properties>
 
     <dependencies>
@@ -31,6 +31,11 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache-commons.version}</version>
+        </dependency>
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

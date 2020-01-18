@@ -2,14 +2,11 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gpnews.dao.UserMapper">
-
-    <resultMap id="allResultMap" type="com.gpnews.pojo.Role">
-    </resultMap>
+<mapper namespace="com.gpnews.dao.RoleMapper">
 
     <select id="queryByUserId" resultType="com.gpnews.pojo.Role">
         select role.* from u_role role
-          left join u_user_role uur on u_role.id = uur.role_id
-        where uur.id = #{id}
+          left join u_user_role uur on role.id = uur.role_id
+        where uur.user_id = #{id}
     </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.gpnews.publish.service.impl;
 import com.gpnews.publish.service.RoleService;
 import com.gpnews.dao.RoleMapper;
 import com.gpnews.pojo.Role;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -33,7 +34,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
             }
             roles.add(role);
             // 添加父角色
-            while (role.getParentId() != null){
+            while (role != null && !StringUtils.isBlank(role.getParentId())){
                 role = load(role.getParentId());
                 if (roles.contains(role)){
                     break;

@@ -45,6 +45,7 @@ public class UserRealm extends AuthorizingRealm {
         Set<String> roles = new HashSet<>();
         Set<String> permissions = new HashSet<>();
         User user = (User) principals.fromRealm(getName()).iterator().next();
+        user = userServiceImpl.getMapper().selectOne(user);
         try {
             //根据用户id从数据库中查询用户角色
             Set<Role> userRoles = roleServiceImpl.queryByUserId(user.getId());
