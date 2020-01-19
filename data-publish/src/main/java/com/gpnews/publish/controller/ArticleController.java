@@ -6,6 +6,7 @@ import com.gpnews.pojo.Article;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ArticleController {
     @Autowired
     private ArticleService service;
 
-    @RequiresRoles("aa")
+    @RequiresPermissions("queryArticle")
     @RequestMapping("")
     public CommonResult page(Article article, String beginPubTime, String endPubTime, Integer currPage, Integer rows){
         Subject subject = SecurityUtils.getSubject();
