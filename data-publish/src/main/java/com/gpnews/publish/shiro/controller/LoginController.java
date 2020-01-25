@@ -4,6 +4,7 @@ import com.gpnews.publish.service.UserService;
 import com.gpnews.publish.shiro.realm.UserLoginToken;
 import com.gpnews.pojo.User;
 import com.gpnews.utils.JsonUtil;
+import com.gpnews.utils.RedisUtils;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import com.gpnews.utils.result.SingleResult;

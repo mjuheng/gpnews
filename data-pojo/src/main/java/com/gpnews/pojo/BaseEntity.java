@@ -1,6 +1,10 @@
 package com.gpnews.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * @author HuangChongHeng
@@ -8,5 +12,10 @@ import lombok.Data;
  */
 @Data
 public class BaseEntity {
+    @Id
     private String id;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:ss:mm", timezone = "GMT+8")
+    private Date createdTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:ss:mm", timezone = "GMT+8")
+    private Date modifiedTime;
 }

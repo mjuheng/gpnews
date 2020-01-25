@@ -65,15 +65,8 @@ public class ShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-//        filters.put("authc", authorizationFilter());
-//        filters.put("perms", authorizationFilter());
-//        filters.put("roles", authorizationFilter());
         filters.put("authc", authorizationFilter());
         shiroFilterFactoryBean.setFilters(filters);
-
-//        filterChainDefinitionMap.put("/login/**", "anon");
-//        filterChainDefinitionMap.put("/**", "authc");
-//        filterChainDefinitionMap.put("/**", "custom");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

@@ -4,7 +4,7 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpnews.dao.ArticleMapper">
     <select id="pageExclContent" resultType="com.gpnews.pojo.Article">
-      select id, title, head_image, user_id, category_id, status, publish_time
+      select id, title, head_image, user_id, category_id, status, publish_time, created_time, modified_time
       from a_article
       where 1 = 1
       <if test="article != null">
@@ -27,6 +27,7 @@
               and publish_time &lt;= #{endPubTime}
           </if>
       </if>
+      order by modified_time desc
       <if test="start != null and rows != null">
         limit #{start},#{rows}
       </if>
