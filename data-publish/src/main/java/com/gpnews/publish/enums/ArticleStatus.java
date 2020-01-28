@@ -1,5 +1,7 @@
 package com.gpnews.publish.enums;
 
+import lombok.Data;
+
 /**
  * @author HuangChongHeng
  * @date 2020/1/20

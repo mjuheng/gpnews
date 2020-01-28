@@ -51,6 +51,7 @@ public class ArticleController {
             return ResultUtil.successSingleResult(false, "没有此文章");
     }
 
+
     @RequiresPermissions("insertArticle")
     @RequestMapping("/add")
     public CommonResult add(@RequestBody @Valid ArticleDto articleDto){
@@ -79,6 +80,13 @@ public class ArticleController {
         articleDto.setModifiedTime(null);
         service.update(articleDto);
         return ResultUtil.successSingleResult(true, "修改成功");
+    }
+
+    @RequiresPermissions("updateArticle")
+    @RequestMapping("/updateCommStatus")
+    public CommonResult updateCommStatus(@RequestBody Article article){
+        service.getMapper().updateByPrimaryKeySelective(article);
+        return ResultUtil.successSingleResult(true);
     }
 
     @RequiresPermissions("deleteArticle")

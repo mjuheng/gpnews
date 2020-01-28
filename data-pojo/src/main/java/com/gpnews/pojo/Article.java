@@ -19,13 +19,23 @@ public class Article extends BaseEntity {
     private String title;       // 标题
 
     private String headImage;   // 封面
+
     @NotBlank(message = "内容不能为空")
     private String content;     // 内容
     @JsonFormat(pattern = "yyyy-MM-dd HH:ss:mm", timezone = "GMT+8")
+
     private Date publishTime;   // 发布时间
+
     private String userId;      // 发布人
+
+    private Integer commentNum; // 回复量
+
+    private Integer readNum;    // 阅读量
 
     @NotBlank(message = "分类不能为空")
     private String categoryId;  // 分类
+
     private Integer status;     // 状态
+
+    private Boolean isComment;
 }

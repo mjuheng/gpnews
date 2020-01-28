@@ -19,6 +19,7 @@ public class User extends BaseEntity implements Serializable {
     private String password;
     private String phone;
     private String email;
+    private String photo;
     private Boolean isLock;
     private Date createdTime;
     private Date modifiedTime;

@@ -2,6 +2,8 @@ package com.gpnews.publish.config;
 
 import com.gpnews.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,9 +29,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(500).body(ResultUtil.errorSingleResult(fieldError.getDefaultMessage()));
     }
 
-//    @ExceptionHandler(AuthorizationException.class)
+    @ExceptionHandler(ShiroException.class)
     @ResponseBody
-    public ResponseEntity handleAuthorizationException(AuthorizationException ex){
+    public ResponseEntity handleUnavailableSecurityManagerException(ShiroException e){
         return ResponseEntity.status(401).body(ResultUtil.errorSingleResult("权限不足"));
     }
 }

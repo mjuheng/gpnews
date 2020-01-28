@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpnews.dao.FanMapper">
+
+    <select id="page" resultType="com.gpnews.pojo.Fan">
+        select * from u_fan
+        where 1 = 1
+        <if test="fan.toUserId != null">
+            and to_user_id = ${fan.toUserId}
+        </if>
+        <if test="fan.fromUserId != null">
+            and from_user_id = ${fan.fromUserId}
+        </if>
+        order by created_time desc
+        <if test="start != null and rows != null">
+            limit #{start}, ${rows}
+        </if>
+    </select>
+
+    <select id="pageFans" resultType="com.gpnews.pojo.vo.FanVo">
+        select id, username, photo from u_user
+        where id in (select from_user_id from u_fan
+                      where to_user_id = ${id}
+                      order by created_time desc)
+        <if test="start != null and rows != null">
+            limit #{start}, ${rows}
+        </if>
+    </select>
+    <select id="countFans" resultType="java.lang.Integer">
+        select count(1) from u_fan
+        where to_user_id = ${id}
+    </select>
+</mapper>
