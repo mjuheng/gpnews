@@ -12,4 +12,6 @@ public interface FanService extends BaseService<Fan> {
     List<FanVo> pageFans(String id, Integer currPage, Integer rows);
 
     Integer countFans(String id);
+
+    int delByBothUserId(String fromUserId, String toUserId);
 }

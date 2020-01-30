@@ -32,4 +32,10 @@
         select count(1) from u_fan
         where to_user_id = ${id}
     </select>
+
+    <delete id="delByBothUserId">
+        delete from u_fan
+        where from_user_id = ${fromUserId}
+        and to_user_id = ${toUserId}
+    </delete>
 </mapper>

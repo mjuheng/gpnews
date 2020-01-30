@@ -22,4 +22,7 @@ public interface FanMapper extends Mapper<Fan> {
                          @Param("rows") Integer rows);
 
     Integer countFans(@Param("id") String id);
+
+    int delByBothUserId(@Param("fromUserId") String fromUserId,
+                        @Param("toUserId") String toUserId);
 }

@@ -57,4 +57,9 @@ public class FanServiceImpl extends BaseServiceImpl<Fan> implements FanService {
     public Integer countFans(String id) {
         return mapper.countFans(id);
     }
+
+    @Override
+    public int delByBothUserId(String fromUserId, String toUserId) {
+        return mapper.delByBothUserId(fromUserId, toUserId);
+    }
 }

@@ -9,6 +9,7 @@ import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import com.gpnews.utils.result.SingleResult;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -27,6 +28,9 @@ import java.util.Map;
 @RestController
 public class LoginController {
 
+    @Autowired
+    private UserService service;
+
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){
         UserLoginToken token = new UserLoginToken(user.getUsername(), user.getPassword(), user);
@@ -44,11 +48,21 @@ public class LoginController {
         }
         Map<String, Object> retMap = new HashMap<>();
         retMap.put("sessionId", subject.getSession().getId());
-        retMap.put("user", JsonUtil.serialize(subject.getPrincipal()));
+        User userInfo = (User) subject.getPrincipal();
+        userInfo.setPassword(null);
+        retMap.put("user", JsonUtil.serialize(userInfo));
         retMap.put("message", "登录成功");
         return ResultUtil.successSingleResult(retMap);
     }
 
+    @RequiresAuthentication
+    @RequestMapping("/updateUser")
+    public CommonResult updateUser(@RequestBody User user){
+        service.getMapper().updateByPrimaryKeySelective(user);
+        return ResultUtil.successSingleResult(true, "信息修改成功，请重新登录");
+    }
+
+    @RequiresAuthentication
     @RequestMapping("/logout")
     public CommonResult logout(){
         SecurityUtils.getSubject().logout();

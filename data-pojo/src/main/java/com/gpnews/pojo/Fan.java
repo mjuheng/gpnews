@@ -16,8 +16,8 @@ public class Fan extends BaseEntity {
 
     public Fan(){}
 
-    public Fan(String fromUserId, String to_user_id){
+    public Fan(String fromUserId, String toUserId){
         this.fromUserId = fromUserId;
-        this.toUserId = to_user_id;
+        this.toUserId = toUserId;
     }
 }

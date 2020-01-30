@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpnews.dao.VisitsMapper">
+
+    <select id="selectSinceTime" resultType="com.gpnews.pojo.Visits">
+        select * from v_visits
+        where user_id = ${userId}
+        <if test="sinceTime != null">
+            and <![CDATA[ time >= #{sinceTime,jdbcType=DATE}  ]]>
+        </if>
+        order by time asc
+    </select>
+
+    <select id="countSinceTime" resultType="java.lang.Integer">
+        select count(1) from v_visits
+        where 1 = 1
+        <if test="sinceTime != null">
+            and <![CDATA[ time >= #{sinceTime,jdbcType=DATE}  ]]>
+        </if>
+    </select>
+
+</mapper>
+
