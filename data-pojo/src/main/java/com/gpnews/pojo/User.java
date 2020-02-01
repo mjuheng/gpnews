@@ -22,8 +22,6 @@ public class User extends BaseEntity implements Serializable {
     private String photo;
     private String intro;
     private Boolean isLock;
-    private Date createdTime;
-    private Date modifiedTime;
     @Transient
     private Role[] role;
 

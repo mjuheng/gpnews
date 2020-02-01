@@ -3,11 +3,16 @@ package com.gpnews.admin.shiro.realm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.AnonymousFilter;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +46,14 @@ public class ShiroConfiguration {
         return userRealm;
     }
 
+    @Bean
+    public FormAuthenticationFilter authorizationFilter() {
+        return new CustomAuthorizationFilter();
+    }
+    @Bean
+    public AnonymousFilter anonymousFilter(){
+        return new AnonymousFilter();
+    }
 
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
@@ -49,34 +62,10 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        // 配置退出过滤器,其中的具体代码Shiro已经替我们实现了
-        //filterChainDefinitionMap.put("/logout", "logout");
 
-        //过滤链定义，从上向下顺序执行，一般将 /**放在最为下边
-        //authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问
-
-        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();//获取filters
-        filters.put("authc", new CustomFormAuthenticationFilter());//将自定义 的FormAuthenticationFilter注入shiroFilter中
-
-        filterChainDefinitionMap.put("/login", "anon"); 	   //不拦截登录请求
-        filterChainDefinitionMap.put("/script/**", "anon");    //不拦截js
-        filterChainDefinitionMap.put("/css/**", "anon");       //不拦截css
-        filterChainDefinitionMap.put("/js/**", "anon");        //不拦截js
-        filterChainDefinitionMap.put("/img/**", "anon");       //不拦截图片
-        filterChainDefinitionMap.put("/img2/**", "anon");      //不拦截图片
-        filterChainDefinitionMap.put("/public/**", "anon");    //不拦截公共资源
-        //filterChainDefinitionMap.put("/index", "roles[ADMIN]"); //设置特定角色访问
-//        filterChainDefinitionMap.put("/**", "anon");
-        filterChainDefinitionMap.put("/**", "authc");
-
-
-
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/index");
-        // 登录成功后要跳转的链接
-        //shiroFilterFactoryBean.setSuccessUrl("/index");
-        // 未授权界面;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("authc", authorizationFilter());
+        shiroFilterFactoryBean.setFilters(filters);
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -121,6 +110,20 @@ public class ShiroConfiguration {
         //配置自定义缓存redis
         securityManager.setCacheManager(cacheManager());
         return securityManager;
+    }
+
+    // 让shiro注解生效
+    @Bean
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") DefaultWebSecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager); // 这里需要注入 SecurityManger 安全管理器
+        return authorizationAttributeSourceAdvisor;
     }
 
 //    @Bean

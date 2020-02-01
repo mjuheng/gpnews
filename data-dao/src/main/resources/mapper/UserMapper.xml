@@ -4,5 +4,29 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpnews.dao.UserMapper">
 
-
+    <select id="pageExclPwd" resultType="com.gpnews.pojo.User">
+        select id, username, phone, email, photo, is_lock, created_time
+        from u_user
+        where 1 = 1
+        <if test="user.username != null and user.username != ''">
+            username = ${user.username}
+        </if>
+        <if test="user.isLock != null">
+            is_lock = ${user.isLock}
+        </if>
+        <if test="start != null and rows != null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from u_user
+        where 1 = 1
+        <if test="user.username != null and user.username != ''">
+            username = ${user.username}
+        </if>
+        <if test="user.isLock != null">
+            is_lock = ${user.isLock}
+        </if>
+    </select>
 </mapper>

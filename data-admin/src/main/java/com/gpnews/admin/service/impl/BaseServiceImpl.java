@@ -5,6 +5,7 @@ import com.gpnews.pojo.BaseEntity;
 import com.gpnews.utils.UUIDUtil;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +19,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         if (t instanceof BaseEntity){
             if (((BaseEntity) t).getId()==null){
                 ((BaseEntity) t).setId(UUIDUtil.create());
+            }
+            if (((BaseEntity) t).getCreatedTime()==null){
+                ((BaseEntity) t).setCreatedTime(new Date());
+            }
+            if (((BaseEntity) t).getModifiedTime()==null){
+                ((BaseEntity) t).setModifiedTime(new Date());
             }
         }
         getMapper().insert(t);
@@ -36,11 +43,17 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     public  T update(T t){
+        if (t instanceof BaseEntity){
+            ((BaseEntity) t).setModifiedTime(new Date());
+        }
         getMapper().updateByPrimaryKey(t);
         return t;
     }
 
     public T updateNoNull(T t){
+        if (t instanceof BaseEntity){
+            ((BaseEntity) t).setModifiedTime(new Date());
+        }
         getMapper().updateByPrimaryKeySelective(t);
         return t;
     }
@@ -55,11 +68,11 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         return true;
     }
 
-    public  T load(String id){
+    public T load(String id){
         return getMapper().selectByPrimaryKey(id);
     }
 
-    public  void delById(String id){
+    public void delById(String id){
         String[] ids=id.split(",");
         for (int i = 0; i < ids.length; i++) {
             getMapper().deleteByPrimaryKey(ids[i]);

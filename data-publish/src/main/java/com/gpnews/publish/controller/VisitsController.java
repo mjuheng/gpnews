@@ -4,6 +4,7 @@ import com.gpnews.publish.service.VisitsService;
 import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class VisitsController {
     @Autowired
     private VisitsService service;
 
-    @RequiresRoles("poster")
+    @RequiresPermissions("poster")
     @RequestMapping("")
     public CommonResult queryVisits(Integer days){
         String userId = ShiroUtil.getCurrUserId();

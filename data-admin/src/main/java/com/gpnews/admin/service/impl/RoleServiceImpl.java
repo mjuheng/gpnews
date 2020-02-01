@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author HuangChongHeng
@@ -25,22 +23,49 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     private RoleMapper roleMapper;
     @Override
     public Set<Role> queryByUserId(String id) {
-        Set<Role> roles = new HashSet<>();
-        List<Role> list = roleMapper.queryByUserId(id);
-        for (Role role: list){
-            if (roles.contains(role)){
-                break;
-            }
-            roles.add(role);
-            // 添加父角色
-            while (role.getParentId() != null){
-                role = load(role.getParentId());
-                if (roles.contains(role)){
-                    break;
-                }
-                roles.add(role);
-            }
+        // 获取数据库的全部权限
+        List<Role> allRoles = roleMapper.selectAll();
+        Map<String, List<Role>> roleParentMap = listToMap(allRoles);      // key值为parentId
+
+        Set<Role> roles = new HashSet<>();  // 用户拥有的角色
+        List<Role> roleList = roleMapper.queryByUserId(id);
+        roles.addAll(roleList);
+        for (Role r : roleList) {
+            List<Role> children = new ArrayList<>();
+            getChildren(r, roleParentMap, children);
+            roles.addAll(children);
         }
         return roles;
+    }
+
+    /**
+     * 获取所有子角色
+     * @param role
+     * @param roleParentMap
+     * @param result
+     */
+    private void getChildren(Role role, Map<String, List<Role>> roleParentMap, List<Role> result){
+        List<Role> list = roleParentMap.get(role.getId());
+        if (list == null || list.size() <= 0)
+            return;
+        for (Role r: list){
+            result.add(r);
+            getChildren(r, roleParentMap, result);
+        }
+    }
+
+    private Map<String, List<Role>> listToMap(List<Role> roleList){
+        Map<String, List<Role>> map = new HashMap<>();
+        for (Role r: roleList){
+            List<Role> perms = map.get(r.getParentId());
+            if (perms != null && perms.size() > 0){
+                perms.add(r);
+            }else {
+                List<Role> list = new ArrayList<>();
+                list.add(r);
+                map.put(r.getParentId(), list);
+            }
+        }
+        return map;
     }
 }

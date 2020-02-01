@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author HuangChongHeng
@@ -28,23 +26,50 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Override
     public Set<Permission> queryByRoleId(String id) {
-        Set<Permission> permissions = new HashSet<>();
-        List<Permission> list = permissionMapper.queryByRoleId(id);
-        for (Permission permission: list){
-            if (permissions.contains(permission)){
-                break;
-            }
-            permissions.add(permission);
-            // 添加父权限
-            while (permission.getParentId() != null){
-                permission = load(permission.getParentId());
-                if (permissions.contains(permission)){
-                    break;
-                }
-                permissions.add(permission);
-            }
+        // 获取数据库的全部权限
+        List<Permission> allPerms = permissionMapper.selectAll();
+        Map<String, List<Permission>> permParentMap = listToMap(allPerms);      // key值为parentId
 
+        Set<Permission> permissions = new HashSet<>();  // 用户拥有的权限
+        List<Permission> permList = permissionMapper.queryByRoleId(id);
+        permissions.addAll(permList);
+        for (Permission perm : permList) {
+            List<Permission> children = new ArrayList<>();
+            getChildren(perm, permParentMap, children);
+            permissions.addAll(children);
         }
         return permissions;
     }
+
+    /**
+     * 获取所有子权限
+     * @param permission
+     * @param permParentMap
+     * @param result
+     */
+    private void getChildren(Permission permission, Map<String, List<Permission>> permParentMap, List<Permission> result){
+        List<Permission> list = permParentMap.get(permission.getId());
+        if (list == null || list.size() <= 0)
+            return;
+        for (Permission perm: list){
+            result.add(perm);
+            getChildren(perm, permParentMap, result);
+        }
+    }
+
+    private Map<String, List<Permission>> listToMap(List<Permission> permList){
+        Map<String, List<Permission>> map = new HashMap<>();
+        for (Permission permission: permList){
+            List<Permission> perms = map.get(permission.getParentId());
+            if (perms != null && perms.size() > 0){
+                perms.add(permission);
+            }else {
+                List<Permission> list = new ArrayList<>();
+                list.add(permission);
+                map.put(permission.getParentId(), list);
+            }
+        }
+        return map;
+    }
+
 }

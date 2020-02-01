@@ -6,10 +6,7 @@ import com.gpnews.admin.service.UserService;
 import com.gpnews.pojo.Permission;
 import com.gpnews.pojo.Role;
 import com.gpnews.pojo.User;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -45,6 +42,7 @@ public class UserRealm extends AuthorizingRealm {
         Set<String> roles = new HashSet<>();
         Set<String> permissions = new HashSet<>();
         User user = (User) principals.fromRealm(getName()).iterator().next();
+        user = userServiceImpl.getMapper().selectOne(user);
         try {
             //根据用户id从数据库中查询用户角色
             Set<Role> userRoles = roleServiceImpl.queryByUserId(user.getId());
@@ -76,6 +74,25 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo info = null;
         User userInfo = userServiceImpl.getMapper().selectOne(new User(username));
         if (userInfo != null){
+            if (userInfo.getIsLock()){
+                throw new LockedAccountException("账户被锁定");
+            }
+            // 获取用户权限
+            Set<String> roles = new HashSet<>();
+            Set<String> permissions = new HashSet<>();
+            Set<Role> userRoles = roleServiceImpl.queryByUserId(userInfo.getId());
+            for (Role role : userRoles) {
+                roles.add(role.getName());
+                //根据用户id从数据库中查询用户权限
+                Set<Permission> userPermissions = permissionServiceImpl.queryByRoleId(role.getId());
+                for (Permission permission: userPermissions){
+                    permissions.add(permission.getName());
+                }
+            }
+            if (!permissions.contains("admin")){
+                throw new DisabledAccountException("无此登录权限");
+            }
+
             return new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), getName());
         }
         return null;
