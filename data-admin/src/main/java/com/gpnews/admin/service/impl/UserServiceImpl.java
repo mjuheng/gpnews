@@ -36,4 +36,37 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         Integer count = userMapper.count(user);
         return count;
     }
+
+    @Override
+    public String checkUserInfo(User user) {
+        String msg = "";
+        User u = new User();
+        u.setUsername(user.getUsername());
+        User entity = userMapper.selectOne(u);
+        if (entity != null && !entity.getId().equals(user.getId())){
+            msg += "、用户名";
+        }
+        if (user.getPhone() != null){
+            u = new User();
+            u.setPhone(user.getPhone());
+            entity = userMapper.selectOne(u);
+            if (entity != null && !entity.getId().equals(user.getId())){
+                msg += "、手机号";
+            }
+        }
+        if (user.getEmail() != null){
+            u = new User();
+            u.setEmail(user.getEmail());
+            entity = userMapper.selectOne(u);
+            if (entity != null && !entity.getId().equals(user.getId())){
+                msg += "、邮箱";
+            }
+        }
+        if (msg != null){
+            msg = msg.substring(1);
+            msg += "不能重复";
+        }
+
+        return msg;
+    }
 }

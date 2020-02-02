@@ -15,4 +15,5 @@ public interface UserService extends BaseService<User> {
 
     Integer count(User user);
 
+    String checkUserInfo(User user);
 }

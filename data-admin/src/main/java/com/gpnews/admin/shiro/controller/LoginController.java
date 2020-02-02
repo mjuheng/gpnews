@@ -4,10 +4,13 @@ import com.gpnews.admin.service.UserService;
 import com.gpnews.admin.shiro.realm.UserLoginToken;
 import com.gpnews.pojo.User;
 import com.gpnews.utils.JsonUtil;
+import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import com.gpnews.utils.result.SingleResult;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -16,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tk.mybatis.mapper.common.Mapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,8 +68,17 @@ public class LoginController {
     @RequiresAuthentication
     @RequestMapping("/updateUser")
     public CommonResult updateUser(@RequestBody User user){
+        if (!ShiroUtil.getCurrUserId().equals(user.getId()) && !SecurityUtils.getSubject().isPermitted("admin")){
+            throw new AuthenticationException();
+        }
+        String ret = service.checkUserInfo(user);
+        if (!StringUtils.isBlank(ret)){
+            return ResultUtil.errorSingleResult(ret);
+        }
+
+        user.setModifiedTime(new Date());
         service.getMapper().updateByPrimaryKeySelective(user);
-        return ResultUtil.successSingleResult(true, "信息修改成功，请重新登录");
+        return ResultUtil.successSingleResult(true, "信息修改成功");
     }
 
     @RequiresAuthentication

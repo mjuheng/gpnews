@@ -2,6 +2,7 @@ package com.gpnews.admin.config;
 
 import com.gpnews.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.ShiroException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,6 +31,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ShiroException.class)
     @ResponseBody
     public ResponseEntity handleUnavailableSecurityManagerException(ShiroException e){
+        SecurityUtils.getSubject().logout();
         return ResponseEntity.status(401).body(ResultUtil.errorSingleResult("权限不足"));
     }
 }

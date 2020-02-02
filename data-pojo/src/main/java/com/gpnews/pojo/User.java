@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @Table(name = "u_user")
 public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    @NotNull(message = "用户名不能为空")
     private String username;
     private String password;
     private String phone;
