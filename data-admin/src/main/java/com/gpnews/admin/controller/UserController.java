@@ -57,4 +57,5 @@ public class UserController {
         service.updateBatch(userList);
         return ResultUtil.successSingleResult(true);
     }
+
 }

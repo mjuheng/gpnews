@@ -1,13 +1,18 @@
 package com.gpnews.admin.service.impl;
 
 import com.gpnews.admin.service.PermissionService;
+import com.gpnews.admin.service.RoleService;
 import com.gpnews.dao.PermissionMapper;
 import com.gpnews.pojo.Permission;
+import com.gpnews.pojo.Role;
+import com.gpnews.pojo.vo.PermissionVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author HuangChongHeng
@@ -18,6 +23,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Resource
     private PermissionMapper permissionMapper;
+    @Resource
+    private RoleService roleServiceImpl;
 
     @Override
     public Mapper<Permission> getMapper() {
@@ -31,7 +38,12 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         Map<String, List<Permission>> permParentMap = listToMap(allPerms);      // key值为parentId
 
         Set<Permission> permissions = new HashSet<>();  // 用户拥有的权限
-        List<Permission> permList = permissionMapper.queryByRoleId(id);
+        String permId = roleServiceImpl.load(id).getPermId();
+        List<Permission> permList = new ArrayList<>();
+        if (permId != null) {
+            String[] permIds = permId.split(";");
+            permList = permissionMapper.selectByIds(permIds);
+        }
         permissions.addAll(permList);
         for (Permission perm : permList) {
             List<Permission> children = new ArrayList<>();
@@ -72,4 +84,33 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         return map;
     }
 
+    @Override
+    public List<PermissionVo> queryTree() {
+        List<PermissionVo> ret  = new ArrayList<>();
+        List<PermissionVo> parent = new ArrayList<>();
+        List<Permission> permList = permissionMapper.selectAll();
+        Map<String, List<Permission>> permParentMap = listToMap(permList);
+        for (Permission perm: permList){
+            if (StringUtils.isBlank(perm.getParentId())){
+                parent.add(new PermissionVo(perm));
+            }
+        }
+        for (PermissionVo permVo: parent){
+            getChildrenTree(permVo, permParentMap);
+            ret.add(permVo);
+        }
+        return ret;
+    }
+
+    private void getChildrenTree(PermissionVo permVo, Map<String, List<Permission>> permParentMap){
+        List<Permission> list = permParentMap.get(permVo.getId());
+        if (list != null && list.size() > 0) {
+            permVo.setChildren(new ArrayList<>());
+            for (Permission perm : list) {
+                PermissionVo vo = new PermissionVo(perm);
+                permVo.getChildren().add(vo);
+                getChildrenTree(vo, permParentMap);
+            }
+        }
+    }
 }

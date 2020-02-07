@@ -75,10 +75,13 @@ public class LoginController {
         if (!StringUtils.isBlank(ret)){
             return ResultUtil.errorSingleResult(ret);
         }
-
-        user.setModifiedTime(new Date());
-        service.getMapper().updateByPrimaryKeySelective(user);
-        return ResultUtil.successSingleResult(true, "信息修改成功");
+        if (StringUtils.isBlank(user.getId())){
+            service.insert(user);
+        }else {
+            user.setModifiedTime(new Date());
+            service.getMapper().updateByPrimaryKeySelective(user);
+        }
+        return ResultUtil.successSingleResult(true);
     }
 
     @RequiresAuthentication
@@ -88,4 +91,8 @@ public class LoginController {
         return ResultUtil.successSingleResult(true, "退出成功");
     }
 
+    @RequestMapping("/online")
+    public  CommonResult online(){
+        return null;
+    }
 }

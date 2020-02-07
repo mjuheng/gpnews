@@ -9,4 +9,6 @@ import java.util.List;
 public interface PermissionMapper extends Mapper<Permission> {
 
     List<Permission> queryByRoleId(@Param("id") String id);
+
+    List<Permission> selectByIds(@Param("ids") String[] ids);
 }

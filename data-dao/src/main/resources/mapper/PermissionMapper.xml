@@ -10,4 +10,14 @@
         where urp.role_id = #{id}
     </select>
 
+    <select id="selectByIds" resultType="com.gpnews.pojo.Permission">
+        select * from u_permission
+        where 1 = 1
+        <if test="ids.length > 0">
+            and id in
+            <foreach collection="ids" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

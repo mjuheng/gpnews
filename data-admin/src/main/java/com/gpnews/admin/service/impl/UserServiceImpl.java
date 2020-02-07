@@ -4,6 +4,7 @@ import com.gpnews.admin.service.UserService;
 import com.gpnews.dao.UserMapper;
 import com.gpnews.pojo.User;
 import com.gpnews.utils.PageUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
@@ -62,11 +63,16 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
                 msg += "、邮箱";
             }
         }
-        if (msg != null){
+        if (!StringUtils.isBlank(msg)){
             msg = msg.substring(1);
             msg += "不能重复";
         }
 
         return msg;
+    }
+
+    @Override
+    public List<User> online() {
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Primary;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -17,11 +18,11 @@ import java.util.Date;
 public class Role extends BaseEntity{
     @Id
     private String id;
+    @NotNull(message = "角色名不能为空")
     private String name;
     private String parentId;
     private String description;
-    private Date createdTime;
-    private Date modifiedTime;
+    private String permId;
 
     @Transient
     private Permission[] permission;

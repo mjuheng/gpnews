@@ -12,4 +12,12 @@ import java.util.List;
  */
 public interface RoleMapper extends Mapper<Role> {
     List<Role> queryByUserId(@Param("id") String id);
+
+    List<Role> page(@Param("role") Role role,
+                    @Param("start") Integer start,
+                    @Param("rows") Integer rows);
+
+    Integer count(@Param("role") Role role);
+
+    List<Role> selectByIds(@Param("ids") String[] ids);
 }

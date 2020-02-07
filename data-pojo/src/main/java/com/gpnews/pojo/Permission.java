@@ -13,8 +13,7 @@ import java.util.Date;
 @Data
 public class Permission extends BaseEntity{
     private String name;
+    private String cName;
     private String parentId;
     private String description;
-    private Date createdTime;
-    private Date modifiedTime;
 }

@@ -1,8 +1,10 @@
 package com.gpnews.admin.service;
 
 import com.gpnews.pojo.Permission;
+import com.gpnews.pojo.vo.PermissionVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,4 +14,6 @@ import java.util.Set;
 public interface PermissionService {
 
     Set<Permission> queryByRoleId(@Param("id") String id);
+    
+    List<PermissionVo> queryTree();
 }

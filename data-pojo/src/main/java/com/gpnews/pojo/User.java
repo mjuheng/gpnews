@@ -24,8 +24,7 @@ public class User extends BaseEntity implements Serializable {
     private String photo;
     private String intro;
     private Boolean isLock;
-    @Transient
-    private Role[] role;
+    private String roleId;
 
 
     public User(){};

@@ -9,4 +9,35 @@
           left join u_user_role uur on role.id = uur.role_id
         where uur.user_id = #{id}
     </select>
+
+    <select id="page" resultType="com.gpnews.pojo.Role">
+        select *
+        from u_role
+        where 1 = 1
+        <if test="role.name != null and role.name != ''">
+            and `name` like concat('%', #{role.name}, '%')
+        </if>
+        <if test="start != null and rows != null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from u_role
+        where 1 = 1
+        <if test="role.name != null and role.name != ''">
+            and `name` like concat('%', #{role.name}, '%')
+        </if>
+    </select>
+
+    <select id="selectByIds" resultType="com.gpnews.pojo.Role">
+        select * from u_role
+        where 1 = 1
+        <if test="ids.length > 0">
+            and id in
+            <foreach collection="ids" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>
