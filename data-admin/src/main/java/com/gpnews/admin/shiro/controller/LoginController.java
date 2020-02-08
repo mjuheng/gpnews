@@ -4,6 +4,7 @@ import com.gpnews.admin.service.UserService;
 import com.gpnews.admin.shiro.realm.UserLoginToken;
 import com.gpnews.pojo.User;
 import com.gpnews.utils.JsonUtil;
+import com.gpnews.utils.PageUtil;
 import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
@@ -14,6 +15,11 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.DelegatingSession;
+import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.common.Mapper;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author HuangChongHeng
@@ -34,6 +38,8 @@ public class LoginController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private SessionDAO sessionDAO;
 
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){
@@ -92,7 +98,28 @@ public class LoginController {
     }
 
     @RequestMapping("/online")
-    public  CommonResult online(){
-        return null;
+    public  CommonResult online(Integer currPage, Integer rows){
+        Collection<Session> sessions =  sessionDAO.getActiveSessions();
+        List<Session> onlineUser = new ArrayList<>(sessions);
+        if (currPage != null && rows != null) {
+            int start = PageUtil.getStart(currPage, rows);
+            try {
+                onlineUser = onlineUser.subList(start, start + rows);
+            }catch (IndexOutOfBoundsException e){
+                onlineUser = onlineUser.subList(start, onlineUser.size());
+            }
+        }
+        return ResultUtil.successListResult(onlineUser, currPage, rows, sessions.size());
+    }
+
+    @RequiresPermissions("admin")
+    @RequestMapping("/kickout")
+    public CommonResult kickout(String id){
+        String[] ids = id.split(";");
+        for (String sessionId: ids){
+            Session session = sessionDAO.readSession(sessionId);
+            sessionDAO.delete(session);
+        }
+        return ResultUtil.successSingleResult(true);
     }
 }

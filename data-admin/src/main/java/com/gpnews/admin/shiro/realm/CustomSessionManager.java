@@ -32,4 +32,5 @@ public class CustomSessionManager extends DefaultWebSessionManager {
             return super.getSessionId(request, response);
         }
     }
+
 }
