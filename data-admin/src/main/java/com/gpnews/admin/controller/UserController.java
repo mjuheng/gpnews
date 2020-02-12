@@ -24,7 +24,7 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @RequiresPermissions("queryUser")
+    @RequiresPermissions({"userManage"})
     @RequestMapping("")
     public CommonResult page(String username, Boolean isLock, Integer currPage, Integer rows){
         User user = new User();
@@ -35,14 +35,14 @@ public class UserController {
         return ResultUtil.successListResult(userList, currPage, rows, total);
     }
 
-    @RequiresPermissions("deleteUser")
+    @RequiresPermissions({"userManage"})
     @RequestMapping("/delUser")
     public CommonResult delUser(String id){
         service.delById(id);
         return ResultUtil.successSingleResult(true, "用户删除成功");
     }
 
-    @RequiresPermissions("updateUser")
+    @RequiresPermissions({"userManage"})
     @RequestMapping("/changeLock")
     public CommonResult changeLock(String id, Boolean isLock){
         List<User> userList = new ArrayList<>();

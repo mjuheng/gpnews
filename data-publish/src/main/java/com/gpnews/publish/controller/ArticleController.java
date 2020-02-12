@@ -2,6 +2,7 @@ package com.gpnews.publish.controller;
 
 import com.gpnews.pojo.User;
 import com.gpnews.pojo.dto.ArticleDto;
+import com.gpnews.pojo.vo.ArticleVo;
 import com.gpnews.publish.enums.ArticleStatus;
 import com.gpnews.publish.service.ArticleService;
 import com.gpnews.pojo.Article;
@@ -32,16 +33,14 @@ public class ArticleController {
     @Autowired
     private ArticleService service;
 
-    @RequiresPermissions("queryArticle")
     @RequestMapping("")
-    public CommonResult page(Article article, String beginPubTime, String endPubTime, Integer currPage, Integer rows){
+    public CommonResult page(ArticleVo article, String beginPubTime, String endPubTime, Integer currPage, Integer rows){
         article.setUserId((String) SecurityUtils.getSubject().getSession().getAttribute("id"));
-        List<Article> articles = service.pageExclContent(article, beginPubTime, endPubTime, currPage, rows);
+        List<ArticleVo> articles = service.pageExclContent(article, beginPubTime, endPubTime, currPage, rows);
         Integer count = service.count(article, beginPubTime, endPubTime);
         return ResultUtil.successListResult(articles, currPage, rows, count);
     }
 
-    @RequiresPermissions("queryArticle")
     @RequestMapping("/{id}")
     public CommonResult get(@PathVariable String id){
         Article article = service.load(id);
@@ -52,7 +51,6 @@ public class ArticleController {
     }
 
 
-    @RequiresPermissions("insertArticle")
     @RequestMapping("/add")
     public CommonResult add(@RequestBody @Valid ArticleDto articleDto){
         String message;
@@ -68,7 +66,6 @@ public class ArticleController {
         return ResultUtil.successSingleResult(true, message);
     }
 
-    @RequiresPermissions("updateArticle")
     @RequestMapping("/update")
     public CommonResult update(@RequestBody @Valid ArticleDto articleDto){
         articleDto.setUserId((String) SecurityUtils.getSubject().getSession().getAttribute("id"));
@@ -82,14 +79,12 @@ public class ArticleController {
         return ResultUtil.successSingleResult(true, "修改成功");
     }
 
-    @RequiresPermissions("updateArticle")
     @RequestMapping("/updateCommStatus")
     public CommonResult updateCommStatus(@RequestBody Article article){
         service.getMapper().updateByPrimaryKeySelective(article);
         return ResultUtil.successSingleResult(true);
     }
 
-    @RequiresPermissions("deleteArticle")
     @RequestMapping("/del/{id}")
     public CommonResult del(@PathVariable String id){
         service.delById(id);

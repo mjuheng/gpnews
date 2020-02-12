@@ -2,9 +2,11 @@ package com.gpnews.admin.service.impl;
 
 import com.gpnews.admin.service.PermissionService;
 import com.gpnews.admin.service.RoleService;
+import com.gpnews.admin.service.UserService;
 import com.gpnews.dao.PermissionMapper;
 import com.gpnews.pojo.Permission;
 import com.gpnews.pojo.Role;
+import com.gpnews.pojo.User;
 import com.gpnews.pojo.vo.PermissionVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     private PermissionMapper permissionMapper;
     @Resource
     private RoleService roleServiceImpl;
+    @Resource
+    private UserService userServiceImpl;
 
     @Override
     public Mapper<Permission> getMapper() {
@@ -112,5 +116,34 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
                 getChildrenTree(vo, permParentMap);
             }
         }
+    }
+
+    @Override
+    public List<PermissionVo> getTreeByUser(String id) {
+        Set<Permission> currUserPerm = new HashSet<>();
+        User user = userServiceImpl.load(id);
+        String[] roleIds = user.getRoleId().split(";");
+        for (String roleId: roleIds){
+            currUserPerm.addAll(this.queryByRoleId(roleId));
+        }
+
+        List<PermissionVo> ret  = new ArrayList<>();
+        List<PermissionVo> parent = new ArrayList<>();
+        List<Permission> permList = new ArrayList<>(currUserPerm);
+        permList.sort((o1, o2) -> {
+            boolean b = o1.getCreatedTime().getTime() > o2.getCreatedTime().getTime();
+            return b?1:-1;
+        });
+        Map<String, List<Permission>> permParentMap = listToMap(permList);
+        for (Permission perm: permList){
+            if (StringUtils.isBlank(perm.getParentId())){
+                parent.add(new PermissionVo(perm));
+            }
+        }
+        for (PermissionVo permVo: parent){
+            getChildrenTree(permVo, permParentMap);
+            ret.add(permVo);
+        }
+        return ret;
     }
 }

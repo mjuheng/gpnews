@@ -89,9 +89,6 @@ public class UserRealm extends AuthorizingRealm {
                     permissions.add(permission.getName());
                 }
             }
-            if (!permissions.contains("admin")){
-                throw new DisabledAccountException("无此登录权限");
-            }
 
             return new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), getName());
         }

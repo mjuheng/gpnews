@@ -20,6 +20,7 @@ public class PermissionVo extends Permission {
         this.setCName(perm.getCName());
         this.setParentId(perm.getParentId());
         this.setDescription(perm.getDescription());
+        this.setIcon(perm.getIcon());
         this.setCreatedTime(perm.getCreatedTime());
         this.setModifiedTime(perm.getModifiedTime());
     }

@@ -1,14 +1,18 @@
 package com.gpnews.publish.service.impl;
 
-import com.gpnews.publish.service.PermissionService;
 import com.gpnews.dao.PermissionMapper;
 import com.gpnews.pojo.Permission;
+import com.gpnews.pojo.Role;
+import com.gpnews.pojo.vo.PermissionVo;
+import com.gpnews.publish.service.PermissionService;
+import com.gpnews.publish.service.RoleService;
+import com.gpnews.publish.service.impl.BaseServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +24,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Resource
     private PermissionMapper permissionMapper;
+    @Resource
+    private RoleService roleServiceImpl;
 
     @Override
     public Mapper<Permission> getMapper() {
@@ -33,7 +39,12 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         Map<String, List<Permission>> permParentMap = listToMap(allPerms);      // key值为parentId
 
         Set<Permission> permissions = new HashSet<>();  // 用户拥有的权限
-        List<Permission> permList = permissionMapper.queryByRoleId(id);
+        String permId = roleServiceImpl.load(id).getPermId();
+        List<Permission> permList = new ArrayList<>();
+        if (permId != null) {
+            String[] permIds = permId.split(";");
+            permList = permissionMapper.selectByIds(permIds);
+        }
         permissions.addAll(permList);
         for (Permission perm : permList) {
             List<Permission> children = new ArrayList<>();

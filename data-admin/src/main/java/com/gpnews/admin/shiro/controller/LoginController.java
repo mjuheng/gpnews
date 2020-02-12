@@ -2,6 +2,7 @@ package com.gpnews.admin.shiro.controller;
 
 import com.gpnews.admin.service.UserService;
 import com.gpnews.admin.shiro.realm.UserLoginToken;
+import com.gpnews.admin.shiro.service.ShiroService;
 import com.gpnews.pojo.User;
 import com.gpnews.utils.JsonUtil;
 import com.gpnews.utils.PageUtil;
@@ -40,6 +41,8 @@ public class LoginController {
     private UserService service;
     @Autowired
     private SessionDAO sessionDAO;
+    @Autowired
+    private ShiroService shiroService;
 
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){
@@ -98,18 +101,11 @@ public class LoginController {
     }
 
     @RequestMapping("/online")
-    public  CommonResult online(Integer currPage, Integer rows){
-        Collection<Session> sessions =  sessionDAO.getActiveSessions();
-        List<Session> onlineUser = new ArrayList<>(sessions);
-        if (currPage != null && rows != null) {
-            int start = PageUtil.getStart(currPage, rows);
-            try {
-                onlineUser = onlineUser.subList(start, start + rows);
-            }catch (IndexOutOfBoundsException e){
-                onlineUser = onlineUser.subList(start, onlineUser.size());
-            }
-        }
-        return ResultUtil.successListResult(onlineUser, currPage, rows, sessions.size());
+    public  CommonResult online(String username, Integer currPage, Integer rows){
+        Map<String, Object> map = shiroService.pageSession(username, currPage, rows);
+        List<Session> sessionList = (List<Session>) map.get("list");
+        Integer count = (Integer) map.get("count");
+        return ResultUtil.successListResult(sessionList, currPage, rows, count);
     }
 
     @RequiresPermissions("admin")

@@ -121,6 +121,10 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         }
     }
 
+    @Override
+    public List<Role> selectByIds(String[] id) {
+        return roleMapper.selectByIds(id);
+    }
 
     @Override
     public Mapper<Role> getMapper() {

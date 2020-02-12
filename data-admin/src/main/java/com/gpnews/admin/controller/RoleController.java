@@ -24,7 +24,7 @@ public class RoleController {
     @Autowired
     private RoleService service;
 
-    @RequiresPermissions("queryRole")
+    @RequiresPermissions({"userManage:roleManage"})
     @RequestMapping("")
     public CommonResult page(String name, Integer currPage, Integer rows){
         Role role = new Role();
@@ -34,6 +34,7 @@ public class RoleController {
         return ResultUtil.successListResult(roleList, currPage, rows, count);
     }
 
+    @RequiresPermissions({"roleManage"})
     @PostMapping("/updateRole")
     public CommonResult updateRole(@RequestBody @Valid Role role){
         if (StringUtils.isBlank(role.getId())){
@@ -45,6 +46,7 @@ public class RoleController {
         return ResultUtil.successSingleResult(true);
     }
 
+    @RequiresPermissions({"userManage:roleManage"})
     @GetMapping("/{id}")
     public CommonResult getById(@PathVariable String id){
         Role role = service.getMapper().selectByPrimaryKey(id);
@@ -52,12 +54,13 @@ public class RoleController {
     }
 
 
-
+    @RequiresPermissions({"userManage:roleManage"})
     @RequestMapping("/getTree")
     public CommonResult getTree(){
         return ResultUtil.successSingleResult( service.queryTree());
     }
 
+    @RequiresPermissions({"roleManage"})
     @RequestMapping("/delRole")
     public CommonResult del(String id){
         service.delById(id);

@@ -18,4 +18,6 @@ public interface RoleService extends BaseService<Role> {
     Integer count(Role role);
 
     List<RoleVo> queryTree();
+
+    List<Role> selectByIds(String[] id);
 }

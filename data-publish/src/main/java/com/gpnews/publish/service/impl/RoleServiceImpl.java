@@ -1,9 +1,13 @@
 package com.gpnews.publish.service.impl;
 
-import com.gpnews.pojo.Permission;
-import com.gpnews.publish.service.RoleService;
 import com.gpnews.dao.RoleMapper;
+import com.gpnews.pojo.Permission;
 import com.gpnews.pojo.Role;
+import com.gpnews.pojo.vo.PermissionVo;
+import com.gpnews.pojo.vo.RoleVo;
+import com.gpnews.publish.service.RoleService;
+import com.gpnews.publish.service.UserService;
+import com.gpnews.utils.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
@@ -17,12 +21,12 @@ import java.util.*;
  */
 @Service
 public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
-    @Override
-    public Mapper<Role> getMapper() {
-        return roleMapper;
-    }
+
     @Resource
     private RoleMapper roleMapper;
+    @Resource
+    private UserService userServiceImpl;
+
     @Override
     public Set<Role> queryByUserId(String id) {
         // 获取数据库的全部权限
@@ -30,7 +34,12 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         Map<String, List<Role>> roleParentMap = listToMap(allRoles);      // key值为parentId
 
         Set<Role> roles = new HashSet<>();  // 用户拥有的角色
-        List<Role> roleList = roleMapper.queryByUserId(id);
+        String roleId = userServiceImpl.load(id).getRoleId();
+        List<Role> roleList = new ArrayList<>();
+        if (roleId != null){
+            String[] roleIds = roleId.split(";");
+            roleList = roleMapper.selectByIds(roleIds);
+        }
         roles.addAll(roleList);
         for (Role r : roleList) {
             List<Role> children = new ArrayList<>();
@@ -69,5 +78,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
             }
         }
         return map;
+    }
+
+
+    @Override
+    public Mapper<Role> getMapper() {
+        return roleMapper;
     }
 }

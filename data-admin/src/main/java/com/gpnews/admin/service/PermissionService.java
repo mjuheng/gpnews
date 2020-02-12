@@ -16,4 +16,6 @@ public interface PermissionService {
     Set<Permission> queryByRoleId(@Param("id") String id);
     
     List<PermissionVo> queryTree();
+
+    List<PermissionVo> getTreeByUser(String id);
 }

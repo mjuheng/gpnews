@@ -23,7 +23,6 @@ public class VisitsController {
     @Autowired
     private VisitsService service;
 
-    @RequiresPermissions("poster")
     @RequestMapping("")
     public CommonResult queryVisits(Integer days){
         String userId = ShiroUtil.getCurrUserId();
