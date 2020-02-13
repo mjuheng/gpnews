@@ -2,16 +2,19 @@ package com.gpnews.admin.controller;
 
 import com.gpnews.admin.service.UserService;
 import com.gpnews.pojo.User;
+import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HuangChongHeng
@@ -55,6 +58,23 @@ public class UserController {
             userList.add(user);
         }
         service.updateBatch(userList);
+        return ResultUtil.successSingleResult(true);
+    }
+
+    @RequestMapping("/changePwd")
+    public CommonResult changePwd(@RequestBody Map<String, String> map){
+        User user = service.load(ShiroUtil.getCurrUserId());
+        String oldPwd = map.get("oldPwd");
+        String newPwd = map.get("newPwd");
+        String againPwd = map.get("againPwd");
+        if (!newPwd.equals(againPwd)){
+            return ResultUtil.errorSingleResult("密码不一致，请重新输入");
+        }
+        if (!user.getPassword().equals(oldPwd)){
+            return ResultUtil.errorSingleResult("旧密码错误");
+        }
+        user.setPassword(newPwd);
+        service.update(user);
         return ResultUtil.successSingleResult(true);
     }
 

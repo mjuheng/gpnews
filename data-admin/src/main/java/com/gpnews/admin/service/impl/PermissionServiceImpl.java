@@ -38,23 +38,24 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     @Override
     public Set<Permission> queryByRoleId(String id) {
         // 获取数据库的全部权限
-        List<Permission> allPerms = permissionMapper.selectAll();
-        Map<String, List<Permission>> permParentMap = listToMap(allPerms);      // key值为parentId
+//        List<Permission> allPerms = permissionMapper.selectAll();
+//        Map<String, List<Permission>> permParentMap = listToMap(allPerms);      // key值为parentId
 
-        Set<Permission> permissions = new HashSet<>();  // 用户拥有的权限
+//        Set<Permission> permissions = new HashSet<>();  // 用户拥有的权限
         String permId = roleServiceImpl.load(id).getPermId();
         List<Permission> permList = new ArrayList<>();
         if (permId != null) {
             String[] permIds = permId.split(";");
             permList = permissionMapper.selectByIds(permIds);
         }
-        permissions.addAll(permList);
-        for (Permission perm : permList) {
-            List<Permission> children = new ArrayList<>();
-            getChildren(perm, permParentMap, children);
-            permissions.addAll(children);
-        }
-        return permissions;
+//        permissions.addAll(permList);
+//        for (Permission perm : permList) {
+//            List<Permission> children = new ArrayList<>();
+//            getChildren(perm, permParentMap, children);
+//            permissions.addAll(children);
+//        }
+//        return permissions;
+        return new HashSet<>(permList);
     }
 
     /**
