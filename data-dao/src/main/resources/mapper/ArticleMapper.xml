@@ -37,6 +37,7 @@
         limit #{start},#{rows}
       </if>
     </select>
+
     <select id="count" resultType="java.lang.Integer">
         select count(1)
         from a_article a
@@ -73,5 +74,38 @@
           left join u_user u on a.user_id = u.id
           left join a_category c on a.category_id = c.id
         where a.id = #{id}
+    </select>
+
+    <!-- 小程序的分页查询 -->
+    <select id="pageMP" resultType="com.gpnews.pojo.vo.ArticleVo">
+        select u.username, c.name as category_name, a.id, a.title, a.head_image, a.user_id, a.category_id, a.status, a.publish_time, a.created_time, a.modified_time, a.comment_num, a.read_num, a.is_comment
+        from a_article a
+        left join u_user u on a.user_id = u.id
+        left join a_category c on a.category_id = c.id
+        where 1 = 1
+        <if test="article != null">
+            <if test="article.username != null">
+                and u.username like concat('%', #{article.username}, '%')
+            </if>
+            <if test="article.title != null">
+                and a.title like concat('%', #{article.title}, '%')
+            </if>
+            <if test="article.categoryId != null and article.categoryId != ''">
+                and a.category_id = #{article.categoryId}
+            </if>
+            <if test="article.status != null and article.status != ''">
+                and a.status = #{article.status}
+            </if>
+            <if test="article.userId != null">
+                and a.user_id = #{article.userId}
+            </if>
+            <if test="pubTime !=null and pubTime!=''">
+                and a.publish_time &lt; #{pubTime}
+            </if>
+        </if>
+        order by modified_time desc
+        <if test="rows != null">
+            limit #{rows}
+        </if>
     </select>
 </mapper>

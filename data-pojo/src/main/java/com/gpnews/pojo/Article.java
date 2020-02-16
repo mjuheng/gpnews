@@ -22,8 +22,8 @@ public class Article extends BaseEntity {
 
     @NotBlank(message = "内容不能为空")
     private String content;     // 内容
-    @JsonFormat(pattern = "yyyy-MM-dd HH:ss:mm", timezone = "GMT+8")
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date publishTime;   // 发布时间
 
     private String userId;      // 发布人

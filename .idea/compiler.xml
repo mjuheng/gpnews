@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="dao" />
         <module name="data-admin" />
+        <module name="data-consumer" />
         <module name="data-file" />
         <module name="data-portal" />
         <module name="data-publish" />
@@ -18,6 +19,7 @@
     <bytecodeTargetLevel>
       <module name="dao" target="1.8" />
       <module name="data-admin" target="1.8" />
+      <module name="data-consumer" target="1.8" />
       <module name="data-dao" target="1.8" />
       <module name="data-file" target="1.8" />
       <module name="data-pojo" target="1.8" />
@@ -33,6 +35,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="dao" options="-parameters" />
       <module name="data-admin" options="-parameters" />
+      <module name="data-consumer" options="-parameters" />
       <module name="data-dao" options="-parameters" />
       <module name="data-file" options="-parameters" />
       <module name="data-portal" options="-parameters" />

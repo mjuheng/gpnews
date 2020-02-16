@@ -21,5 +21,10 @@ public interface ArticleMapper extends Mapper<Article> {
                   @Param("beginPubTime") String beginPubTime,
                   @Param("endPubTime") String endPubTime);
 
+
+    List<ArticleVo> pageMP(@Param("article") ArticleVo article,
+                           @Param("pubTime") String pubTime,
+                           @Param("rows") Integer rows);
+
     ArticleVo getById(@Param("id") String id);
 }

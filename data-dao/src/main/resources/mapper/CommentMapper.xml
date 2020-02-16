@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpnews.dao.CommentMapper">
+
+    <select id="page" resultType="com.gpnews.pojo.vo.CommentVo">
+        select uc.*, uu.username, uu.photo as user_photo
+        from u_comment uc
+        left join u_user uu on uc.user_id = uu.id
+        where 1 = 1
+        <if test="isParent != null and isParent == true">
+            and uc.parent_id is null or uc.parent_id = ''
+        </if>
+        <if test="comment != null">
+            <if test="comment.articleId != null and comment.articleId != ''">
+                and uc.article_id = ${comment.articleId}
+            </if>
+            <if test="comment.createdTime != null">
+                and uc.created_time &lt;= #{comment.createdTime}
+            </if>
+        </if>
+        order by uc.created_time desc
+        <if test="start != null and rows != null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from u_comment uc
+        where 1 = 1
+        <if test="isParent != null and isParent == true">
+            and uc.parent_id is null
+        </if>
+        <if test="comment != null">
+            <if test="comment.articleId != null and comment.articleId != ''">
+                and uc.article_id = ${comment.articleId}
+            </if>
+            <if test="comment.createdTime != null">
+                and uc.created_time &lt;= #{comment.createdTime}
+            </if>
+        </if>
+    </select>
+</mapper>
