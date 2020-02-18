@@ -27,4 +27,15 @@ public interface ArticleMapper extends Mapper<Article> {
                            @Param("rows") Integer rows);
 
     ArticleVo getById(@Param("id") String id);
+
+    List<ArticleVo> pageByFan(@Param("article") ArticleVo article,
+                              @Param("beginPubTime") String beginPubTime,
+                              @Param("endPubTime") String endPubTime,
+                              @Param("userId") String userId,
+                              @Param("start") Integer start,
+                              @Param("rows") Integer rows);
+    Integer countByFan(@Param("article") ArticleVo article,
+                       @Param("userId") String userId,
+                       @Param("beginPubTime") String beginPubTime,
+                       @Param("endPubTime") String endPubTime);
 }

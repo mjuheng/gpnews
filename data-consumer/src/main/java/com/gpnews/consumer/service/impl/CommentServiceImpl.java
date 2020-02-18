@@ -8,6 +8,7 @@ import com.gpnews.pojo.vo.CommentVo;
 import com.gpnews.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.ArrayList;
@@ -56,6 +57,11 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
     @Override
     public Integer count(Comment comment) {
         return mapper.count(comment, true);
+    }
+
+    @Override
+    public CommentVo getById(String id) {
+        return mapper.getById(id);
     }
 
     @Override

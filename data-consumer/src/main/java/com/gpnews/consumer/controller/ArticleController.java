@@ -3,8 +3,10 @@ package com.gpnews.consumer.controller;
 import com.gpnews.consumer.service.ArticleService;
 import com.gpnews.pojo.Article;
 import com.gpnews.pojo.vo.ArticleVo;
+import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,5 +50,14 @@ public class ArticleController {
         article.setReadNum(article.getReadNum()+1);
         service.updateNoNull(article);
         return ResultUtil.successSingleResult(true);
+    }
+
+    @RequiresAuthentication
+    @GetMapping("/pageByFan")
+    public CommonResult pageByFan(ArticleVo article, String beginPubTime, String endPubTime, Integer currPage, Integer rows){
+        String userId = ShiroUtil.getCurrUserId();
+        List<ArticleVo> articles = service.pageExclContentByFan(article, beginPubTime, endPubTime, userId, currPage, rows);
+        Integer count = service.countByFan(article, userId, beginPubTime, endPubTime);
+        return ResultUtil.successListResult(articles, currPage, rows, count);
     }
 }

@@ -39,10 +39,6 @@ public class LoginController {
 
     @Autowired
     private UserService service;
-    @Autowired
-    private SessionDAO sessionDAO;
-    @Autowired
-    private ShiroService shiroService;
 
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){

@@ -20,4 +20,6 @@ public interface CommentMapper extends Mapper<Comment> {
 
     Integer count(@Param("comment") Comment comment,
                   @Param("isParent") Boolean isParent);
+
+    CommentVo getById(@Param("id") String id);
 }

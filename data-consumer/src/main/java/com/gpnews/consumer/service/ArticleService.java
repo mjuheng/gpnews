@@ -14,4 +14,8 @@ public interface ArticleService extends BaseService<Article>{
     List<ArticleVo> pageMP(ArticleVo article, String pubTime, Integer rows);
 
     ArticleVo getById(String id);
+
+    List<ArticleVo> pageExclContentByFan(ArticleVo article, String beginPubTime, String endPubTime, String userId, Integer currPage, Integer rows);
+
+    Integer countByFan(ArticleVo article, String userId, String beginPubTime, String endPubTime);
 }

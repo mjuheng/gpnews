@@ -41,4 +41,11 @@
             </if>
         </if>
     </select>
+
+    <select id="getById" resultType="com.gpnews.pojo.vo.CommentVo">
+        select uc.*, uu.username, uu.photo as user_photo
+        from u_comment uc
+          left join u_user uu on uc.user_id = uu.id
+        where uc.id = #{id}
+    </select>
 </mapper>

@@ -10,4 +10,6 @@ public interface CommentService extends BaseService<Comment> {
     List<CommentVo> page(Comment comment, Integer currPage, Integer rows);
 
     Integer count(Comment comment);
+
+    CommentVo getById(String id);
 }

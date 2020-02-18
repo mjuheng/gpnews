@@ -5,6 +5,8 @@ import com.gpnews.dao.ArticleMapper;
 import com.gpnews.pojo.Article;
 import com.gpnews.pojo.vo.ArticleVo;
 import com.gpnews.utils.PageUtil;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -28,6 +30,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
     @Override
     public List<ArticleVo> pageExclContent(ArticleVo article, String beginPubTime, String endPubTime, Integer currPage, Integer rows) {
+
         Integer start = PageUtil.getStart(currPage, rows);
         return articleMapper.pageExclContent(article,beginPubTime, endPubTime, start, rows);
     }
@@ -45,5 +48,17 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     @Override
     public List<ArticleVo> pageMP(ArticleVo article, String pubTime, Integer rows) {
         return articleMapper.pageMP(article, pubTime, rows);
+    }
+
+    @Override
+    public List<ArticleVo> pageExclContentByFan(ArticleVo article, String beginPubTime, String endPubTime, String userId, Integer currPage, Integer rows) {
+
+        Integer start = PageUtil.getStart(currPage, rows);
+        return articleMapper.pageByFan(article,beginPubTime, endPubTime, userId, start, rows);
+    }
+
+    @Override
+    public Integer countByFan(ArticleVo article, String userId, String beginPubTime, String endPubTime) {
+        return articleMapper.countByFan(article, userId, beginPubTime, endPubTime);
     }
 }
