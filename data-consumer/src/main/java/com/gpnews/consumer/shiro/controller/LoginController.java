@@ -21,10 +21,12 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +72,16 @@ public class LoginController {
         return ResultUtil.successSingleResult(retMap);
     }
 
+    @PostMapping("/register")
+    public CommonResult register(@RequestBody @Valid User user){
+        String checkRet = service.checkUserInfo(user);
+        if (!StringUtils.isBlank(checkRet)){
+            return ResultUtil.errorSingleResult(checkRet);
+        }
+        service.insert(user);
+        return ResultUtil.successSingleResult(true, "注册成功");
+    }
+
     @RequiresAuthentication
     @RequestMapping("/updateUser")
     public CommonResult updateUser(@RequestBody User user){
@@ -90,10 +102,33 @@ public class LoginController {
     }
 
     @RequiresAuthentication
+    @RequestMapping("/changePwd")
+    public CommonResult changePwd(@RequestBody Map<String, String> map){
+        User user = service.load(ShiroUtil.getCurrUserId());
+        String oldPwd = map.get("oldPwd");
+        String newPwd = map.get("newPwd");
+        String againPwd = map.get("againPwd");
+        if (!newPwd.equals(againPwd)){
+            return ResultUtil.errorSingleResult("密码不一致，请重新输入");
+        }
+        if (!user.getPassword().equals(oldPwd)){
+            return ResultUtil.errorSingleResult("旧密码错误");
+        }
+        user.setPassword(newPwd);
+        service.update(user);
+        return ResultUtil.successSingleResult(true);
+    }
+
+    @RequiresAuthentication
     @RequestMapping("/logout")
     public CommonResult logout(){
         SecurityUtils.getSubject().logout();
         return ResultUtil.successSingleResult(true, "退出成功");
     }
 
+    @RequiresAuthentication
+    @RequestMapping("/checkLogin")
+    public CommonResult checkLogin(){
+        return ResultUtil.successSingleResult(true);
+    }
 }

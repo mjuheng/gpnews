@@ -4,6 +4,42 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpnews.dao.FavoritesMapper">
 
+    <select id="page" resultType="com.gpnews.pojo.vo.ArticleVo">
+        select u.username, a.id, a.title, a.head_image, a.user_id, a.category_id, a.status, a.publish_time, a.created_time, a.modified_time, a.comment_num, a.read_num, a.is_comment
+        from a_article a
+          left join u_user u on a.user_id = u.id
+        where a.id in (select article_id from
+                        (select article_id
+                         from a_favorites af
+                           LEFT JOIN u_user u on af.user_id = u.id
+                         where u.id = #{userId}
+                         <if test="endCreatedTime != null">
+                             and af.created_time &lt;= #{endCreatedTime}
+                         </if>
+                         order by af.created_time desc
+                         <if test="start != null and rows != null">
+                             limit #{start},#{rows}
+                         </if>) temp)
+        <if test="title != null and title != ''">
+            and a.title like concat('%', #{title}, '%')
+        </if>
+
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from a_article a
+        where a.id in (select article_id
+                       from a_favorites af
+                       LEFT JOIN u_user u on af.user_id = u.id
+                       where u.id = #{userId}
+                       <if test="endCreatedTime != null">
+                           and af.created_time &lt;= #{endCreatedTime}
+                       </if>)
+        <if test="title != null and title != ''">
+            and a.title like concat('%', #{title}, '%')
+        </if>
+
+    </select>
 
 </mapper>
 
