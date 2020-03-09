@@ -40,9 +40,11 @@ spring:
     timeout: 3000
     port: 6379
 
+
 mybatis:
   #  type-aliases-package: com.gpnews.pojo
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+
