@@ -10,6 +10,7 @@ import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HuangChongHeng
@@ -40,5 +41,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     @Override
     public ArticleVo getById(String id) {
         return articleMapper.getById(id);
+    }
+
+    @Override
+    public Map<String, Object> countReadAndComm(String userId) {
+        return articleMapper.countReadAndComm(userId);
     }
 }

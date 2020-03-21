@@ -1,5 +1,6 @@
 package com.gpnews.admin.controller;
 
+import com.gpnews.admin.annotation.SystemLog;
 import com.gpnews.admin.service.RoleService;
 import com.gpnews.pojo.Role;
 import com.gpnews.utils.result.CommonResult;
@@ -24,6 +25,7 @@ public class RoleController {
     @Autowired
     private RoleService service;
 
+    @SystemLog("查询角色")
     @RequiresPermissions({"userManage:roleManage"})
     @RequestMapping("")
     public CommonResult page(String name, Integer currPage, Integer rows){
@@ -34,6 +36,7 @@ public class RoleController {
         return ResultUtil.successListResult(roleList, currPage, rows, count);
     }
 
+    @SystemLog("更新角色")
     @RequiresPermissions({"roleManage"})
     @PostMapping("/updateRole")
     public CommonResult updateRole(@RequestBody @Valid Role role){
@@ -53,13 +56,14 @@ public class RoleController {
         return ResultUtil.successSingleResult(role);
     }
 
-
+    @SystemLog("查询角色")
     @RequiresPermissions({"userManage:roleManage"})
     @RequestMapping("/getTree")
     public CommonResult getTree(){
         return ResultUtil.successSingleResult( service.queryTree());
     }
 
+    @SystemLog("删除角色")
     @RequiresPermissions({"roleManage"})
     @RequestMapping("/delRole")
     public CommonResult del(String id){

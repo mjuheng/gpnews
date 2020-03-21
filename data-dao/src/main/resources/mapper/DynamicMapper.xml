@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpnews.dao.DynamicMapper">
+
+    <select id="page" resultType="com.gpnews.pojo.vo.DynamicVo">
+        SELECT
+          ad.*,
+          aa.title as articleTitle,
+          uu.username AS optUsername,
+          uu.photo as optUserPhoto
+        FROM
+          `a_dynamic` ad
+          LEFT JOIN a_article aa ON ad.article_id = aa.id
+          LEFT JOIN u_user uu ON ad.opt_user_id = uu.id
+        WHERE
+          ad.user_id = #{userId}
+        <if test="start != null and rows != null">
+            limit #{start}, ${rows}
+        </if>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            `a_dynamic` ad
+        WHERE
+            ad.user_id = #{userId}
+    </select>
+
+</mapper>

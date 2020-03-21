@@ -144,4 +144,11 @@
         </if>
     </select>
 
+    <select id="countReadAndComm" resultType="java.util.HashMap">
+        SELECT
+               sum(read_num) as readNum, sum(comment_num) as commentNum
+        FROM `a_article`
+        where user_id = #{userId}
+    </select>
+
 </mapper>

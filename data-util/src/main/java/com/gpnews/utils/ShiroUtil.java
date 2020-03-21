@@ -12,6 +12,10 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 public class ShiroUtil {
     @RequiresAuthentication
     public static String getCurrUserId(){
-        return (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+        String currUser = null;
+        try {
+            currUser = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+        }catch (Exception ignore){}
+        return currUser;
     }
 }

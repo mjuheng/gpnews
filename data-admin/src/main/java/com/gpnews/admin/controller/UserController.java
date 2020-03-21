@@ -1,5 +1,6 @@
 package com.gpnews.admin.controller;
 
+import com.gpnews.admin.annotation.SystemLog;
 import com.gpnews.admin.service.UserService;
 import com.gpnews.pojo.User;
 import com.gpnews.utils.ShiroUtil;
@@ -27,6 +28,7 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @SystemLog("查询用户")
     @RequiresPermissions({"userManage"})
     @RequestMapping("")
     public CommonResult page(String username, Boolean isLock, Integer currPage, Integer rows){
@@ -38,6 +40,7 @@ public class UserController {
         return ResultUtil.successListResult(userList, currPage, rows, total);
     }
 
+    @SystemLog("删除用户")
     @RequiresPermissions({"userManage"})
     @RequestMapping("/delUser")
     public CommonResult delUser(String id){
@@ -45,6 +48,7 @@ public class UserController {
         return ResultUtil.successSingleResult(true, "用户删除成功");
     }
 
+    @SystemLog("锁定、解锁用户账号")
     @RequiresPermissions({"userManage"})
     @RequestMapping("/changeLock")
     public CommonResult changeLock(String id, Boolean isLock){
@@ -61,6 +65,7 @@ public class UserController {
         return ResultUtil.successSingleResult(true);
     }
 
+    @SystemLog("更改密码")
     @RequestMapping("/changePwd")
     public CommonResult changePwd(@RequestBody Map<String, String> map){
         User user = service.load(ShiroUtil.getCurrUserId());

@@ -1,5 +1,6 @@
 package com.gpnews.admin.controller;
 
+import com.gpnews.admin.annotation.SystemLog;
 import com.gpnews.admin.service.PermissionService;
 import com.gpnews.pojo.vo.PermissionVo;
 import com.gpnews.utils.ShiroUtil;
@@ -26,12 +27,14 @@ public class PermissionController {
     @Autowired
     private PermissionService service;
 
+    @SystemLog("查询权限")
     @RequiresPermissions("roleManage")
     @RequestMapping("/getTree")
     public CommonResult getTree(){
         return ResultUtil.successSingleResult( service.queryTree());
     }
 
+    @SystemLog("查询权限")
     @RequiresAuthentication
     @RequestMapping("/getPerm")
     public CommonResult getPerm(){

@@ -55,7 +55,7 @@ public class ImageController {
             InetAddress addr = InetAddress.getLocalHost();
             String ip = addr.getHostAddress();
             int port = request.getLocalPort();
-            fileName = "https://" + ip + ":" + port + "/image/" + fileName;
+            fileName = "http://" + ip + ":" + port + "/image/" + fileName;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpnews.dao.SysLogMapper">
+
+    <select id="page" resultType="com.gpnews.pojo.vo.SyslogVo">
+        SELECT
+            sl.*,
+            uu.username
+        FROM
+            sys_log sl
+            LEFT JOIN u_user uu ON sl.user_id = uu.id
+        WHERE
+            1 = 1
+            <if test="username != null and username != ''">
+              AND uu.username = #{username}
+            </if>
+            <if test="opt != null and opt != ''">
+              AND sl.operation LIKE concat('%', #{opt}, '%')
+            </if>
+        order by created_time desc
+        <if test="start != null and rows != null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT
+          count(1)
+        FROM
+          sys_log sl
+          LEFT JOIN u_user uu ON sl.user_id = uu.id
+        WHERE
+          1 = 1
+          <if test="username != null and username != ''">
+              AND uu.username = #{username}
+          </if>
+          <if test="opt != null and opt != ''">
+              AND sl.operation LIKE concat('%', #{opt}, '%')
+          </if>
+    </select>
+</mapper>

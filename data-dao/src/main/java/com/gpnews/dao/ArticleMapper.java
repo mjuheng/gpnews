@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HuangChongHeng
@@ -38,4 +39,6 @@ public interface ArticleMapper extends Mapper<Article> {
                        @Param("userId") String userId,
                        @Param("beginPubTime") String beginPubTime,
                        @Param("endPubTime") String endPubTime);
+
+    Map<String, Object> countReadAndComm(@Param("userId") String userId);
 }
