@@ -10,10 +10,9 @@ import java.util.Map;
 
 public interface VisitsMapper extends Mapper<Visits> {
 
-    List<Visits> selectSinceTime(@Param("userId") String userId,
-                                 @Param("sinceTime") Date sinceTime);
 
-    Integer countSinceTime(@Param("userId") String userId,
-                           @Param("sinceTime") Date sinceTime);
+    Visits selectByTime(@Param("userId") String userId,
+                        @Param("beginTime") String beginTime,
+                        @Param("endTime") String endTime);
 
 }

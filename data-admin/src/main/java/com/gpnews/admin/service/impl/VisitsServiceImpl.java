@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,32 +26,34 @@ public class VisitsServiceImpl extends BaseServiceImpl<Visits> implements Visits
     @Autowired
     private VisitsMapper mapper;
 
+    /**
+     *
+     * @param userId
+     * @param type 1 日  2 周  3 月
+     * @return
+     */
     @Override
-    public List<Integer> selectVisits(String userId, int day) {
-        Instant instant = Instant.now();
-        instant = instant.minus(Duration.ofDays(day));
-        Date since = Date.from(instant);
+    public List<Visits> selectByTime(String userId, Integer type) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        List<Visits> ret = new ArrayList<>();
+        String beginTime = sdf.format(calendar.getTime());
+        String endTime = null;
 
-        List<Integer> ret = new ArrayList<>();
-        List<Visits> visits =  mapper.selectSinceTime(userId, since);
-
-        // 填入访问量数据
-        Date time = (Date) since.clone();
-        int index = 0;
-        for (int i = 0; i <= day; i++){
-            if (index < visits.size() && DateUtils.isSameDay(time, visits.get(index).getTime())){
-                ret.add(visits.get(index).getNum());
-                index++;
-            }else{
-                ret.add(0);
+        for (int i = 0; i < 7; i++) {
+            endTime = beginTime;
+            if (type == 1) {
+                calendar.add(Calendar.DATE, -1);
+            } else if (type == 2){
+                calendar.add(Calendar.WEEK_OF_MONTH, -1);
+            } else if (type == 3){
+                calendar.add(Calendar.MONTH, -1);
             }
-            time = Date.from(time.toInstant().plus(Duration.ofDays(1)));    // 日期加一天
+            beginTime = sdf.format(calendar.getTime());
+            ret.add(0, mapper.selectByTime(userId, beginTime, endTime));
         }
-
         return ret;
     }
-
-
 
     @Override
     public Mapper<Visits> getMapper() {

@@ -17,7 +17,11 @@ public class Visits extends BaseEntity{
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date time;
 
-    private Integer num;
+    private Integer visitNum;
+
+    private Integer publishNum;
+
+    private Integer commentNum;
 
     private String userId;
 }

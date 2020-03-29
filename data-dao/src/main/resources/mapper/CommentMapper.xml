@@ -14,7 +14,7 @@
         </if>
         <if test="comment != null">
             <if test="comment.articleId != null and comment.articleId != ''">
-                and uc.article_id = ${comment.articleId}
+                and uc.article_id = #{comment.articleId}
             </if>
             <if test="comment.createdTime != null">
                 and uc.created_time &lt;= #{comment.createdTime}
@@ -34,7 +34,7 @@
         </if>
         <if test="comment != null">
             <if test="comment.articleId != null and comment.articleId != ''">
-                and uc.article_id = ${comment.articleId}
+                and uc.article_id = #{comment.articleId}
             </if>
             <if test="comment.createdTime != null">
                 and uc.created_time &lt;= #{comment.createdTime}

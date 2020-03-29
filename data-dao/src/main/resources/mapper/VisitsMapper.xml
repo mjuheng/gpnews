@@ -4,20 +4,16 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpnews.dao.VisitsMapper">
 
-    <select id="selectSinceTime" resultType="com.gpnews.pojo.Visits">
-        select * from v_visits
-        where user_id = ${userId}
-        <if test="sinceTime != null">
-            and <![CDATA[ time >= #{sinceTime,jdbcType=DATE}  ]]>
+    <select id="selectByTime" resultType="com.gpnews.pojo.Visits">
+        select
+          sum(visit_num) as visitNum, sum(publish_num) as publishNum, sum(comment_num) as commentNum
+        from v_visits
+        where user_id = #{userId}
+        <if test="beginTime !=null and beginTime!=''">
+            and time > #{beginTime}
         </if>
-        order by time asc
-    </select>
-
-    <select id="countSinceTime" resultType="java.lang.Integer">
-        select count(1) from v_visits
-        where 1 = 1
-        <if test="sinceTime != null">
-            and <![CDATA[ time >= #{sinceTime,jdbcType=DATE}  ]]>
+        <if test="endTime !=null and endTime!=''">
+            and time &lt;= #{endTime}
         </if>
     </select>
 
