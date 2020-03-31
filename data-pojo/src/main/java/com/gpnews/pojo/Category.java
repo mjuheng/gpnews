@@ -3,6 +3,7 @@ package com.gpnews.pojo;
 import lombok.Data;
 
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -12,7 +13,6 @@ import java.util.Date;
 @Data
 @Table(name = "a_category")
 public class Category extends BaseEntity {
+    @NotNull(message = "分类名不能为空")
     private String name;
-    private Date createdTime;
-    private Date modifiedTime;
 }

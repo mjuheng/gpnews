@@ -8,7 +8,6 @@
         <option value="$PROJECT_DIR$/data-pojo/pom.xml" />
         <option value="$PROJECT_DIR$/data-util/pom.xml" />
         <option value="$PROJECT_DIR$/data-admin/pom.xml" />
-        <option value="$PROJECT_DIR$/data-publish/pom.xml" />
         <option value="$PROJECT_DIR$/data-file/pom.xml" />
         <option value="$PROJECT_DIR$/data-consumer/pom.xml" />
       </list>

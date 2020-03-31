@@ -22,6 +22,8 @@
         <mybatis-spring-boot.version>2.1.1</mybatis-spring-boot.version>
         <mysql-connector.version>5.1.38</mysql-connector.version>
         <druid.version>1.0.28</druid.version>
+        <webmagic-core.version>0.7.3</webmagic-core.version>
+        <webmagic-extension.version>0.7.3</webmagic-extension.version>
     </properties>
 
     <dependencies>
@@ -92,6 +94,23 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>${druid.version}</version>
+        </dependency>
+        <!-- webmagic -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>${webmagic-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>${webmagic-extension.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 外部 -->

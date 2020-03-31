@@ -1,6 +1,7 @@
 package com.gpnews.pojo;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -20,6 +21,7 @@ public class User extends BaseEntity implements Serializable {
     private String username;
     @NotNull(message = "密码不能为空")
     private String password;
+    @Length(max = 11, message = "手机号过长")
     private String phone;
     private String email;
     private String photo;

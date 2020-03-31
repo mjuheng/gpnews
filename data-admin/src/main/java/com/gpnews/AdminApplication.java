@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan(basePackages = {"com.gpnews.dao"})
 @EnableTransactionManagement
 @ServletComponentScan
-//@EnableScheduling
+@EnableScheduling
 public class AdminApplication {
 
     public static void main(String[] args) {

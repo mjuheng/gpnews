@@ -10,7 +10,7 @@
         left join u_user uu on uc.user_id = uu.id
         where 1 = 1
         <if test="isParent != null and isParent == true">
-            and uc.parent_id is null or uc.parent_id = ''
+            and (uc.parent_id = '' or uc.parent_id is null)
         </if>
         <if test="comment != null">
             <if test="comment.articleId != null and comment.articleId != ''">
@@ -30,7 +30,7 @@
         from u_comment uc
         where 1 = 1
         <if test="isParent != null and isParent == true">
-            and uc.parent_id is null
+            and (uc.parent_id = '' or uc.parent_id is null)
         </if>
         <if test="comment != null">
             <if test="comment.articleId != null and comment.articleId != ''">
