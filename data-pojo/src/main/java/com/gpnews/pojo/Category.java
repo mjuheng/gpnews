@@ -15,4 +15,6 @@ import java.util.Date;
 public class Category extends BaseEntity {
     @NotNull(message = "分类名不能为空")
     private String name;
+
+    private Integer num;
 }

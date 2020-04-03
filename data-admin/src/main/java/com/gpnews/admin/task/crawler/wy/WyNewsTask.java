@@ -38,7 +38,6 @@ public class WyNewsTask implements Runnable{
     private WyMonitor monitor;
 
     private String url = "http://news.163.com/special/0001220O/news_json.js";
-//    private String url = "https://www.baidu.com/";
 
     @Override
     public void run() {

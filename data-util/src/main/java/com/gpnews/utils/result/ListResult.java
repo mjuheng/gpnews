@@ -35,7 +35,7 @@ public class ListResult<T> extends CommonResult{
 
         this.data.setCurrentPage(currentPage);
         this.data.setTotalPage(Integer.valueOf(getTotalPage(rows, total)));
-        this.data.setTotalCount(total);
+            this.data.setTotalCount(total);
         this.data.setRows(rows);
     }
     public ListResult(String code, String message, List<T> dataList, Integer currentPage, Integer rows, Integer total,List<T>meta) {

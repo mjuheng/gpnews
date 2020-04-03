@@ -6,6 +6,7 @@ import com.gpnews.pojo.Category;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,17 +26,35 @@ public class CategoryController {
 
     @SystemLog("查询分类")
     @GetMapping("")
-    public CommonResult selectAll(){
-        List<Category> categories = service.getMapper().selectAll();
-        return ResultUtil.successListResult(categories);
+    public CommonResult page(Integer currPage, Integer rows){
+        List<Category> categories = service.page(currPage, rows);
+        int count = service.getMapper().selectCount(null);
+        return ResultUtil.successListResult(categories, currPage, rows, count);
     }
 
-    @PostMapping("/add")
-    public CommonResult add(@RequestBody @Valid Category category){
-        if (service.getMapper().selectOne(category) != null){
+    @RequiresPermissions("categoryManage")
+    @SystemLog("操作分类信息")
+    @PostMapping("/addOrUpdate")
+    public CommonResult update(@RequestBody @Valid Category category){
+        if (service.checkNameExist(category.getId(), category.getName())){
             return ResultUtil.errorSingleResult("分类名已经存在");
         }
-        service.insert(category);
+
+        if (category.getId() == null) {
+            service.insert(category);
+        }else {
+            service.update(category);
+        }
         return ResultUtil.successSingleResult(true);
     }
+
+    @RequestMapping("/del")
+    public CommonResult del(String id){
+        if (id.split(",").length >= service.getMapper().selectCount(null)) {
+            return ResultUtil.errorSingleResult(false, "删除失败，至少保留一项分类");
+        }
+        service.delById(id);
+        return ResultUtil.successSingleResult(true);
+    }
+
 }

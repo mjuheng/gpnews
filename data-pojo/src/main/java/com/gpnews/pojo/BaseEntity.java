@@ -1,6 +1,7 @@
 package com.gpnews.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Id;

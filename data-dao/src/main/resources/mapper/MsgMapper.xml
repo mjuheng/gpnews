@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpnews.dao.MsgMapper">
+
+    <select id="page" resultType="com.gpnews.pojo.vo.MsgVo">
+        select um.*, uu.username optUsername
+        from u_msg um
+        left join u_user uu on um.opt_user_id = uu.id
+        where 1 = 1
+        <if test="msg.type != null">
+            and um.type = #{msg.type}
+        </if>
+        <if test="msg.userId != null">
+            and um.user_id = #{msg.userId}
+        </if>
+        <if test="msg.isRead != null">
+            and um.is_read = #{msg.isRead}
+        </if>
+        order by um.modified_time
+        <if test="start != null and rows != null">
+            limit #{start}, #{rows}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from u_msg
+        where 1 = 1
+        <if test="msg.type != null">
+            and type = #{msg.type}
+        </if>
+        <if test="msg.userId != null">
+            and um.user_id = #{msg.userId}
+        </if>
+        <if test="msg.isRead != null">
+            and is_read = #{msg.isRead}
+        </if>
+    </select>
+</mapper>

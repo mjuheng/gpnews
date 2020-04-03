@@ -1,4 +1,4 @@
-package com.gpnews.admin.task;
+package com.gpnews.admin.task.crawler;
 
 import com.gpnews.admin.task.crawler.wy.WyNewsTask;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ import java.util.Date;
 @Component
 public class CrawlerScheduling implements SchedulingConfigurer {
 
-//    private String wyCrawlerCron = "0 0 0 */1 * ?";
-    private String wyCrawlerCron = "15 57 13 */1 * ?";
+    private String wyCrawlerCron = "0 0 0 */1 * ?";
+//    private String wyCrawlerCron = "0 13 15 */1 * ?";
 
     @Autowired
     private WyNewsTask wyNewsTask;

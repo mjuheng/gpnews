@@ -151,4 +151,16 @@
         where user_id = #{userId}
     </select>
 
+    <select id="eachCount" resultType="java.util.HashMap">
+        SELECT
+            ac.`name`,
+            COUNT(1) as num
+        FROM
+            `a_article` aa
+                left join a_category ac on aa.category_id = ac.id
+        GROUP BY
+            category_id
+        order by num desc
+    </select>
+
 </mapper>

@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface CategoryService extends BaseService<Category> {
     List<Category> page(Integer currPage, Integer rows);
+
+    boolean checkNameExist(String id, String name);
+
+    void syncCategory();
 }

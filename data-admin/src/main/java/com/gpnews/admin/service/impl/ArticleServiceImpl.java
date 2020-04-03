@@ -47,4 +47,15 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     public Map<String, Object> countReadAndComm(String userId) {
         return articleMapper.countReadAndComm(userId);
     }
+
+    @Override
+    public List<Map<String, Object>> eachCount() {
+        List<Map<String, Object>> list = articleMapper.eachCount();
+        int total = count(null, null, null);
+        for (Map<String, Object> map : list) {
+            double percent = Double.parseDouble(map.get("num").toString()) / total * 100;
+            map.put("percent", Integer.parseInt(String.format("%.0f", percent)));
+        }
+        return list;
+    }
 }

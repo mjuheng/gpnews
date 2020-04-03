@@ -41,4 +41,7 @@ public interface ArticleMapper extends Mapper<Article> {
                        @Param("endPubTime") String endPubTime);
 
     Map<String, Object> countReadAndComm(@Param("userId") String userId);
+
+    List<Map<String, Object>> eachCount();
+
 }

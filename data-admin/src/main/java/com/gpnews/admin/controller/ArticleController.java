@@ -118,4 +118,9 @@ public class ArticleController {
     public CommonResult getReadAndComm(@NotNull String userId){
         return ResultUtil.successSingleResult(service.countReadAndComm(userId));
     }
+
+    @RequestMapping("/eachCount")
+    public CommonResult eachCount(){
+        return ResultUtil.successSingleResult(service.eachCount());
+    }
 }
