@@ -27,8 +27,7 @@ public class VisitsController {
     @SystemLog("查询访问量")
     @RequiresAuthentication
     @RequestMapping("")
-    public CommonResult queryVisits(Integer type){
-        String userId = ShiroUtil.getCurrUserId();
+    public CommonResult queryVisits(String userId, Integer type){
         List<Visits> list = service.selectByTime(userId, type);
         return ResultUtil.successSingleResult(list);
     }

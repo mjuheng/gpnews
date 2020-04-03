@@ -9,7 +9,6 @@ import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

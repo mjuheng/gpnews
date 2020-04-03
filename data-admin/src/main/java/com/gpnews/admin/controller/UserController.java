@@ -40,6 +40,11 @@ public class UserController {
         return ResultUtil.successListResult(userList, currPage, rows, total);
     }
 
+    @RequestMapping("/countUser")
+    public CommonResult countUser(User user){
+        return ResultUtil.successSingleResult(service.count(user));
+    }
+
     @SystemLog("删除用户")
     @RequiresPermissions({"userManage"})
     @RequestMapping("/delUser")

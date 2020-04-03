@@ -8,7 +8,10 @@
         select
           sum(visit_num) as visitNum, sum(publish_num) as publishNum, sum(comment_num) as commentNum
         from v_visits
-        where user_id = #{userId}
+        where 1 = 1
+        <if test="userId != null">
+             and user_id = #{userId}
+        </if>
         <if test="beginTime !=null and beginTime!=''">
             and time > #{beginTime}
         </if>
