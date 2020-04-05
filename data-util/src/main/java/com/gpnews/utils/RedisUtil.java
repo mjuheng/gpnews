@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class RedisUtils {
+public class RedisUtil {
 
 
 
@@ -136,6 +136,15 @@ public class RedisUtils {
         HashOperations<String, Object, Object> hash = redisTemplate
                 .opsForHash();
         hash.put(key, hashKey, value);
+    }
+
+    /**
+     * 根据key值 获取Hash表的所有field
+     * @param key
+     * @return
+     */
+    public Set<Object> hmFields(String key){
+        return redisTemplate.opsForHash().keys(key);
     }
 
     /**

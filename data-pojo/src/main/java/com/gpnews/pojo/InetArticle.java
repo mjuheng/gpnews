@@ -1,5 +1,6 @@
 package com.gpnews.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Table;
@@ -14,6 +15,7 @@ import java.util.Date;
 public class InetArticle extends BaseEntity{
     private String username;
     private String title;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date publishTime;
     private String content;
     private Integer type;

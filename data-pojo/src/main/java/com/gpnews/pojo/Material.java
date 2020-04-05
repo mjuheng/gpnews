@@ -16,7 +16,6 @@ public class Material extends BaseEntity {
     private String userId;
     @NotBlank(message = "图片不能为空")
     private String imageUrl;
-    private Date createdTime;
     public Material(String userId){
         this.userId = userId;
     }

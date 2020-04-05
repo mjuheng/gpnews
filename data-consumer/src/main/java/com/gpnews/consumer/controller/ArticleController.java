@@ -38,18 +38,15 @@ public class ArticleController {
         return ResultUtil.successSingleResult(service.getById(id));
     }
 
-
     /**
-     * 增加数据量
+     *
      * @param id
+     * @param type 1. 阅读  2. 回复
      * @return
      */
     @GetMapping("/addNum")
-    public CommonResult addNum(String id){
-        Article article = service.load(id);
-        article.setReadNum(article.getReadNum()+1);
-        service.updateNoNull(article);
-        return ResultUtil.successSingleResult(true);
+    public void addNum(String id, Integer type){
+        service.addNum(id, type);
     }
 
     @RequiresAuthentication
@@ -59,5 +56,11 @@ public class ArticleController {
         List<ArticleVo> articles = service.pageExclContentByFan(article, beginPubTime, endPubTime, userId, currPage, rows);
         Integer count = service.countByFan(article, userId, beginPubTime, endPubTime);
         return ResultUtil.successListResult(articles, currPage, rows, count);
+    }
+
+
+    @GetMapping("/countReadAndComm/{id}")
+    public CommonResult countReadAndComm(@PathVariable("id") String id){
+        return ResultUtil.successSingleResult(service.countReadAndCount(id));
     }
 }

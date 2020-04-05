@@ -66,6 +66,7 @@ export default {
 	data() {
 		return {
 			query: {
+				userId: local.getUser().id,
 				type: 1
 			},
 			data: [],

@@ -1,9 +1,12 @@
 package com.gpnews.admin.task.crawler.wy;
 
 import com.gpnews.admin.annotation.SystemLog;
+import com.gpnews.admin.enums.TaskInfoName;
 import com.gpnews.admin.service.InetArticleService;
+import com.gpnews.admin.service.TaskInfoService;
 import com.gpnews.admin.task.crawler.config.SpiderMonitorCustom;
 import com.gpnews.admin.task.crawler.config.SpiderStatusCustom;
+import com.gpnews.utils.ThreadPoolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/3/28
  */
 @Component
-public class WyNewsTask implements Runnable{
+public class WyNewsTask extends Thread{
 
     @Autowired
     private WyNewsPipeline pipeline;
@@ -36,12 +39,16 @@ public class WyNewsTask implements Runnable{
     private InetArticleService service;
     @Autowired
     private WyMonitor monitor;
+    @Autowired
+    private TaskInfoService taskInfoService;
 
     private String url = "http://news.163.com/special/0001220O/news_json.js";
 
     @Override
     public void run() {
-
+        if (taskInfoService.load(TaskInfoName.wy.getId()).getIsStop()){
+            return;
+        }
         Spider spider = Spider.create(processor)
                 .addUrl(url)
                 .addPipeline(pipeline)
@@ -51,7 +58,7 @@ public class WyNewsTask implements Runnable{
             SpiderMonitorCustom.instance().register(spider);
             monitor.setSpider(spider);
             monitor.setStartPage(service.count(1, null));
-            monitor.start();
+            ThreadPoolUtil.instance().execute(monitor);
         } catch (JMException e) {
             e.printStackTrace();
         }
@@ -62,8 +69,6 @@ public class WyNewsTask implements Runnable{
         }finally {
             monitor.getLock().unlock();
         }
-
-
 
     }
 
