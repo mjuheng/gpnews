@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/component/component",
+    "pages/details/details",
+    "pages/details/inet-details",
+    "pages/fan/index",
+    "pages/login/login",
+    "pages/login/register",
+    "pages/login/forget",
+    "pages/user/index",
+    "pages/user/info",
+    "pages/user/modify",
+    "pages/user/modify_pwd",
+    "pages/favorites/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "新闻",
+    "navigationBarBackgroundColor": "#ec706b",
+    "backgroundColor": "#f8f8f8"
+  },
+  "tabBar": {
+    "color": "#C0C4CC",
+    "selectedColor": "#fa436a",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tab-home.png",
+        "selectedIconPath": "static/tab-home-current.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/fan/index",
+        "iconPath": "static/tab-fan.png",
+        "selectedIconPath": "static/tab-fan-current.png",
+        "text": "关注"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "iconPath": "static/tab-user.png",
+        "selectedIconPath": "static/tab-user-current.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {},
+  "usingComponents": {},
+  "sitemapLocation": "sitemap13.json"
+}

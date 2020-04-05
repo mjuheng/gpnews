@@ -1,0 +1,41 @@
+{
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"minified": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.9.2",
+	"appid": "wx19eb648135629f2d",
+	"projectname": "%E6%96%B0%E9%97%BB%E6%A8%A1%E6%9D%BF%20vue%20%2B%20nvue",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"name": "",
+					"path": "",
+					"query": "",
+					"id": 0
+				}
+			]
+		}
+	}
+}
