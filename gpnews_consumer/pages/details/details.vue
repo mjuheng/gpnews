@@ -194,7 +194,7 @@
 			// 判断是否已关注
 			async getIsFan(){
 				let isLogin = await this.$http({url: '/checkPerm'})
-				if (this.userInfo == '' || !isLogin.data) return;
+				if (!isLogin.data) return;
 				
 				let ret = await this.$http({
 					url: '/fan/isFan',

@@ -5,8 +5,8 @@ import com.gpnews.consumer.service.UserService;
 import com.gpnews.consumer.shiro.realm.UserLoginToken;
 import com.gpnews.consumer.shiro.service.ShiroService;
 import com.gpnews.pojo.User;
-import com.gpnews.utils.JsonUtil;
-import com.gpnews.utils.ShiroUtil;
+import com.gpnews.pojo.dto.UserDto;
+import com.gpnews.utils.*;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import com.gpnews.utils.result.SingleResult;
@@ -25,12 +25,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tk.mybatis.mapper.entity.Example;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.Email;
+import java.util.*;
 
 /**
  * @author HuangChongHeng
@@ -41,6 +42,8 @@ public class LoginController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){
@@ -73,7 +76,11 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public CommonResult register(@RequestBody @Valid User user){
+    public CommonResult register(@RequestBody @Valid UserDto user){
+        if (!user.getVerify().equals(redisUtil.get(user.getEmail()))){
+            return ResultUtil.errorSingleResult("验证码错误");
+        }
+
         String checkRet = service.checkUserInfo(user);
         if (!StringUtils.isBlank(checkRet)){
             return ResultUtil.errorSingleResult(checkRet);
@@ -100,6 +107,47 @@ public class LoginController {
         }
         return ResultUtil.successSingleResult(true);
     }
+
+    @RequestMapping("/sendVerify")
+    public CommonResult sendVerify(String address){
+        try {
+            String verify = getCode(6);
+            redisUtil.set(address, verify, 180L);
+            MailUtil.sendText("新闻发布平台--验证码", "验证码：" + verify + "。请尽快填写，三分钟后失效", address);
+        } catch (MessagingException e) {
+            return ResultUtil.errorSingleResult(false);
+        }
+        return ResultUtil.successSingleResult(true, "验证码发送成功");
+    }
+
+    @RequestMapping("/forget")
+    public CommonResult forget(@RequestBody Map<String, String> map){
+        String address = map.get("address");
+        String verify = map.get("verify");
+        String newPwd = map.get("newPwd");
+
+        if (verify != null && !verify.equals(redisUtil.get(address))){
+            return ResultUtil.errorSingleResult("验证码错误");
+        }
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("email", address);
+        User user = service.getMapper().selectByExample(example).get(0);
+        user.setPassword(newPwd);
+        service.updateNoNull(user);
+        return ResultUtil.successSingleResult(true, "密码修改成功");
+    }
+
+    private String getCode(int n) {
+        String string = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char[] ch = new char[n];
+        for (int i = 0; i < n; i++) {
+            Random random = new Random();
+            int index = random.nextInt(string.length());
+            ch[i] = string.charAt(index);
+        }
+        return String.valueOf(ch);
+    }
+
 
     @RequiresAuthentication
     @RequestMapping("/changePwd")
@@ -129,6 +177,14 @@ public class LoginController {
     @RequiresAuthentication
     @RequestMapping("/checkLogin")
     public CommonResult checkLogin(){
+        return ResultUtil.successSingleResult(true);
+    }
+
+    @RequestMapping("/checkPerm")
+    public CommonResult checkPerm(String perm, HttpServletRequest request){
+        if (!SecurityUtils.getSubject().isAuthenticated()){
+            return ResultUtil.successSingleResult(false);
+        }
         return ResultUtil.successSingleResult(true);
     }
 }

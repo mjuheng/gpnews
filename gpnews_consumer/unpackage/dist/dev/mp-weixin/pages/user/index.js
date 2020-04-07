@@ -168,6 +168,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     cmdAvatar: cmdAvatar,
@@ -204,10 +207,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     toFavorites: function toFavorites() {
       uni.navigateTo({
-        url: '/pages/favorites/index',
-        fail: function fail(err) {
-          console.log(err);
-        } });
+        url: '/pages/favorites/index' });
+
+    },
+    // 跳转至问题反馈界面
+    toSendMessage: function toSendMessage() {
+      uni.navigateTo({
+        url: '/pages/user/send_message' });
 
     },
     // 退出登录

@@ -12,6 +12,7 @@
     "pages/user/info",
     "pages/user/modify",
     "pages/user/modify_pwd",
+    "pages/user/send_message",
     "pages/favorites/index"
   ],
   "subPackages": [],
@@ -48,6 +49,5 @@
     ]
   },
   "permission": {},
-  "usingComponents": {},
-  "sitemapLocation": "sitemap13.json"
+  "usingComponents": {}
 }

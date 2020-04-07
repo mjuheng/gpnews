@@ -357,8 +357,8 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
 
     // 判断是否已关注
     getIsFan: function () {var _getIsFan = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var isLogin, ret;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-                  this.$http({ url: '/checkPerm' }));case 2:isLogin = _context5.sent;if (!(
-                this.userInfo == '' || !isLogin.data)) {_context5.next = 5;break;}return _context5.abrupt("return");case 5:_context5.next = 7;return (
+                  this.$http({ url: '/checkPerm' }));case 2:isLogin = _context5.sent;if (
+                isLogin.data) {_context5.next = 5;break;}return _context5.abrupt("return");case 5:_context5.next = 7;return (
 
                   this.$http({
                     url: '/fan/isFan',

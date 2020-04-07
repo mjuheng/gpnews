@@ -10,6 +10,9 @@
       <cmd-cell-item title="我的收藏" slot-left arrow @click="toFavorites">
         <cmd-icon type="star" size="24" color="#368dff"></cmd-icon>
       </cmd-cell-item>
+	  <cmd-cell-item title="反馈意见" slot-left arrow @click="toSendMessage">
+	    <cmd-icon type="message" size="24" color="#368dff"></cmd-icon>
+	  </cmd-cell-item>
       <cmd-cell-item title="退出登录" slot-left arrow @click="logout">
         <cmd-icon type="alert-circle" size="24" color="#368dff"></cmd-icon>
       </cmd-cell-item>
@@ -58,10 +61,13 @@
       },
 	  toFavorites() {
 		uni.navigateTo({
-			url: '/pages/favorites/index',
-			fail: err => {
-				console.log(err);
-			}
+			url: '/pages/favorites/index'
+		})
+	  },
+	  // 跳转至问题反馈界面
+	  toSendMessage(){
+		uni.navigateTo({
+			url: '/pages/user/send_message'
 		})
 	  },
 	  // 退出登录

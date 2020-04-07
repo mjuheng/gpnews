@@ -74,7 +74,7 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo info = null;
         User userInfo = userServiceImpl.getMapper().selectOne(new User(username));
         if (userInfo != null){
-            if (userInfo.getIsLock()){
+            if (userInfo.getIsLock() != null && userInfo.getIsLock()){
                 throw new LockedAccountException("账户被锁定");
             }
             // 获取用户权限

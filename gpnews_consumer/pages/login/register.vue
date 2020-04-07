@@ -14,14 +14,14 @@
 				<view class="forget-input forget-margin-b">
 					<input type="text" v-model="query.email" placeholder="请输入邮箱" />
 				</view>
-<!-- 				<view class="forget-input forget-margin-b">
+				<view class="forget-input forget-margin-b">
 					<view class="verify-left">
-						<input type="number" placeholder="请输入验证码" />
+						<input type="number" v-model="query.verify" placeholder="请输入验证码" />
 					</view>
 					<view class="verify-right">
-						<button class="verify-btn" type="primary">获取验证码</button>
+						<button class="verify-btn" type="primary" @click="sendVerify">获取验证码</button>
 					</view>
-				</view> -->
+				</view>
 			</view>
 		</view>
 		<view class="forget-btn">
@@ -38,7 +38,8 @@
 					username: null,
 					password: null,
 					phone: null,
-					email: null
+					email: null,
+					verify: null
 				}
 			}
 		},
@@ -46,6 +47,21 @@
 
 		},
 		methods: {
+			// 发送验证码
+			async sendVerify(){
+				if (typeof this.query.email == 'undefined' || this.query.email == ''){
+					uni.showToast({
+						icon: none,
+						title: '请填写注册时的邮箱地址'
+					})
+					return;
+				}
+				let ret = await this.$http({
+					url: '/sendVerify',
+					data: {address: this.query.email}
+				})
+				if (ret.code == 0) uni.showToast({title: ret.message})
+			},
 			// 提交注册信息
 			async commitData(){
 				let ret = await this.$http({

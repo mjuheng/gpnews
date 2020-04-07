@@ -173,7 +173,8 @@ var _default =
         username: null,
         password: null,
         phone: null,
-        email: null } };
+        email: null,
+        verify: null } };
 
 
   },
@@ -181,12 +182,27 @@ var _default =
 
   },
   methods: {
+    // 发送验证码
+    sendVerify: function () {var _sendVerify = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var ret;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!(
+                typeof this.query.email == 'undefined' || this.query.email == '')) {_context.next = 3;break;}
+                uni.showToast({
+                  icon: none,
+                  title: '请填写注册时的邮箱地址' });return _context.abrupt("return");case 3:_context.next = 5;return (
+
+
+
+                  this.$http({
+                    url: '/sendVerify',
+                    data: { address: this.query.email } }));case 5:ret = _context.sent;
+
+                if (ret.code == 0) uni.showToast({ title: ret.message });case 7:case "end":return _context.stop();}}}, _callee, this);}));function sendVerify() {return _sendVerify.apply(this, arguments);}return sendVerify;}(),
+
     // 提交注册信息
-    commitData: function () {var _commitData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var ret;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    commitData: function () {var _commitData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var ret;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   this.$http({
                     url: "/register",
                     method: 'POST',
-                    data: this.query }));case 2:ret = _context.sent;
+                    data: this.query }));case 2:ret = _context2.sent;
 
                 if (ret.code == 0) {
                   uni.showToast({
@@ -200,7 +216,7 @@ var _default =
                     icon: 'none',
                     title: ret.message });
 
-                }case 4:case "end":return _context.stop();}}}, _callee, this);}));function commitData() {return _commitData.apply(this, arguments);}return commitData;}() } };exports.default = _default;
+                }case 4:case "end":return _context2.stop();}}}, _callee2, this);}));function commitData() {return _commitData.apply(this, arguments);}return commitData;}() } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

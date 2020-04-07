@@ -45,11 +45,9 @@ public class CommentController {
         comment.setUserId(currId);
         comment = service.insert(comment);
         CommentVo commentVo = service.getById(comment.getId());
-        Article article = articleService.load(comment.getArticleId());
-        if (article != null) {
-            article.setCommentNum(article.getCommentNum() + 1);
-            articleService.updateNoNull(article);
-        }
+
+        articleService.addNum(comment.getArticleId(), 2);
+
         return ResultUtil.successSingleResult(commentVo);
     }
 
