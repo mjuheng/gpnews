@@ -6,6 +6,8 @@ import com.gpnews.utils.JsonUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -25,7 +27,7 @@ import java.util.regex.Pattern;
  */
 @Component
 public class WyNewsPageProcessor implements PageProcessor {
-
+    private final Logger logger = LoggerFactory.getLogger(WyNewsPageProcessor.class);
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
@@ -67,8 +69,8 @@ public class WyNewsPageProcessor implements PageProcessor {
 
         }else if (page.getUrl().toString().matches("^https://news\\.163\\.com/\\d.*$")){
             Document doc = Jsoup.parse(page.getHtml().getDocument().toString());
-
             page.putField("title", doc.select("div#epContentLeft h1").text());
+
             page.putField("username", doc.select("div#epContentLeft a#ne_article_source").text());
             page.putField("url", page.getUrl().toString());
             // 提取正文
@@ -80,7 +82,11 @@ public class WyNewsPageProcessor implements PageProcessor {
             Matcher timeMatcher = timePattern.matcher(timeText);
             if (timeMatcher.find()){
                 try {
+                    logger.error("========================================");
                     page.putField("publishTime", this.sdf.parse(timeMatcher.group()));
+                    logger.error("title====" + doc.select("div#epContentLeft h1").text() +
+                                 "-----publishTime====" + this.sdf.parse(timeMatcher.group()) +
+                                 "-----inetPublishTime====" + timeText);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

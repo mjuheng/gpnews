@@ -31,7 +31,7 @@
             and type = #{msg.type}
         </if>
         <if test="msg.userId != null">
-            and um.user_id = #{msg.userId}
+            and user_id = #{msg.userId}
         </if>
         <if test="msg.isRead != null">
             and is_read = #{msg.isRead}

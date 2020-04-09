@@ -101,6 +101,17 @@ export default {
 					]
 				},
 				{
+					icon: 'el-icon-message',
+					cname: '消息中心',
+					name: 'msgCenter',
+					children: [
+						{
+							cname: '我的消息',
+							name: 'myMsg',
+						}
+					]
+				},
+				{
 					icon: 'el-icon-setting',
 					cname: '个人设置',
 					name: 'userSetting'

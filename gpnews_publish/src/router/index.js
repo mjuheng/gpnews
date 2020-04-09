@@ -50,6 +50,10 @@ export default new Router({
 					meta: {title: '粉丝列表'}
 				},
 				{
+					path:'myMsg',
+					component: () => import('../components/page/msgcenter/MyMsg.vue')
+				},
+				{
 					path: 'userSetting',
 					component: () => import('../components/page/usersetting/UserSetting.vue'),
 					meta: {title: '个人设置'}

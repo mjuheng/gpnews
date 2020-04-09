@@ -334,15 +334,17 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
                 this.isFan = false;case 2:case "end":return _context2.stop();}}}, _callee2, this);}));function delFan() {return _delFan.apply(this, arguments);}return delFan;}(),
 
     // 判断该文章是否已收藏
-    getIsFavorites: function () {var _getIsFavorites = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var ret;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:if (!(
-                this.userInfo == '')) {_context3.next = 2;break;}return _context3.abrupt("return");case 2:_context3.next = 4;return (
+    getIsFavorites: function () {var _getIsFavorites = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var isLogin, ret;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  this.$http({ url: '/checkPerm' }));case 2:isLogin = _context3.sent;if (
+                isLogin.data) {_context3.next = 5;break;}return _context3.abrupt("return");case 5:_context3.next = 7;return (
+
                   this.$http({
                     url: '/favorites/isFavorites',
                     data: {
-                      articleId: this.data.id } }));case 4:ret = _context3.sent;
+                      articleId: this.data.id } }));case 7:ret = _context3.sent;
 
 
-                this.isFavorites = ret.data;case 6:case "end":return _context3.stop();}}}, _callee3, this);}));function getIsFavorites() {return _getIsFavorites.apply(this, arguments);}return getIsFavorites;}(),
+                this.isFavorites = ret.data;case 9:case "end":return _context3.stop();}}}, _callee3, this);}));function getIsFavorites() {return _getIsFavorites.apply(this, arguments);}return getIsFavorites;}(),
 
     // 提交操作收藏数据
     commitFavorites: function () {var _commitFavorites = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var url, ret;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
@@ -452,7 +454,20 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
       this.commentInputTitle = "回复：" + item.username;
       this.queryComment.content = '';
       this.queryComment.parentId = item.id;
-    } } };exports.default = _default;
+    },
+    // 分享写入消息
+    commitShare: function () {var _commitShare = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9() {var isLogin;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0:_context9.next = 2;return (
+                  this.$http({ url: '/checkPerm' }));case 2:isLogin = _context9.sent;if (
+                isLogin.data) {_context9.next = 5;break;}return _context9.abrupt("return");case 5:
+
+                this.$http({
+                  url: '/msg/add',
+                  method: 'POST',
+                  data: {
+                    title: '有人转发了你的新闻',
+                    content: "用户 " + this.userInfo.username + " 转发了新闻《" + this.data.title + "》",
+                    userId: this.data.userId,
+                    type: 2 } });case 6:case "end":return _context9.stop();}}}, _callee9, this);}));function commitShare() {return _commitShare.apply(this, arguments);}return commitShare;}() } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

@@ -71,4 +71,9 @@ public class RoleController {
         return ResultUtil.successSingleResult(true, "角色删除成功");
     }
 
+    @RequestMapping("/getByUserId")
+    public CommonResult getByUserId(String userId){
+        return ResultUtil.successSingleResult(service.getRoleByUserId(userId));
+    }
+
 }

@@ -14,4 +14,6 @@ public class UserDto extends User {
 
     @NotNull(message = "验证码不能为空")
     private String verify;
+
+    private String roleId;
 }

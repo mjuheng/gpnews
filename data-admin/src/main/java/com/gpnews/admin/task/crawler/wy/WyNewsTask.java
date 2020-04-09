@@ -6,6 +6,7 @@ import com.gpnews.admin.service.InetArticleService;
 import com.gpnews.admin.service.TaskInfoService;
 import com.gpnews.admin.task.crawler.config.SpiderMonitorCustom;
 import com.gpnews.admin.task.crawler.config.SpiderStatusCustom;
+import com.gpnews.pojo.TaskInfo;
 import com.gpnews.utils.ThreadPoolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,9 +47,13 @@ public class WyNewsTask extends Thread{
 
     @Override
     public void run() {
-        if (taskInfoService.load(TaskInfoName.wy.getId()).getIsStop()){
+        TaskInfo taskInfo = taskInfoService.load(TaskInfoName.wy.getId());
+        if (taskInfo.getIsStop()){
             return;
         }
+        taskInfo.setStatus(1);
+        taskInfoService.updateNoNull(taskInfo);
+
         Spider spider = Spider.create(processor)
                 .addUrl(url)
                 .addPipeline(pipeline)
@@ -69,7 +74,8 @@ public class WyNewsTask extends Thread{
         }finally {
             monitor.getLock().unlock();
         }
-
+        taskInfo.setStatus(0);
+        taskInfoService.updateNoNull(taskInfo);
     }
 
 

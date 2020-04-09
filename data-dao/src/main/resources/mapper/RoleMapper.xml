@@ -40,4 +40,21 @@
             </foreach>
         </if>
     </select>
+
+    <insert id="insertRoleUser">
+        insert into u_user_role (id, role_id, user_id)
+        values (#{map.id}, #{map.roleId}, #{map.userId})
+    </insert>
+
+    <delete id="delByUserId">
+        delete from u_user_role
+        where user_id = #{userId}
+    </delete>
+
+    <select id="getRoleByUserId" resultType="java.util.HashMap">
+        select *
+        from u_user_role
+        where user_id = #{userId}
+    </select>
+
 </mapper>

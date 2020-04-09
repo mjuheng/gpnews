@@ -56,17 +56,15 @@
 		
 		<section class="dashboard-article">
 		  <header class="header">
-		    动态
+		    消息
 		    <a href="#" class="">更多</a>
 		  </header>
 		  <ul>
-		    <li v-for="data in dynamicData">
-		      <img class="article-img" :src="data.optUserPhoto">
-		      <dl class="article-content">
-					<dt v-if="data.type == 2">{{ data.optUsername }} 在 <a href="#" class="">{{ data.articleTitle }}</a> 发布了 评论</dt>
-					<dt v-else-if="0">{{ data.optUsername }} 收藏了  <a href="#" class="">{{ data.articleTitle }}</a> </dt>
-					<dt v-else-if="1">{{ data.optUsername }} 转发了  <a href="#" class="">{{ data.articleTitle }}</a> </dt>
-					<dd>三天前</dd>
+		    <li v-for="data in msgData">
+		      <!-- <img class="article-img" :src="data.optUserPhoto"> -->
+		      <dl>
+					<dt>{{ data.content }}</a> </dt>
+					<dd>{{data.createTime}}</dd>
 		      </dl>
 		    </li>
 		  </ul>
@@ -89,9 +87,11 @@ export default {
 				status: 2,
 				userId: null,
 			},
-			dynamicQuery: {
+			msgQuery: {
 				currPage: 1,
-				rows: 3
+				rows: 3,
+				type: 2,
+				userId: '',
 			},
 			userData: {
 				readNum: '',
@@ -99,16 +99,17 @@ export default {
 				fansNum: ''
 			},
 			articleData: [],
-			dynamicData: []
+			msgData: []
 		}
 	},
 	mounted() {
 		this.userData = local.getUser()
 		this.userQuery.userId = this.userData.id
 		this.articleQuery.userId = this.userData.id
+		this.msgQuery.userId = this.userData.id
 		this.getUserData();
 		this.getArticleNew();
-		this.getDynamicData();
+		this.getMsgData();
 	},
 	methods: {
 		async getUserData(){
@@ -128,10 +129,10 @@ export default {
 				this.articleData = ret.data.dataList
 			}
 		},
-		async getDynamicData(){
-			let ret = await local.sendGet(this.ADMIN + '/dynamic', this.dynamicQuery)
+		async getMsgData(){
+			let ret = await local.sendGet(this.ADMIN + '/msg', this.msgQuery)
 			if (ret != null){
-				this.dynamicData = ret.data.dataList
+				this.msgData = ret.data.dataList
 			}
 		}
 	}
@@ -139,6 +140,20 @@ export default {
 </script>
 
 <style lang="less">
+	dt {
+	  color: #333333;
+	  font-size: 14px;
+	  margin: 2px 0;
+	  a {
+	    color: #3296fa;
+	  }
+	}
+	dd {
+	  font-size: 14px;
+	  margin: 5px 0;
+	  color: #999999;
+	}
+	
 	.dashboard-user {
 	  background-color: #fff;
 	  border: 1px solid #e7e7e9;
@@ -211,7 +226,6 @@ export default {
 	    height: 85px;
 	  }
 	  .article-content {
-	    margin-left: 160px;
 	    text-align: left;
 	    dt {
 	      color: #333333;

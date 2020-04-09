@@ -79,7 +79,7 @@
 				<view class="iconfont icon-pinglun" style="margin-left: 75rpx;" @click="handleOpenComment"></view>
 				<view class="iconfont icon-shoucang1" style="margin-left: 220rpx;" @click="commitFavorites" v-if="isFavorites"></view>
 				<view class="iconfont icon-guanzhu" style="margin-left: 220rpx;" @click="commitFavorites" v-else></view>
-				<button class="shareBtn" plain style="border: 0 none; position: relative; left: -10rpx;" open-type="share"><view class="iconfont icon-fenxiang" style="margin-left: 220rpx;"></view></button>
+				<button class="shareBtn" plain style="border: 0 none; position: relative; left: -10rpx;" open-type="share" @click="commitShare"><view class="iconfont icon-fenxiang" style="margin-left: 220rpx;" @click="commitShare"></view></button>
 			</view>
         </view>
 		<uni-load-more :status="status"  :icon-size="16" :content-text="contentText" />
@@ -171,7 +171,9 @@
 			},
 			// 判断该文章是否已收藏
 			async getIsFavorites(){
-				if (this.userInfo == '') return;
+				let isLogin = await this.$http({url: '/checkPerm'})
+				if (!isLogin.data) return;
+				
 				let ret = await this.$http({
 					url: '/favorites/isFavorites',
 					data: {
@@ -288,6 +290,22 @@
 				this.commentInputTitle = "回复：" + item.username;
 				this.queryComment.content = '';
 				this.queryComment.parentId = item.id
+			},
+			// 分享写入消息
+			async commitShare(){
+				let isLogin = await this.$http({url: '/checkPerm'})
+				if (!isLogin.data) return;
+				
+				this.$http({
+					url: '/msg/add',
+					method: 'POST',
+					data: {
+						 title: '有人转发了你的新闻',
+						 content: "用户 " + this.userInfo.username + " 转发了新闻《" + this.data.title + "》",
+						 userId: this.data.userId,
+						 type: 2
+					}
+				})
 			}
         }
     }

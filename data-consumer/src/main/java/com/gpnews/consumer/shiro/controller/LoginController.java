@@ -80,7 +80,7 @@ public class LoginController {
         if (!user.getVerify().equals(redisUtil.get(user.getEmail()))){
             return ResultUtil.errorSingleResult("验证码错误");
         }
-
+        user.setIsLock(false);
         String checkRet = service.checkUserInfo(user);
         if (!StringUtils.isBlank(checkRet)){
             return ResultUtil.errorSingleResult(checkRet);

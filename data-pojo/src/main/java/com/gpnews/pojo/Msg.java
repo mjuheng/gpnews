@@ -29,4 +29,12 @@ public class Msg extends BaseEntity{
         this.isRead = isRead;
     }
 
+    public Msg(@NotNull(message = "标题不能为空") String title, String userId, String optUserId, @NotNull(message = "内容不能为空") String content, Integer type, Boolean isRead) {
+        this.title = title;
+        this.userId = userId;
+        this.optUserId = optUserId;
+        this.content = content;
+        this.type = type;
+        this.isRead = isRead;
+    }
 }

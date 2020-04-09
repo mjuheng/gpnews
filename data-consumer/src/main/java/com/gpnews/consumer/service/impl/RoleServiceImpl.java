@@ -27,17 +27,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 
     @Override
     public Set<Role> queryByUserId(String id) {
-        // 获取数据库的全部权限
+        // 获取数据库的全部角色
         List<Role> allRoles = roleMapper.selectAll();
         Map<String, List<Role>> roleParentMap = listToMap(allRoles);      // key值为parentId
 
+
         Set<Role> roles = new HashSet<>();  // 用户拥有的角色
-        String roleId = userServiceImpl.load(id).getRoleId();
-        List<Role> roleList = new ArrayList<>();
-        if (roleId != null){
-            String[] roleIds = roleId.split(";");
-            roleList = roleMapper.selectByIds(roleIds);
-        }
+        List<Role> roleList = roleMapper.queryByUserId(id);
         roles.addAll(roleList);
         for (Role r : roleList) {
             List<Role> children = new ArrayList<>();

@@ -78,17 +78,17 @@ public class UserRealm extends AuthorizingRealm {
                 throw new LockedAccountException("账户被锁定");
             }
             // 获取用户权限
-            Set<String> roles = new HashSet<>();
-            Set<String> permissions = new HashSet<>();
-            Set<Role> userRoles = roleServiceImpl.queryByUserId(userInfo.getId());
-            for (Role role : userRoles) {
-                roles.add(role.getName());
-                //根据用户id从数据库中查询用户权限
-                Set<Permission> userPermissions = permissionServiceImpl.queryByRoleId(role.getId());
-                for (Permission permission: userPermissions){
-                    permissions.add(permission.getName());
-                }
-            }
+//            Set<String> roles = new HashSet<>();
+//            Set<String> permissions = new HashSet<>();
+//            Set<Role> userRoles = roleServiceImpl.queryByUserId(userInfo.getId());
+//            for (Role role : userRoles) {
+//                roles.add(role.getName());
+//                //根据用户id从数据库中查询用户权限
+//                Set<Permission> userPermissions = permissionServiceImpl.queryByRoleId(role.getId());
+//                for (Permission permission: userPermissions){
+//                    permissions.add(permission.getName());
+//                }
+//            }
 
             return new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), getName());
         }

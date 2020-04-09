@@ -17,5 +17,5 @@ public interface PermissionService {
     
     List<PermissionVo> queryTree();
 
-    List<PermissionVo> getTreeByUser(String id);
+//    List<PermissionVo> getTreeByUser(String id);
 }

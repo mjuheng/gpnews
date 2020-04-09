@@ -2,8 +2,10 @@ package com.gpnews.consumer.controller;
 
 import com.gpnews.consumer.service.ArticleService;
 import com.gpnews.consumer.service.CommentService;
+import com.gpnews.consumer.service.MsgService;
 import com.gpnews.pojo.Article;
 import com.gpnews.pojo.Comment;
+import com.gpnews.pojo.Msg;
 import com.gpnews.pojo.vo.CommentVo;
 import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
@@ -28,6 +30,8 @@ public class CommentController {
     private CommentService service;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private MsgService msgService;
 
     @GetMapping("")
     public CommonResult page(CommentVo comment, String endCreatedTime, Integer currPage, Integer rows) throws ParseException {
@@ -47,6 +51,13 @@ public class CommentController {
         CommentVo commentVo = service.getById(comment.getId());
 
         articleService.addNum(comment.getArticleId(), 2);
+
+        // 插入信息
+        Article article = articleService.load(commentVo.getArticleId());
+        Msg msg = new Msg("有人评论了你的新闻",
+                            article.getUserId(),
+                            currId, "用户" + commentVo.getUsername() + "评论了你的新闻《" + article.getTitle() + "》", 2, false);
+        msgService.insert(msg);
 
         return ResultUtil.successSingleResult(commentVo);
     }

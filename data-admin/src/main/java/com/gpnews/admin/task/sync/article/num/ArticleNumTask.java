@@ -4,6 +4,7 @@ import com.gpnews.admin.enums.TaskInfoName;
 import com.gpnews.admin.service.TaskInfoService;
 import com.gpnews.dao.ArticleMapper;
 import com.gpnews.pojo.Article;
+import com.gpnews.pojo.TaskInfo;
 import com.gpnews.utils.JsonUtil;
 import com.gpnews.utils.RedisUtil;
 import com.gpnews.utils.ThreadPoolUtil;
@@ -37,9 +38,13 @@ public class ArticleNumTask extends Thread {
 
     @Override
     public void run() {
-        if (taskInfoService.load(TaskInfoName.syncArticle.getId()).getIsStop()){
+        TaskInfo taskInfo = taskInfoService.load(TaskInfoName.syncArticle.getId());
+        if (taskInfo.getIsStop()){
             return;
         }
+        taskInfo.setStatus(1);
+        taskInfoService.updateNoNull(taskInfo);
+
         ThreadPoolUtil.instance().execute(monitor);
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
         ArticleMapper mapper = sqlSession.getMapper(ArticleMapper.class);
@@ -71,5 +76,7 @@ public class ArticleNumTask extends Thread {
         }finally {
             monitor.getLock().unlock();
         }
+        taskInfo.setStatus(0);
+        taskInfoService.updateNoNull(taskInfo);
     }
 }

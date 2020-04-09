@@ -92,6 +92,23 @@
 				<el-form-item label="密码" prop="password" v-if="typeof form.id == 'undefined'">
 					<el-input type="password" v-model="form.password"></el-input>
 				</el-form-item>
+				<el-form-item label="角色">
+				  <el-select :value="roleChecked" width="100%">
+					<el-option :value="roleChecked" :label="roleChecked" class="selectHeight">
+						<el-tree
+						  ref="roleData"
+						  node-key="id"
+						  :data="roleData"
+						  :props="roleTreeProps"
+						  show-checkbox
+						  @check-change="handleTreeCheckChange"
+						  :default-checked-keys="defRoleCheckedKeys"
+						  default-expand-all
+						  :check-strictly = "true"
+						></el-tree>
+					</el-option>
+				  </el-select>
+				</el-form-item>
                 <el-form-item label="邮箱">
                     <el-input v-model="form.email"></el-input>
                 </el-form-item>
@@ -106,7 +123,6 @@
                         :on-success="handleSuccess"
                         :show-file-list="false"
                         :action='this.FILE + "/image/upload"'
-                        class="avatar-uploader"
                         name="image"
                     >
                     <img :src="form.photo" class="avatar" v-if="form.photo" width="100%" height="100%"/>
@@ -139,18 +155,55 @@ export default {
             delList: [],
             editVisible: false,
             total: 0,
-            form: {},
-            idx: -1,
+            form: {
+				roleId: ''
+			},
             id: -1,
             formRules: {
                 username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
-            }
+            },
+			
+			roleChecked: '',
+			roleData: [],
+			roleTreeProps: {
+				label: 'name'
+			},
+			defRoleCheckedKeys: [],
         };
     },
+	watch: {
+		editVisible(value, old){
+			if (value == false){
+				this.clearForm();
+			}
+		}
+	},
     created() {
         this.getUser();
+		this.getRoleData()
     },
     methods: {
+		// 获取角色数据
+		async getRoleData(){
+			let ret = await local.sendGet(this.ADMIN + '/role/getTree')
+			this.roleData = ret.data
+		},
+		clearForm(){
+			this.form = {
+				roleId: ''
+			}
+			this.$refs.roleData.setCheckedNodes([])
+			this.roleChecked = ''
+		},
+		handleTreeCheckChange(data, checked, indeterminate){
+			if (checked == true){
+				this.roleChecked += data.name + ";"
+				this.form.roleId += data.id + ";"
+			}else{
+				this.roleChecked = this.roleChecked.replace(data.name + ";", "")
+				this.form.roleId = this.form.roleId.replace(data.id + ";", "")
+			}
+		},
 		// 打开新增模态框
 		openAddDialog(){
 			this.editVisible = true
@@ -220,11 +273,18 @@ export default {
             if (ret != null) this.getUser()
         },
         // 编辑操作
-        handleEdit(index, row) {
-            this.idx = index;
-            this.form = row;
+        async handleEdit(index, row) {
+			this.form = row
+			this.form.roleId = ''
 			this.dialogTitle = '编辑'
             this.editVisible = true;
+			// 设置角色树的勾选状态
+			let ret = await local.sendGet(this.ADMIN + '/role/getByUserId', {userId: row.id})
+			let array = []
+			for (let i = 0; i < ret.data.length; i++){
+				array.push(ret.data[i].role_id)
+			}
+			this.defRoleCheckedKeys = array
         },
         // 保存编辑
         async saveEdit() {
@@ -248,6 +308,9 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.selectHeight{
+	height: 100%;
+}
 .handle-box {
     margin-bottom: 20px;
 }

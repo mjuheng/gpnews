@@ -25,14 +25,14 @@
 				</el-form-item>
 		     </el-form>
 			</el-tab-pane>
-			<el-tab-pane label="个人头像" name="headImage">
+			<el-tab-pane label="个人头ddd像" name="headImage">
 				<el-upload
 				:http-request="updatePhoto"
 				:show-file-list="false"
 				action
 				class="avatar-uploader"
 				>
-					<img :src="data.photo" class="avatar" v-if="data.photo" />
+					<img :src="data.photo" class="avatar" v-if="data.photo" style="width: 100%;" />
 					<i class="el-icon-plus avatar-uploader-icon" v-else></i>
 				</el-upload>
 				<el-button @click="saveInfo" type="primary">保存设置</el-button>

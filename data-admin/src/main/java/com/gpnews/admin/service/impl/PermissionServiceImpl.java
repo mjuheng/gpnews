@@ -122,10 +122,14 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     @Override
     public List<PermissionVo> getTreeByUser(String id) {
         Set<Permission> currUserPerm = new HashSet<>();
-        User user = userServiceImpl.load(id);
-        String[] roleIds = user.getRoleId().split(";");
-        for (String roleId: roleIds){
-            currUserPerm.addAll(this.queryByRoleId(roleId));
+//        User user = userServiceImpl.load(id);
+//        String[] roleIds = user.getRoleId().split(";");
+        Set<Role> roles = roleServiceImpl.queryByUserId(id);
+//        for (String roleId: roleIds){
+//            currUserPerm.addAll(this.queryByRoleId(roleId));
+//        }
+        for (Role role: roles){
+            currUserPerm.addAll(this.queryByRoleId(role.getId()));
         }
 
         List<PermissionVo> ret  = new ArrayList<>();

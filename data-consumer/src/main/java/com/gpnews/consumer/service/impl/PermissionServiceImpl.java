@@ -117,7 +117,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         }
     }
 
-    @Override
+  /*  @Override
     public List<PermissionVo> getTreeByUser(String id) {
         Set<Permission> currUserPerm = new HashSet<>();
         User user = userServiceImpl.load(id);
@@ -144,5 +144,5 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
             ret.add(permVo);
         }
         return ret;
-    }
+    }*/
 }

@@ -67,6 +67,7 @@
                 <el-form-item label="角色名" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
+
 				<el-form-item label="父角色">
 				  <el-select :value="roleParentChecked">
 					<el-option :value="roleParentChecked" :label="roleParentChecked" class="selectHeight">

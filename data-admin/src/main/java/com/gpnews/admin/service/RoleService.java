@@ -2,8 +2,10 @@ package com.gpnews.admin.service;
 
 import com.gpnews.pojo.Role;
 import com.gpnews.pojo.vo.RoleVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,4 +22,10 @@ public interface RoleService extends BaseService<Role> {
     List<RoleVo> queryTree();
 
     List<Role> selectByIds(String[] id);
+
+    void insertRoleUser(Map<String, Object> map);
+
+    void delByUserId(String userId);
+
+    List<Map<String, Object>> getRoleByUserId(String userId);
 }

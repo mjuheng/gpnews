@@ -4,7 +4,9 @@ import com.gpnews.pojo.Role;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HuangChongHeng
@@ -20,4 +22,10 @@ public interface RoleMapper extends Mapper<Role> {
     Integer count(@Param("role") Role role);
 
     List<Role> selectByIds(@Param("ids") String[] ids);
+
+    void insertRoleUser(@Param("map") Map<String, Object> map);
+
+    void delByUserId(@Param("userId") String userId);
+
+    List<Map<String, Object>> getRoleByUserId(@Param("userId") String userId);
 }

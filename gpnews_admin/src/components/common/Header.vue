@@ -44,7 +44,7 @@
 									action
 									class="avatar-uploader"
 									>
-										<img :src="userInfo.photo" class="avatar" v-if="userInfo.photo" />
+										<img :src="userInfo.photo" class="avatar" v-if="userInfo.photo" style="width: 100%; height: 100%;"/>
 										<i class="el-icon-plus avatar-uploader-icon" v-else></i>
 									</el-upload>
 								</el-form-item>

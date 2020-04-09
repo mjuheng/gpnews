@@ -14,6 +14,8 @@ import tk.mybatis.mapper.common.Mapper;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author HuangChongHeng
@@ -29,17 +31,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 
     @Override
     public Set<Role> queryByUserId(String id) {
-        // 获取数据库的全部权限
+        // 获取数据库的全部角色
         List<Role> allRoles = roleMapper.selectAll();
         Map<String, List<Role>> roleParentMap = listToMap(allRoles);      // key值为parentId
 
+
         Set<Role> roles = new HashSet<>();  // 用户拥有的角色
-        String roleId = userServiceImpl.load(id).getRoleId();
-        List<Role> roleList = new ArrayList<>();
-        if (roleId != null){
-            String[] roleIds = roleId.split(";");
-            roleList = roleMapper.selectByIds(roleIds);
-        }
+        List<Role> roleList = roleMapper.queryByUserId(id);
         roles.addAll(roleList);
         for (Role r : roleList) {
             List<Role> children = new ArrayList<>();
@@ -47,7 +45,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
             roles.addAll(children);
         }
         return roles;
+
+
     }
+
+
 
     /**
      * 获取所有子角色
@@ -124,6 +126,21 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Override
     public List<Role> selectByIds(String[] id) {
         return roleMapper.selectByIds(id);
+    }
+
+    @Override
+    public void insertRoleUser(Map<String, Object> map) {
+        roleMapper.insertRoleUser(map);
+    }
+
+    @Override
+    public void delByUserId(String userId) {
+        roleMapper.delByUserId(userId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRoleByUserId(String userId) {
+        return roleMapper.getRoleByUserId(userId);
     }
 
     @Override
