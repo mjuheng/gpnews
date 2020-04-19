@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
 	"appid": "wx19eb648135629f2d",
-	"projectname": "%E6%96%B0%E9%97%BB%E6%A8%A1%E6%9D%BF%20vue%20%2B%20nvue",
+	"projectname": "新闻模板 vue + nvue",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {

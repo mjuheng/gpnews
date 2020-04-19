@@ -3,7 +3,7 @@
 		<div class="crumbs">
 		    <el-breadcrumb separator="/">
 		        <el-breadcrumb-item>
-		            <i class="el-icon-lx-cascades"></i> 粉丝列表
+		            <i class="el-icon-lx-cascades"></i> 粉丝概述
 		        </el-breadcrumb-item>
 		    </el-breadcrumb>
 		</div>

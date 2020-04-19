@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/data-admin/data-admin.iml" filepath="$PROJECT_DIR$/data-admin/data-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/data-consumer/data-consumer.iml" filepath="$PROJECT_DIR$/data-consumer/data-consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/data-file/data-file.iml" filepath="$PROJECT_DIR$/data-file/data-file.iml" />
-      <module fileurl="file://$PROJECT_DIR$/data-portal/data-portal.iml" filepath="$PROJECT_DIR$/data-portal/data-portal.iml" />
       <module fileurl="file://$PROJECT_DIR$/data-pojo/pojo.iml" filepath="$PROJECT_DIR$/data-pojo/pojo.iml" />
       <module fileurl="file://$PROJECT_DIR$/data-util/util.iml" filepath="$PROJECT_DIR$/data-util/util.iml" />
     </modules>

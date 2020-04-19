@@ -35,7 +35,7 @@ public class WyNewsPipeline implements Pipeline {
             article.setPublishTime(resultItems.get("publishTime"));
             article.setType(1);
             service.insert(article);
-            logger.error("mybatis publishTime====" + resultItems.get("publishTime"));
+            logger.error("mybatis publishTime====" + resultItems.get("publishTime") + "----title=========" + resultItems.get("title"));
         }
     }
 }

@@ -4,10 +4,11 @@
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:160px;">
                     <div class="user-info">
-                        <img :src="userInfo.headImage" class="user-avator" onerror="../../../assets/img/default.png" />
+						
+                        <img :src="userInfo.photo" class="user-avator" onerror="../../../assets/img/default.png" />
                         <div class="user-info-cont">
                             <div class="user-info-name">{{userInfo.username}}</div>
-                            <div>{{userInfo.intro}}</div>
+                            <div>{{ userInfo.intro }}</div>
                         </div>
                     </div>
                 </el-card>
@@ -47,7 +48,7 @@
                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-3">
-                                <i class="el-icon-lx-goods grid-con-icon"></i>
+                                <i class="el-icon-chat-round grid-con-icon"></i>
                                 <div class="grid-cont-right">
                                     <div class="grid-num">{{ summaryData.commNum }}</div>
                                     <div>评论数</div>

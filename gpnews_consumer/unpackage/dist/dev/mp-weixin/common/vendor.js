@@ -1665,7 +1665,7 @@ function normalizeComponent (
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.$request = void 0; // const BASE_URL = 'http://192.168.1.100:9001'
 // const BASE_URL = 'http://192.168.43.38:9001'
-var BASE_URL = 'http://localhost:9001';
+var BASE_URL = 'http://192.168.1.102:9001';
 var $request = function $request(options) {
   return new Promise(function (resolve, reject) {
     if (options.method == 'POST') {
@@ -7745,7 +7745,19 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 213:
+/***/ 22:
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 23);
+
+
+/***/ }),
+
+/***/ 221:
 /*!*********************************************************************!*\
   !*** F:/Intel/gpnews/gpnews_consumer/components/uni-icons/icons.js ***!
   \*********************************************************************/
@@ -7884,18 +7896,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   "cloud-download-filled": "\uE8E9",
   "headphones": "\uE8BF",
   "shop": "\uE609" };exports.default = _default;
-
-/***/ }),
-
-/***/ 22:
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ 23);
-
 
 /***/ }),
 
@@ -9802,7 +9802,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页", "enablePullDownRefresh": true, "usingComponents": { "uni-load-more": "/components/uni-load-more/uni-load-more" }, "usingAutoImportComponents": {} }, "pages/component/component": { "navigationBarTitleText": "组件使用示例", "usingComponents": { "mix-pulldown-refresh": "/components/mix-pulldown-refresh/mix-pulldown-refresh", "mix-load-more": "/components/mix-load-more/mix-load-more" }, "usingAutoImportComponents": {} }, "pages/details/details": { "navigationBarTitleText": "详情", "usingComponents": { "uni-load-more": "/components/uni-load-more/uni-load-more" }, "usingAutoImportComponents": {} }, "pages/details/inet-details": { "navigationBarTitleText": "详情", "usingComponents": { "uni-load-more": "/components/uni-load-more/uni-load-more" }, "usingAutoImportComponents": {} }, "pages/fan/index": { "navigationBarTitleText": "关注", "enablePullDownRefresh": true, "usingComponents": { "uni-load-more": "/components/uni-load-more/uni-load-more" }, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/register": { "navigationBarTitleText": "注册", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/forget": { "navigationBarTitleText": "找回密码", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/index": { "navigationBarTitleText": "个人中心", "usingComponents": { "cmd-avatar": "/components/cmd-avatar/cmd-avatar", "cmd-cell-item": "/components/cmd-cell-item/cmd-cell-item", "cmd-icon": "/components/cmd-icon/cmd-icon" }, "usingAutoImportComponents": {} }, "pages/user/info": { "navigationBarTitleText": "个人中心", "usingComponents": { "cmd-nav-bar": "/components/cmd-nav-bar/cmd-nav-bar", "cmd-page-body": "/components/cmd-page-body/cmd-page-body", "cmd-transition": "/components/cmd-transition/cmd-transition", "cmd-cel-item": "/components/cmd-cell-item/cmd-cell-item", "cmd-avatar": "/components/cmd-avatar/cmd-avatar", "image-cutter": "/components/image-cutter/image-cutter" }, "usingAutoImportComponents": {} }, "pages/user/modify": { "navigationBarTitleText": "修改资料", "usingComponents": { "cmd-nav-bar": "/components/cmd-nav-bar/cmd-nav-bar", "cmd-page-body": "/components/cmd-page-body/cmd-page-body", "cmd-transition": "/components/cmd-transition/cmd-transition", "cmd-input": "/components/cmd-input/cmd-input" }, "usingAutoImportComponents": {} }, "pages/user/modify_pwd": { "navigationBarTitleText": "修改密码", "usingComponents": { "cmd-nav-bar": "/components/cmd-nav-bar/cmd-nav-bar", "cmd-page-body": "/components/cmd-page-body/cmd-page-body", "cmd-transition": "/components/cmd-transition/cmd-transition", "cmd-input": "/components/cmd-input/cmd-input" }, "usingAutoImportComponents": {} }, "pages/favorites/index": { "navigationBarTitleText": "我的收藏", "enablePullDownRefresh": true, "usingComponents": { "uni-search-bar": "/components/uni-search-bar/uni-search-bar", "uni-load-more": "/components/uni-load-more/uni-load-more" }, "usingAutoImportComponents": {} }, "pages/user/send_message": { "navigationBarTitleText": "问题反馈", "enablePullDownRefresh": true } }, "globalStyle": { "navigationBarTextStyle": "white", "navigationBarTitleText": "新闻", "navigationBarBackgroundColor": "#ec706b", "backgroundColor": "#f8f8f8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页", "enablePullDownRefresh": true }, "pages/component/component": { "navigationBarTitleText": "组件使用示例" }, "pages/details/details": { "navigationBarTitleText": "详情" }, "pages/details/inet-details": { "navigationBarTitleText": "详情" }, "pages/fan/index": { "navigationBarTitleText": "关注", "enablePullDownRefresh": true }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/register": { "navigationBarTitleText": "注册", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/forget": { "navigationBarTitleText": "找回密码", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/index": { "navigationBarTitleText": "个人中心" }, "pages/user/info": { "navigationBarTitleText": "个人中心" }, "pages/user/modify": { "navigationBarTitleText": "修改资料" }, "pages/user/modify_pwd": { "navigationBarTitleText": "修改密码" }, "pages/user/send_message": { "navigationBarTitleText": "问题反馈", "enablePullDownRefresh": true, "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/favorites/index": { "navigationBarTitleText": "我的收藏", "enablePullDownRefresh": true } }, "globalStyle": { "navigationBarTextStyle": "white", "navigationBarTitleText": "新闻", "navigationBarBackgroundColor": "#ec706b", "backgroundColor": "#f8f8f8" } };exports.default = _default;
 
 /***/ }),
 
