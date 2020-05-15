@@ -41,7 +41,7 @@ const Utils = {
             }
             // return '收到'+timep;
 
-            var timetype = timetype || "yyyy-M-d hh:mm:ss";
+            var timetype = timetype || "yyyy-MM-dd hh:mm:ss";
             Date.prototype.format = function(fmt) { //author: meizz
                 var o = {
                     "M+": this.getMonth() + 1, //月份
@@ -60,7 +60,8 @@ const Utils = {
                             ("" + o[k]).length)));
                 return fmt;
             }
-            var time = new Date(parseInt(timep) * 1000).format(timetype);
+			// 不知道为什么这里的timep * 1000,删掉后显示正常
+            var time = new Date(parseInt(timep)).format(timetype);
             return time;
         }
         // 		,
@@ -137,11 +138,11 @@ var dateUtils = {
             return dateUtils.humanize(diff);
 
         } else if ((new Date(date).getDate()) != (new Date().getDate())) {
-            timetype = "M-d hh:mm";
+            timetype = "MM-dd hh:mm";
         } else if ((new Date(date).getMonth()) != (new Date().getMonth())) {
-            timetype = "M-d hh:mm";
+            timetype = "MM-dd hh:mm";
         } else if ((new Date(date).getFullYear()) != (new Date().getFullYear())) {
-            timetype = "yy-M-d hh:mm";
+            timetype = "yy-MM-dd hh:mm";
         }
 
         return Utils.formatDate(date, timetype);

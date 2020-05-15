@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author HuangChongHeng
@@ -26,7 +27,15 @@ public class ShiroServiceImpl implements ShiroService {
         int start = PageUtil.getStart(currPage, rows);
         List<Session> retList = new ArrayList<>();
         List<Session> onlineUser = new ArrayList<>(sessionDAO.getActiveSessions());
-        Map<String, List<Session>> map = listToMap(onlineUser);
+
+        // 根据用户名，存放进map中
+        Map<String, ArrayList<Session>> map = onlineUser.stream().collect(Collectors.toMap(x -> (String)x.getAttribute("username"), x -> new ArrayList<Session>() {{
+            add(x);
+        }}, (k1, k2) -> {
+            k1.addAll(k2);
+            return k1;
+        }));
+
         // 条件过滤
         if (StringUtils.isBlank(username)){
             retList.addAll(onlineUser);
@@ -51,20 +60,5 @@ public class ShiroServiceImpl implements ShiroService {
         }
         ret.put("list", retList);
         return ret;
-    }
-
-    private Map<String, List<Session>> listToMap(List<Session> sessionList) {
-        Map<String, List<Session>> map = new HashMap<>();
-        for (Session session : sessionList) {
-            List<Session> sessions = map.get((String) session.getAttribute("username"));
-            if (sessions != null && sessions.size() > 0) {
-                sessions.add(session);
-            } else {
-                List<Session> list = new ArrayList<>();
-                list.add(session);
-                map.put((String) session.getAttribute("username"), list);
-            }
-        }
-        return map;
     }
 }

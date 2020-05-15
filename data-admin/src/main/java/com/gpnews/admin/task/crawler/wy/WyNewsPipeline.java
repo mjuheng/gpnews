@@ -26,7 +26,8 @@ public class WyNewsPipeline implements Pipeline {
 
     @Override
     public void process(ResultItems resultItems, Task task) {
-        if (resultItems.get("title") != null) {
+        String content = (String)resultItems.get("content");
+        if (resultItems.get("title") != null && !content.contains("video")) {
             InetArticle article = new InetArticle();
             article.setContent(resultItems.get("content"));
             article.setUsername(resultItems.get("username"));
@@ -35,7 +36,6 @@ public class WyNewsPipeline implements Pipeline {
             article.setPublishTime(resultItems.get("publishTime"));
             article.setType(1);
             service.insert(article);
-            logger.error("mybatis publishTime====" + resultItems.get("publishTime") + "----title=========" + resultItems.get("title"));
         }
     }
 }

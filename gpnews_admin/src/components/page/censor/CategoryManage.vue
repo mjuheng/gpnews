@@ -25,7 +25,9 @@
 				class="table"
 				ref="dataTable"
 				header-cell-class-name="table-header"
+				@selection-change="handleSelectionChange"
 			>
+				<el-table-column type="selection" width="55" align="center"></el-table-column>
 				<el-table-column prop="name" label="名称"></el-table-column>
 				<el-table-column prop="createdTime" label="创建时间"></el-table-column>
 				<el-table-column prop="modifiedTime" label="最后修改时间"></el-table-column>
@@ -126,7 +128,7 @@ export default {
 		},
 		// 多选操作
 		handleSelectionChange(val) {
-		    this.multipleSelectionUser = val;
+		    this.multipleSelection = val;
 		},
 		delAllSelection() {
 		    let ids = '';

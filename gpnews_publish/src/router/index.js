@@ -51,7 +51,8 @@ export default new Router({
 				},
 				{
 					path:'myMsg',
-					component: () => import('../components/page/msgcenter/MyMsg.vue')
+					component: () => import('../components/page/msgcenter/MyMsg.vue'),
+					meta: {title: '我的消息'}
 				},
 				{
 					path: 'userSetting',

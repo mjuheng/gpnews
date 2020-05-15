@@ -393,6 +393,13 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
 
     // 回复文章处理
     handleOpenComment: function handleOpenComment() {
+      if (this.data.isComment == 0) {
+        uni.showToast({
+          icon: 'none',
+          title: '该篇新闻评论功能已关闭' });
+
+        return;
+      }
       this.changeBtnType(1);
       this.commentInputTitle = '写下你的评论...';
       this.queryComment.parentId = '';
@@ -419,8 +426,9 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
                 _context7.next = 6;return this.$http({ url: '/article/countReadAndComm/' + this.data.id.toString() });case 6:ret = _context7.sent;
                 this.data.readNum = ret.data.readNum;
                 this.data.commentNum = ret.data.commentNum;
-
-                this.getIsFan();case 10:case "end":return _context7.stop();}}}, _callee7, this);}));function getDetail() {return _getDetail.apply(this, arguments);}return getDetail;}(),
+                // 替换图片样式
+                this.data.content = this.data.content.replace(/<img/g, '<img width="100%"');
+                this.getIsFan();case 11:case "end":return _context7.stop();}}}, _callee7, this);}));function getDetail() {return _getDetail.apply(this, arguments);}return getDetail;}(),
 
     // 获取评论数据
     getComment: function () {var _getComment = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {var _this = this;var ret;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:if (!(
@@ -450,6 +458,13 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
     },
     // 楼中楼回复处理
     showCommInput: function showCommInput(item) {
+      if (this.data.isComment == 0) {
+        uni.showToast({
+          icon: 'none',
+          title: '该篇新闻评论功能已关闭' });
+
+        return;
+      }
       this.changeBtnType(1);
       this.commentInputTitle = "回复：" + item.username;
       this.queryComment.content = '';

@@ -5,6 +5,7 @@ import com.gpnews.dao.ArticleMapper;
 import com.gpnews.pojo.Article;
 import com.gpnews.pojo.vo.ArticleVo;
 import com.gpnews.utils.PageUtil;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
 

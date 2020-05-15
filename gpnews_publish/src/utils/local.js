@@ -16,8 +16,6 @@ const local = {
   delUser () {
     localStorage.removeItem(KEY)
     localStorage.removeItem('sessionId')
-    // clear() 清除所有的数据  不建议使用
-    // setItem(KEY,'') 删除除
   },
   async sendPost(url, data){
     let ret = await axios({

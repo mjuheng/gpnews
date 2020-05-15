@@ -59,7 +59,7 @@
             <!-- 评论区 end -->
 			
 			<!-- 显示评论框 -->
-			<view class="bottom" v-if="showBtnType == 1">
+			<view class="bottom" v-if="showBtnType == 1" >
 				<view class="input-box">
 					<text class="yticon icon-huifu"></text>
 					<input 
@@ -229,6 +229,13 @@
 			},
 			// 回复文章处理
 			handleOpenComment(){
+				if (this.data.isComment == 0){
+					uni.showToast({
+						icon: 'none',
+						title: '该篇新闻评论功能已关闭'
+					})
+					return
+				}
 				this.changeBtnType(1)
 				this.commentInputTitle = '写下你的评论...';
 				this.queryComment.parentId = '';
@@ -255,7 +262,8 @@
 				ret = await this.$http({url: '/article/countReadAndComm/' + this.data.id.toString()})
 				this.data.readNum = ret.data.readNum
 				this.data.commentNum = ret.data.commentNum
-				
+				// 替换图片样式
+				this.data.content = this.data.content.replace(/<img/g, '<img width="100%"')
 				this.getIsFan()
 			},
 			// 获取评论数据
@@ -281,11 +289,18 @@
                 if (this.index != idx) {
                     this.index = idx
                 }else{
-                    this.index=null
+                    this.index = null
                 }
             },
 			// 楼中楼回复处理
 			showCommInput(item){
+				if (this.data.isComment == 0){
+					uni.showToast({
+						icon: 'none',
+						title: '该篇新闻评论功能已关闭'
+					})
+					return
+				}
 				this.changeBtnType(1)
 				this.commentInputTitle = "回复：" + item.username;
 				this.queryComment.content = '';

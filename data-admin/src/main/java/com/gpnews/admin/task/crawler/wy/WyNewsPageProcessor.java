@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 @Component
 public class WyNewsPageProcessor implements PageProcessor {
     private final Logger logger = LoggerFactory.getLogger(WyNewsPageProcessor.class);
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private ThreadLocal<SimpleDateFormat> threadLocal = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
 
     @Autowired
     private InetArticleService service;
@@ -56,7 +56,7 @@ public class WyNewsPageProcessor implements PageProcessor {
             for (List<HashMap<String, Object>> newsListSecond : newsListFirst) {
                 for (HashMap<String, Object> news : newsListSecond) {
                     try {
-                        if (lastDate != null && sdf.parse(news.get("p").toString()).compareTo(lastDate) <= 0){
+                        if (lastDate != null && threadLocal.get().parse(news.get("p").toString()).compareTo(lastDate) <= 0){
                             break;
                         }
                     } catch (ParseException e) {
@@ -82,11 +82,7 @@ public class WyNewsPageProcessor implements PageProcessor {
             Matcher timeMatcher = timePattern.matcher(timeText);
             if (timeMatcher.find()){
                 try {
-                    logger.error("========================================");
-                    page.putField("publishTime", this.sdf.parse(timeMatcher.group()));
-                    logger.error("title====" + doc.select("div#epContentLeft h1").text() +
-                                 "-----publishTime====" + this.sdf.parse(timeMatcher.group()) +
-                                 "-----inetPublishTime====" + timeText);
+                    page.putField("publishTime", this.threadLocal.get().parse(timeMatcher.group()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

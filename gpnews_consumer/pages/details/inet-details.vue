@@ -178,10 +178,12 @@
 			},
 			// 获取数据
 			async getDetail() {
+				console.log("hello");
 				let ret = await this.$http({
 					url: '/inetArticle/' + this.data.id.toString()
 				})
 				this.data = ret.data
+				this.data.content = this.data.content.replace(/<img/g, '<img width="100%"')
 			},
 			// 获取评论数据
 			async getComment() {

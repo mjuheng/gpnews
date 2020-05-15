@@ -14,11 +14,11 @@
 			</el-form-item>
 			<el-form-item label="内容：">
 			  <mavon-editor 
-				v-model="mavonContent" 
+				v-model="form.content" 
 				ref="md"
 				@imgAdd="imgAdd"
-				@change="contentChange" 
-				style="min-height: 600px"
+				@change="contentChange"
+				style="min-height: 500px"
 			  />
 			</el-form-item>
 			<el-form-item label="封面：">
@@ -56,7 +56,6 @@ export default {
 	},
     data() {
         return {
-			mavonContent: '',
 			form: {
 				title: '',
 				content: '',
@@ -74,9 +73,11 @@ export default {
 		  } else {
 			// 新建 重置表单
 			this.form = {
-			  title: null,
-			  content: null,
-			  headImage: null,
+				title: '',
+				content: '',
+				headImage: '',
+				draft: '',
+				categoryId: ''
 			}
 		  }
 		}

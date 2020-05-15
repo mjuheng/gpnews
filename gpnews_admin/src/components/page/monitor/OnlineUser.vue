@@ -136,16 +136,10 @@ export default {
             this.$set(this.query, 'currPage', val);
             this.getData();
         },
-		// 格式化事件
+		// 格式化时间
 		formatDate(date){
 			let d = new Date(date)
-			let format = d.getFullYear() + '-' + 
-						(d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1) + '-' + 
-						(d.getDate()<10 ? "0" +d.getDate():d.getDate())+ ' ' + 
-						(d.getHours()<10 ?"0"+(d.getDate()+1):(d.getDate()+1)) + ':' + 
-						(d.getMinutes()<10 ? "0" + d.getMinutes(): d.getMinutes()) + ':' + 
-						(d.getSeconds()<10 ? "0" + d.getSeconds() : d.getSeconds() );
-			return format
+			return d.Format("yyyy-MM-dd hh:mm:ss")
 		}
     }
 };

@@ -51,10 +51,15 @@
                             class="table-td-thumb"
                             :src="scope.row.headImage"
                             :preview-src-list="[scope.row.headImage]"
-                        ></el-image>
+                        >
+							<div slot="error">
+								<img src="@/assets/error.png" />
+							</div>
+						</el-image>
                     </template>
                 </el-table-column>
 				<el-table-column label="标题" prop="title"></el-table-column>
+				<el-table-column label="分类" prop="categoryName"></el-table-column>
 				<el-table-column label="状态">
 				  <template slot-scope="scope">
 					<el-tag type="info" v-if="scope.row.status===0">草稿</el-tag>
@@ -75,6 +80,11 @@
 						    @click="handleEdit(scope.row.id)"
 							v-if="scope.row.status == 0 || scope.row.status == 3"
 						>编辑</el-button>
+						<el-button
+						    type="text"
+						    icon="el-icon-zoom-in"
+						    @click="handleDetail(scope.row)"
+						>查看</el-button>
                         <el-button
                             type="text"
                             icon="el-icon-delete"
@@ -131,6 +141,10 @@ export default {
         this.getData();
     },
     methods: {
+		// 跳转至详情页面
+		handleDetail(row){
+			this.$router.push({path: 'articleDetail?random=' + row.id, query: {id: row.id}})
+		},
 		// 获取文章列表数据
 		async getData(){
 		  let ret = await local.sendGet(this.ADMIN + '/article', this.query);

@@ -19,7 +19,7 @@
           <if test="article.categoryId != null and article.categoryId != ''">
               and a.category_id = #{article.categoryId}
           </if>
-          <if test="article.status != null and article.status != ''">
+          <if test="article.status != null">
               and a.status = #{article.status}
           </if>
           <if test="article.userId != null">
@@ -31,136 +31,136 @@
           <if test="endPubTime !=null and endPubTime!=''">
               and a.publish_time &lt;= #{endPubTime}
           </if>
-      </if>
-      order by modified_time desc
-      <if test="start != null and rows != null">
-        limit #{start},#{rows}
-      </if>
-    </select>
-
-    <select id="count" resultType="java.lang.Integer">
-        select count(1)
-        from a_article a
-        left join u_user u on a.user_id = u.id
-        where 1 = 1
-        <if test="article != null">
-            <if test="article.username != null">
-                and u.username like concat('%', #{article.username}, '%')
-            </if>
-            <if test="article.title != null">
-                and a.title like concat('%', #{article.title}, '%')
-            </if>
-            <if test="article.categoryId != null and article.categoryId != ''">
-                and a.category_id = #{article.categoryId}
-            </if>
-            <if test="article.status != null and article.status != ''">
-                and a.status = #{article.status}
-            </if>
-            <if test="article.userId != null">
-                and a.user_id = #{article.userId}
-            </if>
-            <if test="beginPubTime !=null and beginPubTime!=''">
-                and a.publish_time >= #{beginPubTime}
-            </if>
-            <if test="endPubTime !=null and endPubTime!=''">
-                and a.publish_time &lt;= #{endPubTime}
-            </if>
-        </if>
-    </select>
-
-    <select id="getById" resultType="com.gpnews.pojo.vo.ArticleVo">
-        select u.username, c.name as category_name, a.id, a.title, a.head_image, a.content, a.user_id, a.category_id, a.status, a.publish_time, a.created_time, a.modified_time, a.comment_num, a.read_num, a.is_comment
-        from a_article a
-          left join u_user u on a.user_id = u.id
-          left join a_category c on a.category_id = c.id
-        where a.id = #{id}
-    </select>
-
-    <select id="pageByFan" resultType="com.gpnews.pojo.vo.ArticleVo">
-        select u.username, c.name as category_name, a.id, a.title, a.head_image, a.user_id, a.category_id, a.status, a.publish_time, a.created_time, a.modified_time, a.comment_num, a.read_num, a.is_comment
-        from a_article a
-        left join u_user u on a.user_id = u.id
-        left join a_category c on a.category_id = c.id
-        left join u_fan uf on u.id = uf.from_user_id
-        where uf.from_user_id in (select to_user_id from u_fan where from_user_id = #{userId})
-        <if test="article != null">
-            <if test="article.username != null">
-                and u.username like concat('%', #{article.username}, '%')
-            </if>
-            <if test="article.title != null">
-                and a.title like concat('%', #{article.title}, '%')
-            </if>
-            <if test="article.categoryId != null and article.categoryId != ''">
-                and a.category_id = #{article.categoryId}
-            </if>
-            <if test="article.status != null and article.status != ''">
-                and a.status = #{article.status}
-            </if>
-            <if test="article.userId != null">
-                and a.user_id = #{article.userId}
-            </if>
-            <if test="beginPubTime !=null and beginPubTime!=''">
-                and a.publish_time >= #{beginPubTime}
-            </if>
-            <if test="endPubTime !=null and endPubTime!=''">
-                and a.publish_time &lt;= #{endPubTime}
-            </if>
         </if>
         order by modified_time desc
         <if test="start != null and rows != null">
-            limit #{start},#{rows}
+          limit #{start},#{rows}
         </if>
-    </select>
+      </select>
+
+              <select id="count" resultType="java.lang.Integer">
+                  select count(1)
+                  from a_article a
+                  left join u_user u on a.user_id = u.id
+                  where 1 = 1
+                  <if test="article != null">
+                      <if test="article.username != null">
+                          and u.username like concat('%', #{article.username}, '%')
+                      </if>
+                      <if test="article.title != null">
+                          and a.title like concat('%', #{article.title}, '%')
+                      </if>
+                      <if test="article.categoryId != null and article.categoryId != ''">
+                          and a.category_id = #{article.categoryId}
+                      </if>
+                      <if test="article.status != null and article.status != ''">
+                          and a.status = #{article.status}
+                      </if>
+                      <if test="article.userId != null">
+                          and a.user_id = #{article.userId}
+                      </if>
+                      <if test="beginPubTime !=null and beginPubTime!=''">
+                          and a.publish_time >= #{beginPubTime}
+                      </if>
+                      <if test="endPubTime !=null and endPubTime!=''">
+                          and a.publish_time &lt;= #{endPubTime}
+                      </if>
+                  </if>
+              </select>
+
+              <select id="getById" resultType="com.gpnews.pojo.vo.ArticleVo">
+                  select u.username, c.name as category_name, a.id, a.title, a.head_image, a.content, a.user_id, a.category_id, a.status, a.publish_time, a.created_time, a.modified_time, a.comment_num, a.read_num, a.is_comment
+                  from a_article a
+                    left join u_user u on a.user_id = u.id
+                    left join a_category c on a.category_id = c.id
+                  where a.id = #{id}
+              </select>
+
+              <select id="pageByFan" resultType="com.gpnews.pojo.vo.ArticleVo">
+                  select u.username, c.name as category_name, a.id, a.title, a.head_image, a.user_id, a.category_id, a.status, a.publish_time, a.created_time, a.modified_time, a.comment_num, a.read_num, a.is_comment
+                  from a_article a
+                  left join u_user u on a.user_id = u.id
+                  left join a_category c on a.category_id = c.id
+                  left join u_fan uf on u.id = uf.from_user_id
+                  where uf.from_user_id in (select to_user_id from u_fan where from_user_id = #{userId})
+                  <if test="article != null">
+                      <if test="article.username != null">
+                          and u.username like concat('%', #{article.username}, '%')
+                      </if>
+                      <if test="article.title != null">
+                          and a.title like concat('%', #{article.title}, '%')
+                      </if>
+                      <if test="article.categoryId != null and article.categoryId != ''">
+                          and a.category_id = #{article.categoryId}
+                      </if>
+                      <if test="article.status != null and article.status != ''">
+                          and a.status = #{article.status}
+                      </if>
+                      <if test="article.userId != null">
+                          and a.user_id = #{article.userId}
+                      </if>
+                      <if test="beginPubTime !=null and beginPubTime!=''">
+                          and a.publish_time >= #{beginPubTime}
+                      </if>
+                      <if test="endPubTime !=null and endPubTime!=''">
+                          and a.publish_time &lt;= #{endPubTime}
+                      </if>
+                  </if>
+                  order by modified_time desc
+                  <if test="start != null and rows != null">
+                      limit #{start},#{rows}
+                  </if>
+              </select>
 
 
-    <select id="countByFan" resultType="java.lang.Integer">
-        select count(1)
-        from a_article a
-        left join u_user u on a.user_id = u.id
-        left join u_fan uf on u.id = uf.from_user_id
-        where uf.from_user_id in (select to_user_id from u_fan where from_user_id = #{userId})
-        <if test="article != null">
-            <if test="article.username != null">
-                and u.username like concat('%', #{article.username}, '%')
-            </if>
-            <if test="article.title != null">
-                and a.title like concat('%', #{article.title}, '%')
-            </if>
-            <if test="article.categoryId != null and article.categoryId != ''">
-                and a.category_id = #{article.categoryId}
-            </if>
-            <if test="article.status != null and article.status != ''">
-                and a.status = #{article.status}
-            </if>
-            <if test="article.userId != null">
-                and a.user_id = #{article.userId}
-            </if>
-            <if test="beginPubTime !=null and beginPubTime!=''">
-                and a.publish_time >= #{beginPubTime}
-            </if>
-            <if test="endPubTime !=null and endPubTime!=''">
-                and a.publish_time &lt;= #{endPubTime}
-            </if>
-        </if>
-    </select>
+              <select id="countByFan" resultType="java.lang.Integer">
+                  select count(1)
+                  from a_article a
+                  left join u_user u on a.user_id = u.id
+                  left join u_fan uf on u.id = uf.from_user_id
+                  where uf.from_user_id in (select to_user_id from u_fan where from_user_id = #{userId})
+                  <if test="article != null">
+                      <if test="article.username != null">
+                          and u.username like concat('%', #{article.username}, '%')
+                      </if>
+                      <if test="article.title != null">
+                          and a.title like concat('%', #{article.title}, '%')
+                      </if>
+                      <if test="article.categoryId != null and article.categoryId != ''">
+                          and a.category_id = #{article.categoryId}
+                      </if>
+                      <if test="article.status != null and article.status != ''">
+                          and a.status = #{article.status}
+                      </if>
+                      <if test="article.userId != null">
+                          and a.user_id = #{article.userId}
+                      </if>
+                      <if test="beginPubTime !=null and beginPubTime!=''">
+                          and a.publish_time >= #{beginPubTime}
+                      </if>
+                      <if test="endPubTime !=null and endPubTime!=''">
+                          and a.publish_time &lt;= #{endPubTime}
+                      </if>
+                  </if>
+              </select>
 
-    <select id="countReadAndComm" resultType="java.util.HashMap">
-        SELECT
-               sum(read_num) as readNum, sum(comment_num) as commentNum
-        FROM `a_article`
-        where user_id = #{userId}
-    </select>
+              <select id="countReadAndComm" resultType="java.util.HashMap">
+                  SELECT
+                         sum(read_num) as readNum, sum(comment_num) as commentNum
+                  FROM `a_article`
+                  where user_id = #{userId}
+              </select>
 
-    <select id="eachCount" resultType="java.util.HashMap">
-        SELECT
-            ac.`name`,
-            COUNT(1) as num
-        FROM
-            `a_article` aa
-                left join a_category ac on aa.category_id = ac.id
-        GROUP BY
-            category_id
-        order by num desc
-    </select>
+              <select id="eachCount" resultType="java.util.HashMap">
+                  SELECT
+                      ac.`name`,
+                      COUNT(1) as num
+                  FROM
+                      `a_article` aa
+                          left join a_category ac on aa.category_id = ac.id
+                  GROUP BY
+                      category_id
+                  order by num desc
+              </select>
 
-</mapper>
+          </mapper>

@@ -19,7 +19,6 @@
                 class="table"
                 ref="dataList"
                 header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
             >
                 <el-table-column prop="taskInfoName" label="任务名"></el-table-column>
                 <el-table-column prop="startTime" label="开始时间"></el-table-column>

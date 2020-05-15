@@ -4,22 +4,14 @@
     <cmd-page-body type="top">
       <cmd-transition name="fade-up">
         <view class="modify">
-<!--          <view class="modify-phone">
-            <cmd-input v-model="mobile.phone" type="number" maxlength="11" placeholder="请输入手机号"></cmd-input>
-            <view class="modify-phone-getcode" :style="safety.state ? 'color: #2196F3;':''" @tap="!safety.state ? fnGetPhoneCode() : ''">{{!safety.state&&'获取验证码'||(safety.time+' s')}}</view>
-          </view> -->
-<!--          <view class="modify-password">
-            <cmd-input v-model="mobile.passwordOne" type="password" displayable maxlength="26" placeholder="请输入新密码"></cmd-input>
-          </view> -->
-		  
 		  <view class="modify-password">
 		    昵称：<cmd-input v-model="userInfo.username" type="text" maxlength="26" placeholder="昵称" disabled></cmd-input>
 		  </view>
           <view class="modify-password">
-            手机号：<cmd-input v-model="userInfo.phone" type="text" maxlength="26" placeholder="手机号"></cmd-input>
+            手机号：<cmd-input v-model="userInfo.phone" type="text" maxlength="26" placeholder="手机号" disabled></cmd-input>
           </view>
 		  <view class="modify-password">
-		    邮箱地址：<cmd-input v-model="userInfo.email" type="text" maxlength="26" placeholder="邮箱地址"></cmd-input>
+		    邮箱地址：<cmd-input v-model="userInfo.email" type="text" maxlength="26" placeholder="邮箱地址" disabled></cmd-input>
 		  </view>
 		  <view class="modify-password">
 		    个人介绍：<cmd-input v-model="userInfo.intro" type="text" maxlength="26" placeholder="个人介绍"></cmd-input>

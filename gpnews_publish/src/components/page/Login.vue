@@ -52,8 +52,6 @@ export default {
                         localStorage.user = ret.data.user
                         this.$router.push('/');
                     }
-                    // this.$message.success('登录成功');
-                    // localStorage.setItem('ms_username', this.param.username);
                     
                 } else {
                     this.$message.error('请输入账号和密码');

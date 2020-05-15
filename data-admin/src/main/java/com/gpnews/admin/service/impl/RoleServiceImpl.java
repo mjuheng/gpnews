@@ -35,7 +35,6 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         List<Role> allRoles = roleMapper.selectAll();
         Map<String, List<Role>> roleParentMap = listToMap(allRoles);      // key值为parentId
 
-
         Set<Role> roles = new HashSet<>();  // 用户拥有的角色
         List<Role> roleList = roleMapper.queryByUserId(id);
         roles.addAll(roleList);

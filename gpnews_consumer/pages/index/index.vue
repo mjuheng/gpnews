@@ -9,10 +9,8 @@
 				@click="changeCategory(item)"
 			>{{item.name}}</view>
 		</scroll-view>
-<!--        <view class="banner" @click="goDetail(banner)">
-            <image class="banner-img" :src="banner.cover"></image>
-            <view class="banner-title">{{banner.title}}</view>
-        </view> -->
+
+
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in listData" :key="key" >
 				<view v-if="value.type!=='ad'" class="uni-media-list" @click="getDetail(value)">
@@ -21,7 +19,7 @@
 						<view class="uni-media-list-text-top">{{ value.title }}</view>
 						<view class="uni-media-list-text-bottom">
 							<text>{{ value.username }}</text>
-							<text>{{getFormatDate(value.publishTime)}}</text>
+							<text>{{ getFormatDate(value.publishTime) }}</text>
 						</view>
 					</view>
 				</view>

@@ -14,6 +14,7 @@
 				<el-input v-model="query.title" placeholder="标题" class="handle-input mr10"></el-input>
 				<channel v-model="query.categoryId" class="mr10"></channel>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+				<el-button type="primary" icon="el-icon-refresh-left" @click="getData">刷新</el-button>
             </div>
             <el-table
                 :data="data"
@@ -33,14 +34,6 @@
                     </template>
                 </el-table-column>
 				<el-table-column prop="categoryName" label="分类"></el-table-column>
-				<el-table-column label="状态">
-				  <template slot-scope="scope">
-					<el-tag type="info" v-if="scope.row.status===0">草稿</el-tag>
-					<el-tag v-if="scope.row.status===1">待审核</el-tag>
-					<el-tag type="success" v-if="scope.row.status===2">审核通过</el-tag>
-					<el-tag type="warning" v-if="scope.row.status===3">审核失败</el-tag>
-				  </template>
-				</el-table-column>
 				<el-table-column prop="username" label="作者"></el-table-column>
 				<el-table-column prop="modifiedTime" label="最后修改时间"></el-table-column>
 				
@@ -55,7 +48,7 @@
                             type="text"
                             icon="el-icon-circle-check"
                             @click="handleOpt(scope.row.id, 2)"
-                        >同意</el-button>
+                        >通过</el-button>
 						<el-button
 						    type="text"
 						    icon="el-icon-circle-close"
@@ -124,13 +117,7 @@ export default {
     methods: {
 		// 查看文章内容
 		async handleDetail(row){
-			// this.$router.push({path: 'articleDetail', query: {id: row.id}})
-			let ret = await local.sendGet(this.ADMIN + '/article/' + row.id)
-			if (ret != null){
-				this.articleDetail = ret.data
-				this.articleDetail.content += ' '
-				this.articleDetailVisible = true
-			}
+			this.$router.push({path: 'articleDetail', query: {id: row.id}})
 		},
         // 获取基础数据
         async getData() {

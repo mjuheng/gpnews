@@ -29,7 +29,6 @@
 				<el-upload
 				:http-request="updatePhoto"
 				:show-file-list="false"
-				action
 				class="avatar-uploader"
 				>
 					<img :src="data.photo" class="avatar" v-if="data.photo" style="width: 100%;" />
@@ -66,11 +65,13 @@ export default {
     methods: {
 		// 修改头像（上传图片）
 		async updatePhoto (result) {
+			console.log("haha");
 		  const file = result.file
 		  const formData = new FormData()
 		  formData.append('image', file)
-		  let ret = await local.sendPost(this.FILE + '/image/upload', formData)
+		  let ret = await local.sendPost(this.FILE + '/image/uploads', formData)
 		  if (ret != null){
+			console.log(ret);
 			this.data.photo = ret.data
 			local.setUser(this.data)
 		  }

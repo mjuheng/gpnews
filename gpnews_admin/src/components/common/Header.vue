@@ -155,23 +155,22 @@ export default {
 				}
 			})
 		},
-		// 保存用户信息 （除去头像不能保存）
+		// 保存用户信息
 		async saveInfo () {
-		  let ret = await local.sendPost(this.PUBLISH + '/updateUser', this.userInfo);
+		  let ret = await local.sendPost(this.ADMIN + '/updateSelf', this.userInfo);
 		  if (ret != null){
-			local.setUser(this.data)
+			local.setUser(this.userInfo)
+			this.dialogVisible = false
 		  }
 		},
 		// 修改头像（上传图片）
 		async updatePhoto (result) {
-		  const file = result.file
 		  const formData = new FormData()
-		  formData.append('image', file)
+		  formData.append('image', result.file)
 		  let ret = await local.sendPost(this.FILE + '/image/upload', formData)
 		  if (ret != null){
-			this.data.photo = ret.data
-			local.setUser(this.data)
-			this.dialogVisible = false
+			this.userInfo.photo = ret.data
+			local.setUser(this.userInfo)
 		  }
 		},
         // 用户名下拉菜单选择事件

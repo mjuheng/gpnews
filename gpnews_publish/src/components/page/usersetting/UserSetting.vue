@@ -36,7 +36,7 @@
 				action
 				class="avatar-uploader"
 				>
-					<img :src="data.photo" class="avatar" v-if="data.photo" />
+					<img :src="data.photo" class="avatar" v-if="data.photo" style="width: 100%; height: 100%;" />
 					<i class="el-icon-plus avatar-uploader-icon" v-else></i>
 				</el-upload>
 				<el-button @click="saveInfo" type="primary">保存设置</el-button>
@@ -113,7 +113,7 @@ export default {
 		},
 		// 保存用户信息 （除去头像不能保存）
 		async saveInfo () {
-		  let ret = await local.sendPost(this.ADMIN + '/updateUser', this.data);
+		  let ret = await local.sendPost(this.ADMIN + '/updateSelf', this.data);
 		  if (ret != null){
 			local.setUser(this.data)
 		  }

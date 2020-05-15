@@ -15,7 +15,7 @@
         </if>
         order by created_time desc
         <if test="start != null and rows != null">
-            limit #{start}, ${rows}
+            limit #{start}, #{rows}
         </if>
     </select>
 
@@ -25,17 +25,17 @@
                       where to_user_id = ${id}
                       order by created_time desc)
         <if test="start != null and rows != null">
-            limit #{start}, ${rows}
+            limit #{start}, #{rows}
         </if>
     </select>
     <select id="countFans" resultType="java.lang.Integer">
         select count(1) from u_fan
-        where to_user_id = ${id}
+        where to_user_id = #{id}
     </select>
 
     <delete id="delByBothUserId">
         delete from u_fan
-        where from_user_id = ${fromUserId}
-        and to_user_id = ${toUserId}
+        where from_user_id = #{fromUserId}
+        and to_user_id = #{toUserId}
     </delete>
 </mapper>

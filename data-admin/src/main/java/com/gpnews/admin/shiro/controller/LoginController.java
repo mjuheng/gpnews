@@ -83,6 +83,15 @@ public class LoginController {
         return ResultUtil.successSingleResult(retMap);
     }
 
+
+    @RequiresAuthentication
+    @RequestMapping("/updateSelf")
+    @Transactional
+    public CommonResult updateSelf(@RequestBody UserDto user){
+        service.updateNoNull(user);
+        return ResultUtil.successSingleResult(true);
+    }
+
     @RequiresAuthentication
     @RequestMapping("/updateUser")
     @Transactional
@@ -101,7 +110,7 @@ public class LoginController {
             service.updateNoNull(user);
         }
         // 修改用户角色表
-        roleService.delByUserId("1");
+        roleService.delByUserId(user.getId());
         if (!StringUtils.isBlank(user.getRoleId())){
             Map<String, Object> map = new HashMap<>();
             map.put("userId", user.getId());
@@ -131,7 +140,7 @@ public class LoginController {
         return ResultUtil.successListResult(sessionList, currPage, rows, count);
     }
 
-    @RequiresPermissions("admin")
+    @RequiresPermissions("onlineUser")
     @RequestMapping("/kickout")
     public CommonResult kickout(String id){
         String[] ids = id.split(";");

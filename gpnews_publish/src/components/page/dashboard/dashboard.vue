@@ -40,13 +40,13 @@
 		<section class="dashboard-article">
 		  <header class="header">
 		    最新图文
-		    <a href="#" class="">更多</a>
+		    <a href="#" class="" @click="navigateTo('articleContent')">更多</a>
 		  </header>
 		  <ul>
 		    <li v-for="data in articleData">
-		      <img class="article-img" :src="data.headImage" v-if="data.headImage != ''">
+		      <img class="article-img" :src="data.headImage" :onerror="errorImage" alt="" >
 		      <dl class="article-content">
-		        <dt><a href="#" class="">{{ data.title }}</a></dt>
+		        <dt><a href="#" class="" @click="toArticleDetail(data.id)">{{ data.title }}</a></dt>
 		        <dd class="time">{{ data.publishTime }}</dd>
 		        <dd>阅读 {{ data.readNum }}   评论 {{ data.commentNum }}</dd>
 		      </dl>
@@ -57,7 +57,7 @@
 		<section class="dashboard-article">
 		  <header class="header">
 		    消息
-		    <a href="#" class="">更多</a>
+		    <a href="#" class="" @click="navigateTo('myMsg')">更多</a>
 		  </header>
 		  <ul>
 		    <li v-for="data in msgData">
@@ -78,6 +78,7 @@ export default {
 	name: 'dashboard',
 	data() {
 		return {
+			errorImage: 'this.src="' + require('../../../assets/error.png') + '"',
 			userQuery: {
 				userId: null
 			},
@@ -120,7 +121,7 @@ export default {
 			}
 			ret = await local.sendGet(this.ADMIN + '/fan/countFans', this.userQuery)
 			if (ret != null){
-				this.userData.fansNum = ret.data
+				this.$set(this.userData, "fansNum", ret.data)
 			}
 		},
 		async getArticleNew(){
@@ -134,6 +135,13 @@ export default {
 			if (ret != null){
 				this.msgData = ret.data.dataList
 			}
+		},
+		// 跳转新闻详情页面
+		toArticleDetail(id){
+			this.$router.push({path: 'articleDetail', query: {id: id}})
+		},
+		navigateTo(path){
+			this.$router.push({path: path})
 		}
 	}
 }

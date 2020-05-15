@@ -341,11 +341,13 @@ var _Time = _interopRequireDefault(__webpack_require__(/*! ../../common/Time.js 
       return format;
     },
     // 获取数据
-    getDetail: function () {var _getDetail = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var ret;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    getDetail: function () {var _getDetail = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var ret;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                console.log("hello");_context2.next = 3;return (
                   this.$http({
-                    url: '/inetArticle/' + this.data.id.toString() }));case 2:ret = _context2.sent;
+                    url: '/inetArticle/' + this.data.id.toString() }));case 3:ret = _context2.sent;
 
-                this.data = ret.data;case 4:case "end":return _context2.stop();}}}, _callee2, this);}));function getDetail() {return _getDetail.apply(this, arguments);}return getDetail;}(),
+                this.data = ret.data;
+                this.data.content = this.data.content.replace(/<img/g, '<img width="100%"');case 6:case "end":return _context2.stop();}}}, _callee2, this);}));function getDetail() {return _getDetail.apply(this, arguments);}return getDetail;}(),
 
     // 获取评论数据
     getComment: function () {var _getComment = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this = this;var ret;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:if (!(
