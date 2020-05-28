@@ -3,8 +3,10 @@ package com.gpnews.admin.controller;
 import com.gpnews.admin.service.MsgService;
 import com.gpnews.pojo.Msg;
 import com.gpnews.pojo.vo.MsgVo;
+import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/msg")
+@RequiresAuthentication
 public class MsgController {
 
     @Autowired
@@ -24,7 +27,11 @@ public class MsgController {
 
     @RequestMapping("")
     public CommonResult page(Msg msg, Integer currPage, Integer rows){
+        if (msg.getType() == 2){
+            msg.setUserId(ShiroUtil.getCurrUserId());
+        }
         List<MsgVo> dataList = service.page(msg, currPage, rows);
+
         Integer count = service.count(msg);
         return ResultUtil.successListResult(dataList, currPage, rows, count);
     }

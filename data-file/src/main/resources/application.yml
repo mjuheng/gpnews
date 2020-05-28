@@ -7,6 +7,10 @@ server:
 #    key-alias: tomcat
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/gpnews?useSSL=false&amp;characterEncoding=utf-8&amp;useUnicode=true

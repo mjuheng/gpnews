@@ -3,6 +3,7 @@ package com.gpnews.admin.controller;
 import com.gpnews.admin.annotation.SystemLog;
 import com.gpnews.admin.service.UserService;
 import com.gpnews.pojo.User;
+import com.gpnews.utils.Md5Util;
 import com.gpnews.utils.ShiroUtil;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
@@ -74,9 +75,9 @@ public class UserController {
     @RequestMapping("/changePwd")
     public CommonResult changePwd(@RequestBody Map<String, String> map){
         User user = service.load(ShiroUtil.getCurrUserId());
-        String oldPwd = map.get("oldPwd");
-        String newPwd = map.get("newPwd");
-        String againPwd = map.get("againPwd");
+        String oldPwd = Md5Util.encodeByMD5(map.get("oldPwd"));
+        String newPwd = Md5Util.encodeByMD5(map.get("newPwd"));
+        String againPwd = Md5Util.encodeByMD5(map.get("againPwd"));
         if (!newPwd.equals(againPwd)){
             return ResultUtil.errorSingleResult("密码不一致，请重新输入");
         }

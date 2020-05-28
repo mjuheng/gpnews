@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="article-detail">
 		<div class="crumbs">
 		    <el-breadcrumb separator="/">
 		        <el-breadcrumb-item>
@@ -10,7 +10,7 @@
 		<div class="container">
 			<div class="handle-box">
 			    <el-button type="primary" icon="el-icon-circle-check" @click="handleOpt(data.id, 2)">通过</el-button>
-			    <el-button type="danger" icon="el-icon-circle-close" @click="handleOpt(data.id, 3)">拒绝</el-button>
+			    <el-button type="danger" icon="el-icon-circle-close" @click="openRefuseDialog(data.id)">拒绝</el-button>
 			</div>
 			<h1 style="margin-top: 20px;">{{ data.title }}</h1>
 			<div v-html="data.content" style="margin-top: 20px;"></div>
@@ -45,10 +45,11 @@ export default {
 			}
 		},
 		// 处理审批结果
-		async handleOpt(id, status){
+		async handleOpt(id, status, comment){
 			let params = {
 				id: id,
-				status: status
+				status: status,
+				comment: comment
 			}
 			let ret = await local.sendGet(this.ADMIN + '/article/changeStatus', params)
 			if (ret != null) this.getNextData()
@@ -65,12 +66,23 @@ export default {
 					this.data = {}
 				}
 			}
+		},
+		// 弹出拒绝的备注信息
+		openRefuseDialog(id) {
+			this.$prompt('请输入拒绝通过原因', '提示', {
+			  confirmButtonText: '确定',
+			  cancelButtonText: '取消',
+			}).then(({ value }) => {
+			  this.handleOpt(id, 3, value)
+			});
 		}
 	},
 }
 </script>
-<style>
-	p {
-		text-indent: 2em;
+<style lang="less">
+	.article-detail{
+		p {
+			text-indent: 2em;
+		}
 	}
 </style>

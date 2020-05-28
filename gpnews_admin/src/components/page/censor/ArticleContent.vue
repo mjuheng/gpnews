@@ -16,13 +16,6 @@
                     @click="delAllSelection"
                 >批量删除</el-button>
 				<el-input v-model="query.title" placeholder="标题" class="handle-input mr10"></el-input>
-				<el-select v-model="query.status" placeholder="全部状态" class="handle-select mr10">
-				    <el-option key="0" label="" value=""></el-option>
-				    <el-option key="1" label="草稿" value="0"></el-option>
-				    <el-option key="2" label="待审核" value="1"></el-option>
-				    <el-option key="3" label="审核通过" value="2"></el-option>
-				    <el-option key="4" label="审核失败" value="3"></el-option>
-				</el-select>
                 <channel v-model="query.categoryId" class="mr10"></channel>
 				<el-date-picker
 					@change="changeDate"
@@ -35,7 +28,6 @@
 					class="mr10"
 				></el-date-picker>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-				<el-button type="primary" icon="el-icon-refresh-left" @click="getData">刷新</el-button>
             </div>
             <el-table
                 :data="data"
@@ -60,34 +52,13 @@
                     </template>
                 </el-table-column>
 				<el-table-column label="标题" prop="title"></el-table-column>
+				<el-table-column label="用户名" prop="username"></el-table-column>
 				<el-table-column label="分类" prop="categoryName"></el-table-column>
-				<el-table-column label="状态">
-				  <template slot-scope="scope">
-					<el-tag type="info" v-if="scope.row.status===0">草稿</el-tag>
-					<el-tag v-if="scope.row.status===1">待审核</el-tag>
-					<el-tag type="success" v-if="scope.row.status===2">审核通过</el-tag>
-					<el-tag type="warning" v-if="scope.row.status===3">审核失败</el-tag>
-					<el-tag type="danger" v-if="scope.row.status===4">已删除</el-tag>
-				  </template>
-				</el-table-column>
-				<el-table-column label="阅读数" prop="readNum"></el-table-column>
-				<el-table-column label="评论数" prop="commentNum"></el-table-column>
 				<el-table-column label="最后修改时间" prop="modifiedTime"></el-table-column>
-				<el-table-column label="审核时间" prop="publishTime"></el-table-column>
+				<el-table-column label="发布时间" prop="publishTime"></el-table-column>
 
                 <el-table-column label="操作" width="180" align="center">
 					<template slot-scope="scope">
-						<el-button
-						    type="text"
-						    icon="el-icon-edit"
-						    @click="handleEdit(scope.row.id)"
-							v-if="scope.row.status == 0 || scope.row.status == 3"
-						>编辑</el-button>
-						<el-button
-						    type="text"
-						    icon="el-icon-zoom-in"
-						    @click="handleDetail(scope.row)"
-						>查看</el-button>
                         <el-button
                             type="text"
                             icon="el-icon-delete"
@@ -123,7 +94,7 @@ export default {
         return {
             query: {
 				userId: null,
-				status: null,
+				status: 2,
 				title: null,
 				categoryId: null,
 				beginPubTime: null,
@@ -140,7 +111,7 @@ export default {
     },
     created() {
 		// 获取用户id
-		this.query.userId = local.getUser().id;
+		// this.query.userId = local.getUser().id;
         this.getData();
     },
     methods: {

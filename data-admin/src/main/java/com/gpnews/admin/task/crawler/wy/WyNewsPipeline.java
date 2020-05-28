@@ -35,6 +35,7 @@ public class WyNewsPipeline implements Pipeline {
             article.setUrl(resultItems.get("url"));
             article.setPublishTime(resultItems.get("publishTime"));
             article.setType(1);
+
             service.insert(article);
         }
     }

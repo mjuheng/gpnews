@@ -6,10 +6,7 @@ import com.gpnews.admin.shiro.realm.UserLoginToken;
 import com.gpnews.admin.shiro.service.ShiroService;
 import com.gpnews.pojo.User;
 import com.gpnews.pojo.dto.UserDto;
-import com.gpnews.utils.JsonUtil;
-import com.gpnews.utils.PageUtil;
-import com.gpnews.utils.ShiroUtil;
-import com.gpnews.utils.UUIDUtil;
+import com.gpnews.utils.*;
 import com.gpnews.utils.result.CommonResult;
 import com.gpnews.utils.result.ResultUtil;
 import com.gpnews.utils.result.SingleResult;
@@ -55,6 +52,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){
+        user.setPassword(Md5Util.encodeByMD5(user.getPassword()));
         UserLoginToken token = new UserLoginToken(user.getUsername(), user.getPassword(), user);
         Subject subject = null;
         try {
@@ -88,6 +86,7 @@ public class LoginController {
     @RequestMapping("/updateSelf")
     @Transactional
     public CommonResult updateSelf(@RequestBody UserDto user){
+        user.setPassword(Md5Util.encodeByMD5(user.getPassword()));
         service.updateNoNull(user);
         return ResultUtil.successSingleResult(true);
     }
@@ -96,6 +95,7 @@ public class LoginController {
     @RequestMapping("/updateUser")
     @Transactional
     public CommonResult updateUser(@RequestBody UserDto user){
+        user.setPassword(Md5Util.encodeByMD5(user.getPassword()));
         if (!ShiroUtil.getCurrUserId().equals(user.getId()) && !SecurityUtils.getSubject().isPermitted("userManage")){
             throw new AuthenticationException();
         }

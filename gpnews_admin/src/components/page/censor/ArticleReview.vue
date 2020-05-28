@@ -30,7 +30,11 @@
                             class="table-td-thumb"
                             :src="scope.row.headImage"
                             :preview-src-list="[scope.row.headImage]"
-                        ></el-image>
+                        >
+							<div slot="error">
+								<img src="@/assets/error.png" />
+							</div>
+						</el-image>
                     </template>
                 </el-table-column>
 				<el-table-column prop="categoryName" label="分类"></el-table-column>
@@ -53,7 +57,7 @@
 						    type="text"
 						    icon="el-icon-circle-close"
 						    class="red"
-						    @click="handleOpt(scope.row.id, 3)"
+						    @click="openRefuseDialog(scope.row.id)"
 						>拒绝</el-button>
                     </template>
                 </el-table-column>
@@ -133,10 +137,11 @@ export default {
             this.getData();
         },
 		// 处理审批结果
-        async handleOpt(id, status){
+        async handleOpt(id, status, comment){
 			let params = {
 				id: id,
-				status: status
+				status: status,
+				comment: comment
 			}
 			let ret = await local.sendGet(this.ADMIN + '/article/changeStatus', params)
 			if (ret != null) this.getData()
@@ -145,22 +150,21 @@ export default {
         handlePageChange(val) {
             this.$set(this.query, 'currPage', val);
             this.getData();
-        }
+        },
+		// 弹出拒绝的备注信息
+		openRefuseDialog(id) {
+			this.$prompt('请输入拒绝通过原因', '提示', {
+			  confirmButtonText: '确定',
+			  cancelButtonText: '取消',
+			}).then(({ value }) => {
+			  this.handleOpt(id, 3, value)
+			});
+		}
     }
 };
 </script>
 
 <style scoped lang='less'>
-.a{
-	overflow: scroll;
-	height: 1280px;	
-}
-.el-scrollbar {
-	.el-scrollbar__wrap {
-		max-height: 50rem; // 最大高度
-		overflow-x: hidden; // 隐藏横向滚动栏
-	}
-}
 .handle-box {
     margin-bottom: 20px;
 }

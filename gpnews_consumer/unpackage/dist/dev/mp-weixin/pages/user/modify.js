@@ -220,9 +220,10 @@ __webpack_require__.r(__webpack_exports__);
 
                   uni.setStorageSync('userInfo', this.userInfo);
                   setTimeout(function () {
-                    uni.navigateTo({
-                      url: '/pages/user/info' });
-
+                    // uni.navigateTo({
+                    // 	url: '/pages/user/info'
+                    // })
+                    uni.navigateBack();
                   }, 1000);
                 } else {
                   uni.showToast({

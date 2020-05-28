@@ -208,7 +208,9 @@ export default {
 		openAddDialog(){
 			this.editVisible = true
 			this.dialogTitle = '新增'
-			this.form = {}
+			this.form = {
+				roleId: '',
+			}
 		},
         // 获取用户数据
         async getUser() {
@@ -225,7 +227,7 @@ export default {
         },
         handleSuccess (res) {
             // 预览
-            this.form.photo = res.data
+			this.$set(this.form, "photo", res.data)
         },
         // 删除操作
         async handleDelete(id) {

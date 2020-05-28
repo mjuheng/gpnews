@@ -138,6 +138,12 @@ public class RedisUtil {
         hash.put(key, hashKey, value);
     }
 
+    public void hmDelete(String key, Object... hashKey){
+        HashOperations<String, Object, Object> hash = redisTemplate
+                .opsForHash();
+        hash.delete(key, hashKey);
+    }
+
     /**
      * 根据key值 获取Hash表的所有field
      * @param key

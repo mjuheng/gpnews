@@ -40,11 +40,14 @@ public class RoleController {
     @RequiresPermissions({"roleManage"})
     @PostMapping("/updateRole")
     public CommonResult updateRole(@RequestBody @Valid Role role){
+        Integer ret = 0;
         if (StringUtils.isBlank(role.getId())){
             service.insert(role);
         }else {
-            role.setModifiedTime(null);
-            service.update(role);
+            ret = service.updateWithParent(role);
+        }
+        if (ret == 1){
+            return ResultUtil.errorSingleResult("父角色不能为自己");
         }
         return ResultUtil.successSingleResult(true);
     }

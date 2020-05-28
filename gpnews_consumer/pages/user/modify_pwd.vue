@@ -69,7 +69,7 @@
 					  	url: '/pages/login/login'
 					  })
 				  }, 1000);
-				  
+				  console.log("hello");
 			  }else{
 				  uni.showToast({
 				  	icon: 'none',

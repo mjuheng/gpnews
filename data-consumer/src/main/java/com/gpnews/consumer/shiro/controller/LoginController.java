@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.security.provider.MD5;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.mail.MessagingException;
@@ -47,6 +48,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public SingleResult login(@RequestBody User user){
+        user.setPassword(Md5Util.encodeByMD5(user.getPassword()));
         UserLoginToken token = new UserLoginToken(user.getUsername(), user.getPassword(), user);
         Subject subject = null;
         try {
@@ -77,6 +79,7 @@ public class LoginController {
 
     @PostMapping("/register")
     public CommonResult register(@RequestBody @Valid UserDto user){
+        user.setPassword(Md5Util.encodeByMD5(user.getPassword()));
         if (!user.getVerify().equals(redisUtil.get(user.getEmail()))){
             return ResultUtil.errorSingleResult("验证码错误");
         }
@@ -92,6 +95,7 @@ public class LoginController {
     @RequiresAuthentication
     @RequestMapping("/updateUser")
     public CommonResult updateUser(@RequestBody User user){
+        user.setPassword(Md5Util.encodeByMD5(user.getPassword()));
         if (!ShiroUtil.getCurrUserId().equals(user.getId()) && !SecurityUtils.getSubject().isPermitted("admin")){
             throw new AuthenticationException();
         }
@@ -154,8 +158,10 @@ public class LoginController {
     public CommonResult changePwd(@RequestBody Map<String, String> map){
         User user = service.load(ShiroUtil.getCurrUserId());
         String oldPwd = map.get("oldPwd");
-        String newPwd = map.get("newPwd");
-        String againPwd = map.get("againPwd");
+//        String newPwd = map.get("newPwd");
+        String newPwd = Md5Util.encodeByMD5(map.get("newPwd"));
+        String againPwd = Md5Util.encodeByMD5(map.get("againPwd"));
+//        String againPwd = map.get("againPwd");
         if (!newPwd.equals(againPwd)){
             return ResultUtil.errorSingleResult("密码不一致，请重新输入");
         }

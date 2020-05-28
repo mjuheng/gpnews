@@ -50,6 +50,11 @@ export default new Router({
 					meta: {title: '待审文章'}
 				},
 				{
+					path: 'articleContent',
+					component: () => import('../components/page/censor/ArticleContent.vue'),
+					meta: {title: '内容管理'}
+				},
+				{
 					path: 'categoryManage',
 					component: () => import('../components/page/censor/CategoryManage.vue'),
 					meta: {title: '分类管理'}

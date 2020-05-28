@@ -16,4 +16,5 @@ public interface MsgService extends BaseService<Msg>{
     Integer count(Msg msg);
 
     boolean updateRead(String id, Boolean read);
+
 }

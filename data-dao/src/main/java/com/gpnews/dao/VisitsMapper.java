@@ -15,4 +15,7 @@ public interface VisitsMapper extends Mapper<Visits> {
                         @Param("beginTime") String beginTime,
                         @Param("endTime") String endTime);
 
+    Visits selectByBeginTime(@Param("userId") String userId,
+                             @Param("beginTime") String beginTime);
+
 }

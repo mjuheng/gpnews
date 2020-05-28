@@ -61,6 +61,9 @@ public class ArticleNumTask extends Thread {
             article.setId(field);
             article.setReadNum((Integer) map.get("readNum"));
             article.setCommentNum((Integer) map.get("commentNum"));
+            // 清除数据
+            redisUtil.hmDelete(articleMap, field);
+
             mapper.updateByPrimaryKeySelective(article);
             if (++count % 50 == 0){
                 sqlSession.flushStatements();

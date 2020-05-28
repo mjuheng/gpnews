@@ -28,4 +28,6 @@ public interface RoleService extends BaseService<Role> {
     void delByUserId(String userId);
 
     List<Map<String, Object>> getRoleByUserId(String userId);
+
+    Integer updateWithParent(Role role);
 }

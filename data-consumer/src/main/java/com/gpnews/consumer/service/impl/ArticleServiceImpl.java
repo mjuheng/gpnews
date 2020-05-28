@@ -73,10 +73,14 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
     @Override
     public void addNum(String id, Integer type) {
-        Map<String, Object> map = countReadAndCount(id);
+        Map<String, Object> map;
+        try {
+            map = countReadAndCount(id);
+        }catch (NullPointerException e){ return; }
         if (type == 1){
             int readNum = Integer.parseInt(map.get("readNum").toString());
             map.put("readNum", readNum+1);
+
         }else if (type == 2){
             int commentNum =Integer.parseInt(map.get("commentNum").toString());
             map.put("commentNum", commentNum+1);
@@ -95,6 +99,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
             obj = JsonUtil.serialize(map);
             redisUtil.hmSet(articleMap, id, obj);
         }
+
         return JsonUtil.deserialize(obj.toString(), HashMap.class);
     }
 }

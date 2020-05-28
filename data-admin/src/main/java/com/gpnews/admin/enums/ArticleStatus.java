@@ -8,8 +8,7 @@ public enum ArticleStatus {
     draft(0, "草稿"),
     approval(1, "待审核"),
     agree(2, "审核通过"),
-    refuse(3, "审核失败"),
-    delete(4, "已删除");
+    refuse(3, "审核失败");
 
     private Integer code;
     private String name;

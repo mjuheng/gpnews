@@ -28,6 +28,7 @@
                         <view class="uni-comment-content" @click="showCommInput(item)">{{item.content}}</view>
                         <view class="uni-comment-date">
                             <view>{{getFormatDate(item.createdTime)}}</view>
+							<view @tap="delReply(item.id)"  v-if="item.userId == currUserId" class="uni-comment-replay-btn" >删除</view>
                             <view @tap="tapReply(item,idx)" v-if="item.children && item.children.length" class="uni-comment-replay-btn">{{item.children.length+"  "}}回复</view>
                         </view>
                         <view v-if="idx==index" class="uni-comment-list" v-for="(item2,idx2) in item.children" :key="idx2">
@@ -41,6 +42,7 @@
                                 <view class="uni-comment-content">{{item2.content}}</view>
                                 <view class="uni-comment-date">
                                     <view>{{getFormatDate(item2.createdTime)}}</view>
+									<view @tap="delReply(item.id)"  v-if="item.userId == currUserId" class="uni-comment-replay-btn" >删除</view>
                                 </view>
                             </view>
                         </view>
@@ -85,6 +87,7 @@
 		},
         data() {
             return {
+				currUserId: '',
                 index: 0,
 				banner: {},
 				data: {
@@ -123,6 +126,7 @@
 			this.data.id = event.id
 			this.query.articleId = event.id;
 			this.query.endCreatedTime = this.getTimeNow();
+			this.currUserId = uni.getStorageSync("userInfo").id
 			
 			this.getDetail();
 			this.getComment();
@@ -146,6 +150,7 @@
 					data: this.queryComment
 				})
 				let newComment = ret.data
+				console.log(newComment);
 				if (newComment.parentId == ''){
 					this.commentData.unshift(newComment)
 				}else {
@@ -217,6 +222,24 @@
 				this.commentInputTitle = "回复：" + item.username;
 				this.queryComment.content = '';
 				this.queryComment.parentId = item.id
+			},
+			// 删除评论
+			async delReply(id){
+				let ret = await this.$http({
+					url: '/comment/del',
+					data: {id: id}
+				})
+				if (ret.code == 0){
+					this.commentData = []
+					this.query = {
+						currPage: 0,
+						rows: 6,
+						articleId: this.data.id,
+						endCreatedTime: this.getTimeNow()
+					}
+					this.getComment();
+				}
+				
 			}
         }
     }

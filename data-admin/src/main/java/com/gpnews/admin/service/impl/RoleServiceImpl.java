@@ -11,6 +11,7 @@ import com.gpnews.utils.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -140,6 +141,27 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Override
     public List<Map<String, Object>> getRoleByUserId(String userId) {
         return roleMapper.getRoleByUserId(userId);
+    }
+
+    @Override
+    public Integer updateWithParent(Role role) {
+        if (!StringUtils.isBlank(role.getParentId())){
+            // 判断父角色是否为自己
+            if (Objects.equals(role.getParentId(), role.getId())){
+                return 1;
+            }
+            // 同步其他角色的依赖信息
+            Role oldRole = load(role.getId());
+            Example roleExample = new Example(role.getClass());
+            roleExample.createCriteria().andEqualTo("parentId", role.getId());
+            List<Role> children = roleMapper.selectByExample(roleExample);
+            for (Role child : children) {
+                child.setParentId(oldRole.getParentId());
+            }
+            updateBatch(children);
+        }
+        update(role);
+        return 0;
     }
 
     @Override

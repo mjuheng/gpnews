@@ -52,14 +52,13 @@ public class CommentController {
 
         articleService.addNum(comment.getArticleId(), 2);
 
-        // 插入信息
-        Article article = articleService.load(commentVo.getArticleId());
-        Msg msg = new Msg("有人评论了你的新闻",
-                            article.getUserId(),
-                            currId, "用户" + commentVo.getUsername() + "评论了你的新闻《" + article.getTitle() + "》", 2, false);
-        msgService.insert(msg);
-
         return ResultUtil.successSingleResult(commentVo);
+    }
+
+    @RequestMapping("/del")
+    public CommonResult del(String id){
+        service.delById(id);
+        return ResultUtil.successSingleResult(true);
     }
 
 }

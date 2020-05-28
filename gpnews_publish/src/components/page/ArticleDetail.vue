@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="article-detail">
 		<div class="crumbs">
 		    <el-breadcrumb separator="/">
 		        <el-breadcrumb-item>
@@ -45,34 +45,14 @@ export default {
 			if (ret != null){
 				this.data = ret.data
 			}
-		},
-		// 处理审批结果
-		async handleOpt(id, status){
-			let params = {
-				id: id,
-				status: status
-			}
-			let ret = await local.sendGet(this.ADMIN + '/article/changeStatus', params)
-			if (ret != null) this.getNextData()
-		},
-		// 获取下一个待审批数据
-		async getNextData(){
-			let ret = await local.sendGet(this.ADMIN + '/article', this.query)
-			if (ret != null){
-				if (ret.data.dataList.length > 0){
-					this.articleId = ret.data.dataList[0].id
-					this.getData()
-				}else {
-					this.$message.error("无更多待审批数据")
-					this.data = {}
-				}
-			}
 		}
 	},
 }
 </script>
-<style>
-	p {
-		text-indent: 2em;
+<style lang="less">
+	.article-detail {
+		p {
+			text-indent: 2em;
+		}
 	}
 </style>

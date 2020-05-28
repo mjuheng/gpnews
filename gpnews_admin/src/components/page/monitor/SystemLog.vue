@@ -26,7 +26,6 @@
                 <el-table-column prop="operation" label="操作"></el-table-column>
                 <el-table-column prop="time" label="用时(毫秒)"></el-table-column>
                 <el-table-column prop="method" label="方法"></el-table-column>
-                <el-table-column prop="params" label="参数"></el-table-column>
                 <el-table-column prop="ip" label="ip地址"></el-table-column>
                 <el-table-column prop="createdTime" label="访问时间"></el-table-column>
 

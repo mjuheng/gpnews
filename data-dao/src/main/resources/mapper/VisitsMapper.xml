@@ -20,5 +20,12 @@
         </if>
     </select>
 
+    <select id="selectByBeginTime" resultType="com.gpnews.pojo.Visits">
+        select *
+        from v_visits
+        where 1 = 1
+        and user_id = #{userId}
+        and time = #{beginTime}
+    </select>
 </mapper>
 

@@ -1,8 +1,11 @@
 package com.gpnews.admin.service.impl;
 
 import com.gpnews.admin.service.VisitsService;
+import com.gpnews.dao.ArticleMapper;
 import com.gpnews.dao.VisitsMapper;
 import com.gpnews.pojo.Visits;
+import com.gpnews.pojo.vo.ArticleVo;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class VisitsServiceImpl extends BaseServiceImpl<Visits> implements Visits
 
     @Autowired
     private VisitsMapper mapper;
+    @Autowired
+    private ArticleMapper articleMapper;
 
     /**
      *
@@ -53,6 +58,24 @@ public class VisitsServiceImpl extends BaseServiceImpl<Visits> implements Visits
             ret.add(0, mapper.selectByTime(userId, beginTime, endTime));
         }
         return ret;
+    }
+
+    @Override
+    public void addPublish(String articleId) {
+        String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+        ArticleVo article = articleMapper.getById(articleId);
+        String userId = article.getUserId();
+        Visits visits = mapper.selectByBeginTime(userId, date);
+        if (visits == null){
+            visits = new Visits();
+            visits.setPublishNum(1);
+            visits.setUserId(userId);
+            visits.setTime(new Date());
+            insert(visits);
+        }else {
+            visits.setPublishNum(visits.getPublishNum() + 1);
+            updateNoNull(visits);
+        }
     }
 
     @Override

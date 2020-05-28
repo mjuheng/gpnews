@@ -135,6 +135,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
             return b?1:-1;
         });
         Map<String, List<Permission>> permParentMap = listToMap(permList);
+
         for (Permission perm: permList){
             if (StringUtils.isBlank(perm.getParentId())){
                 parent.add(new PermissionVo(perm));

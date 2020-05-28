@@ -3,7 +3,10 @@ package com.gpnews.admin.controller;
 import com.gpnews.admin.annotation.SystemLog;
 import com.gpnews.admin.enums.ArticleStatus;
 import com.gpnews.admin.service.ArticleService;
+import com.gpnews.admin.service.MsgService;
+import com.gpnews.admin.service.VisitsService;
 import com.gpnews.pojo.Article;
+import com.gpnews.pojo.Msg;
 import com.gpnews.pojo.dto.ArticleDto;
 import com.gpnews.pojo.vo.ArticleVo;
 import com.gpnews.utils.ShiroUtil;
@@ -34,6 +37,10 @@ public class ArticleController {
 
     @Autowired
     private ArticleService service;
+    @Autowired
+    private VisitsService visitsService;
+    @Autowired
+    private MsgService msgService;
 
     @SystemLog("文章分页查询")
     @RequestMapping("")
@@ -93,11 +100,14 @@ public class ArticleController {
     @SystemLog("审核文章")
     @RequestMapping("/changeStatus")
     public CommonResult changeStatus(String id, Integer status, String comment){
-        Article article = new Article();
-        article.setId(id);
+        Article article = service.load(id);
         article.setStatus(status);
         if (status == 2){
             article.setPublishTime(new Date());
+            visitsService.addPublish(id);
+            msgService.insert(new Msg("文章《"+  article.getTitle() + "》审核通过", article.getUserId(), "您的文章《" + article.getTitle() + "》审核通过", 2, false));
+        } else if (status == 3) {
+            msgService.insert(new Msg("文章《" + article.getTitle() + "》审核失败", article.getUserId(), "您的文章《" + article.getTitle() + "》审核不通过,原因是：" + comment, 2, false));
         }
         service.updateNoNull(article);
         return ResultUtil.successSingleResult(true);

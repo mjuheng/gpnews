@@ -18,7 +18,7 @@
         <if test="msg.isRead != null">
             and um.is_read = #{msg.isRead}
         </if>
-        order by um.modified_time
+        order by um.created_time
         <if test="start != null and rows != null">
             limit #{start}, #{rows}
         </if>

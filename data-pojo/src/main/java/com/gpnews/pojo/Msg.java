@@ -37,4 +37,12 @@ public class Msg extends BaseEntity{
         this.type = type;
         this.isRead = isRead;
     }
+
+    public Msg(String title, String userId, String content, Integer type, Boolean isRead){
+        this.title = title;
+        this.userId = userId;
+        this.content = content;
+        this.type = type;
+        this.isRead = isRead;
+    }
 }
