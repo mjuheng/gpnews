@@ -20,7 +20,7 @@
         <shiro-redis.version>2.4.2.1-RELEASE</shiro-redis.version>
         <tk.mybatis.version>1.1.4</tk.mybatis.version>
         <mybatis-spring-boot.version>2.1.1</mybatis-spring-boot.version>
-        <mysql-connector.version>5.1.38</mysql-connector.version>
+        <mysql-connector.version>8.0.16</mysql-connector.version>
         <druid.version>1.0.28</druid.version>
         <webmagic-core.version>0.7.3</webmagic-core.version>
         <webmagic-extension.version>0.7.3</webmagic-extension.version>
